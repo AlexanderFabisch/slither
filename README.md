@@ -2,6 +2,8 @@
 
 A private replacement for online training logs.
 
+![screenshot](slither.png)
+
 ## Install
 
     sudo pip install -r requirements.txt
