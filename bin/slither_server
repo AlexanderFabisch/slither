@@ -1,0 +1,99 @@
+#!/usr/bin/env python
+from flask import Flask, Response, request, jsonify
+from flask_httpauth import HTTPBasicAuth
+from passlib.apps import custom_app_context as pwd_context
+from slither.registry import Registry
+import argparse
+import getpass
+
+
+app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+
+@auth.verify_password
+def verify_password(username, password):
+    return pwd_context.verify(password, app.config["password"])
+
+
+@app.route("/api/sync")
+@auth.login_required
+def sync():
+    activities_on_client = request.get_json().get("activities")
+    registry = Registry(app.config["datadir"])
+    activities_on_server = registry.list()
+    latest_on_client, latest_on_server = compare(
+        activities_on_client, activities_on_server)
+    info = {"latest_on_client": latest_on_client,
+            "latest_on_server": latest_on_server}
+    return jsonify(info), 200
+
+
+def compare(activities_on_client, activities_on_server):
+    client = set(activities_on_client.keys())
+    server = set(activities_on_server.keys())
+    client_and_server = client.intersection(server)
+
+    latest_on_client = []
+    latest_on_server = []
+    for a in client_and_server:
+        if activities_on_client[a] > activities_on_server[a]:
+            latest_on_client.append(a)
+        elif activities_on_server[a] > activities_on_client[a]:
+            latest_on_server.append(a)
+    latest_on_client.extend(client.difference(client_and_server))
+    latest_on_server.extend(server.difference(client_and_server))
+
+    return latest_on_client, latest_on_server
+
+
+@app.route("/api/activity")
+@auth.login_required
+def get_activity():
+    filename = request.get_json().get("filename")
+    registry = Registry(app.config["datadir"])
+    activity = registry.content(filename)
+    info = {"content": activity,
+            "filename": filename,
+            "timestamp": registry.timestamp(filename)}
+    return jsonify(info), 200
+
+
+@app.route("/api/activity", methods=["POST"])
+@auth.login_required
+def add_activity():
+    json = request.get_json()
+    registry = Registry(app.config["datadir"])
+    registry.update(json.get("content"),
+                    json.get("filename"),
+                    json.get("timestamp"))
+    return Response(status=201)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, help="Port")
+    parser.add_argument("--datadir", type=str, default="synced_store",
+                        help="Directory to store files")
+    parser.add_argument("--debug", help="Start debug mode", action="store_true")
+    args = parser.parse_args()
+    return args
+
+
+def main(args):
+    app.config["username"] = _read_input("Username: ")
+    app.config["password"] = pwd_context.encrypt(getpass.getpass())
+    app.config["datadir"] = args.datadir
+    app.run("0.0.0.0", debug=args.debug, port=args.port)
+
+
+def _read_input(text):
+    try:
+        return raw_input(text)
+    except NameError:
+        return input(text)
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    main(args)

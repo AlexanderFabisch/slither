@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrainingCenterDatabase
+    version="1.0" creator="Slither"
+    xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd"
+    xmlns:ns5="http://www.garmin.com/xmlschemas/ActivityGoals/v1"
+    xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"
+    xmlns:ns2="http://www.garmin.com/xmlschemas/UserProfile/v2"
+    xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ns4="http://www.garmin.com/xmlschemas/ProfileExtension/v1">
+  <Activities>
+    <Activity Sport="{{ activity.sport }}">
+      <Id>{{ activity.start_time|datetime_to_str }}<Id>
+      <Lap StartTime="{{ activity.start_time|datetime_to_str }}">
+        <TotalTimeSeconds>{{ activity.time }}</TotalTimeSeconds>
+        <DistanceMeters>{{ activity.distance }}</DistanceMeters>
+        <Calories>{{ activity.calories }}</Calories>
+        <AverageHeartRateBpm>
+          <Value>{{ activity.heartrate }}</Value>
+        </AverageHeartRateBpm>
+        {%- if activity.has_path %}
+        <Track>
+          {%- for trackpoint in activity.trackpoints %}
+          <Trackpoint>
+            <Time>{{ trackpoint.timestamp|timestamp_to_str }}</Time>
+            <HeartRateBpm>
+              <Value>{{ trackpoint.heartrate }}</Value>
+            </HeartRateBpm>
+            {%- if trackpoint.altitude %}
+            <AltitudeMeters>{{ trackpoint.altitude }}</AltitudeMeters>
+            {%- endif %}
+            <Position>
+              <LatitudeDegrees>{{ trackpoint.latitude|rad2deg }}</LatitudeDegrees>
+              <LongitudeDegrees>{{ trackpoint.longitude|rad2deg }}</LongitudeDegrees>
+            </Position>
+          </Trackpoint>
+          {%- endfor %}
+        </Track>
+        {%- endif %}
+      </Lap>
+    </Activity>
+  </Activities>
+</TrainingCenterDatabase>

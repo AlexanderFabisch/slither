@@ -1,0 +1,12 @@
+pyyaml
+numpy
+matplotlib
+Jinja2
+lxml
+beautifulsoup4
+sqlalchemy
+
+Flask
+Flask-HTTPAuth
+Werkzeug
+passlib
