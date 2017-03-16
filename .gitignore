@@ -3,3 +3,7 @@
 *.tcx
 *~
 *.pyc
+.coverage
+.idea
+build
+coverageReport
