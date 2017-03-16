@@ -2,10 +2,12 @@ import numpy as np
 
 
 def convert_mps_to_kmph(velocity):
+    """Convert meters per second to kilometers per hour."""
     return 3.6 * velocity
 
 
 def time_representation(hours, minutes, seconds):
+    """Conversion to internal time representation."""
     return hours * 3600.0 + minutes * 60 + seconds
 
 
@@ -44,6 +46,7 @@ def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
 
 
 def check_coords(coords):
+    """Filter invalid coordinates."""
     coords_sum = coords[:, 0] + coords[:, 1]
     valid_coords = np.isfinite(coords_sum)
     return coords[valid_coords]
@@ -94,9 +97,9 @@ class DataDisplay:  # TODO localization
         elif distance % 1000.0 == 0.0:
             return "%d km" % (distance / 1000.0)
         elif distance < 2000.0:
-            return "%d m" % distance
+            return "%d m" % np.round(distance, 0)
         else:
-            return "%.2f km" % (distance / 1000.0)
+            return "%.2f km" % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
         if time  == 0.0:

@@ -14,9 +14,9 @@ from matplotlib.backends.backend_qt4agg import \
 from matplotlib.figure import Figure
 from scipy.signal import medfilt
 
-from slither.data_utils import is_outlier
+from ..data_utils import is_outlier
 from .new_activity import EditActivity
-from ..config import _ressource_filename
+from ..config import slither_ressource_filename
 from ..config import config
 from ..data_utils import d, convert_mps_to_kmph, check_coords
 
@@ -180,7 +180,7 @@ class Details(QWidget):
         self.start_time_label = QLabel("-")
         layout.addWidget(self.start_time_label, 0, 0, 1, 5)
         self.sport_pictogram = QSvgWidget()
-        self.sport_pictogram.load(_ressource_filename("unknown.svg"))
+        self.sport_pictogram.load(slither_ressource_filename("unknown.svg"))
         self.sport_pictogram.setFixedSize(50, 50)
         layout.addWidget(self.sport_pictogram, 2, 0, 2, 1)
         self.sport_label = QLabel("-")
@@ -191,7 +191,7 @@ class Details(QWidget):
         line.setFrameShape(QFrame.HLine)
         layout.addWidget(line, 1, 0, 1, 5)
 
-        distance_pictogram = QSvgWidget(_ressource_filename("distance.svg"))
+        distance_pictogram = QSvgWidget(slither_ressource_filename("distance.svg"))
         distance_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(distance_pictogram, 2, 1)
         layout.addWidget(QLabel("Distance"), 3, 1)
@@ -199,7 +199,7 @@ class Details(QWidget):
         self.distance_label.setFixedWidth(text_size)
         layout.addWidget(self.distance_label, 4, 1)
 
-        time_pictogram = QSvgWidget(_ressource_filename("time.svg"))
+        time_pictogram = QSvgWidget(slither_ressource_filename("time.svg"))
         time_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(time_pictogram, 2, 2)
         layout.addWidget(QLabel("Time"), 3, 2)
@@ -207,7 +207,7 @@ class Details(QWidget):
         self.time_label.setFixedWidth(text_size)
         layout.addWidget(self.time_label, 4, 2)
 
-        hr_pictogram = QSvgWidget(_ressource_filename("heartrate.svg"))
+        hr_pictogram = QSvgWidget(slither_ressource_filename("heartrate.svg"))
         hr_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(hr_pictogram, 2, 3)
         layout.addWidget(QLabel("Heart Rate"), 3, 3)
@@ -215,7 +215,7 @@ class Details(QWidget):
         self.heartrate_label.setFixedWidth(text_size)
         layout.addWidget(self.heartrate_label, 4, 3)
 
-        calories_pictogram = QSvgWidget(_ressource_filename("calories.svg"))
+        calories_pictogram = QSvgWidget(slither_ressource_filename("calories.svg"))
         calories_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(calories_pictogram, 2, 4)
         layout.addWidget(QLabel("Calories"), 3, 4)
@@ -264,11 +264,11 @@ class Details(QWidget):
         self.calories_label.setText(d.display_calories(activity.calories))
 
     def _pictogram(self, activity):
-        pictogram_filename = _ressource_filename(activity.sport + ".svg")
+        pictogram_filename = slither_ressource_filename(activity.sport + ".svg")
         if os.path.exists(pictogram_filename):
             self.sport_pictogram.load(pictogram_filename)
         else:
-            self.sport_pictogram.load(_ressource_filename("unknown.svg"))
+            self.sport_pictogram.load(slither_ressource_filename("unknown.svg"))
 
 
 class Plot(QWidget):
@@ -499,7 +499,7 @@ def render_map(activity):
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
 
-    with open(_ressource_filename("map.html.template"), "r") as template:
+    with open(slither_ressource_filename("map.html.template"), "r") as template:
         template = jinja2.Template(template.read())
     return template.render(
         coords=coords, distance_markers=distance_markers,

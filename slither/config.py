@@ -46,5 +46,5 @@ config = {
 }
 
 
-def _ressource_filename(filename):
+def slither_ressource_filename(filename):
     return resource_filename("slither", os.path.join("resources", filename))
