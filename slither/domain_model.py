@@ -1,11 +1,11 @@
-import os
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from collections import deque
 import numpy as np
+
 from .config import config
-from .data_utils import appropriate_partition
+from .data_utils import appropriate_partition, d
 
 
 Base = declarative_base()
@@ -135,6 +135,26 @@ class Activity(Base):
                 queue_time -= time
 
         return record
+
+    def generate_distance_markers(self):
+        path = self.get_path()
+        timestamps = path["timestamps"]
+        velocities = path["velocities"]
+        valid_velocities = np.isfinite(velocities)
+        timestamps = timestamps[valid_velocities]
+        velocities = velocities[valid_velocities]
+
+        delta_t = np.diff(timestamps)
+        dist = np.cumsum(velocities[1:] * delta_t)
+
+        marker_dist = appropriate_partition(dist[-1])
+
+        marker_indices = {}
+        for threshold in np.arange(marker_dist, int(dist[-1]), marker_dist):
+            label = d.display_distance(threshold)
+            marker_indices[label] = np.argmax(dist >= threshold)
+
+        return marker_indices
 
 
 class Trackpoint(Base):

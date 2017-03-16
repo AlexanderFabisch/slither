@@ -49,26 +49,6 @@ def check_coords(coords):
     return coords[valid_coords]
 
 
-# TODO unit test
-# TODO -> domain model?
-def generate_distance_markers(timestamps, velocities):
-    valid_velocities = np.isfinite(velocities)
-    timestamps = timestamps[valid_velocities]
-    velocities = velocities[valid_velocities]
-
-    delta_t = np.diff(timestamps)
-    dist = np.cumsum(velocities[1:] * delta_t)
-
-    marker_dist = appropriate_partition(dist[-1])
-
-    marker_indices = {}
-    for threshold in np.arange(marker_dist, int(dist[-1]), marker_dist):
-        label = d.display_distance(threshold)
-        marker_indices[label] = np.argmax(dist >= threshold)
-
-    return marker_indices
-
-
 def appropriate_partition(distance):
     if distance < 5000:
         return 400

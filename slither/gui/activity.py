@@ -18,8 +18,7 @@ from slither.data_utils import is_outlier
 from .new_activity import EditActivity
 from ..config import _ressource_filename
 from ..config import config
-from ..data_utils import (d, convert_mps_to_kmph, generate_distance_markers,
-                          check_coords)
+from ..data_utils import d, convert_mps_to_kmph, check_coords
 
 
 class ActivityTab(QWidget):
@@ -496,8 +495,7 @@ def post_processing(path):
 def render_map(activity):
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = generate_distance_markers(
-        path["timestamps"], path["velocities"])
+    distance_markers = activity.generate_distance_markers()
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
 
