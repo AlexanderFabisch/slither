@@ -22,14 +22,21 @@ class Summary(object):
             domain_model.Activity, func.min(domain_model.Activity.start_time))
         return q.first()[1]
 
+    def _start_of_last_activity(self):
+        q = self.database.session.query(
+            domain_model.Activity, func.max(domain_model.Activity.start_time))
+        return q.first()[1]
+
     def _summarize_activities(self, activities, sport):
         distance = 0.0
         time = 0.0
         n_activities = 0
         for activity in activities:
             if sport is None or activity.sport == sport:
-                distance += activity.distance
-                time += activity.time
+                if activity.distance is not None:
+                    distance += activity.distance
+                if activity.time is not None:
+                    time += activity.time
                 n_activities += 1
         return {"distance": distance,
                 "time": time,
@@ -38,7 +45,8 @@ class Summary(object):
 
 class WeekSummary(Summary):
     def summarize(self, sport=None):
-        start = datetime.now()
+        start = self._start_of_last_activity()
+        start = datetime(year=start.year, month=start.month, day=start.day)
         start = start - timedelta(days=start.weekday())
         earliest = self._start_of_first_activity()
 
@@ -55,11 +63,11 @@ class WeekSummary(Summary):
 
 class MonthSummary(Summary):
     def summarize(self, sport=None):
-        now = datetime.now()
+        latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
-        year = now.year
-        month = now.month + 1
+        year = latest.year
+        month = latest.month + 1
         end = datetime(year=year, month=month, day=1)
         summaries = []
         while True:
@@ -68,24 +76,24 @@ class MonthSummary(Summary):
                 month = 12
                 year -= 1
             start = datetime(year=year, month=month, day=1)
+            if start < earliest:
+                break
             summary = self._summary_entry(end, sport, start)
             summaries.append(summary)
             end = start
-            if end < earliest:
-                break
         return summaries
 
 
 class YearSummary(Summary):
     def summarize(self, sport=None):
-        now = datetime.now()
+        latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
         i = 0
         summaries = []
         while True:
-            start = datetime(year=now.year - i, month=1, day=1)
-            end = datetime(year=now.year - i + 1, month=1, day=1)
+            start = datetime(year=latest.year - i, month=1, day=1)
+            end = datetime(year=latest.year - i + 1, month=1, day=1)
             if end < earliest:
                 break
             summary = self._summary_entry(end, sport, start)
