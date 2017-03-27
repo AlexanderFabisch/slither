@@ -61,8 +61,22 @@ class Service:
 
         activity = domain_model.Activity(**metadata)
 
+        self._store_activity(activity)
+
+    def update_activity(self, activity, metadata):
+        self.registry.delete(activity.get_filename())
+        self._delete_records_for(activity)
+        self.database.session.flush()
+
+        for k, v in metadata.iteritems():
+            setattr(activity, k, v)
+
+        self._store_activity(activity)
+
+    def _store_activity(self, activity):
         self.database.session.add(activity)
         self.database.session.flush()
+
         self._add_records_for(activity)
         self.database.session.commit()
 
@@ -76,26 +90,6 @@ class Service:
         for distance in distances:
             record = activity.compute_records(distance)
             self.database.session.add(record)
-
-    def update_activity(self, activity, metadata):
-        self.registry.delete(activity.get_filename())
-
-        self._delete_records_for(activity)
-        self.database.session.flush()
-
-        for k, v in metadata.iteritems():
-            setattr(activity, k, v)
-
-        self.database.session.add(activity)
-        self.database.session.flush()
-
-        self._add_records_for(activity)
-        self.database.session.commit()
-
-        tcx = TcxExport().dumps(activity)
-        target_filename = os.path.join(
-            self.full_datadir, activity.get_filename())
-        self.registry.update(tcx, target_filename)
 
     def import_activity(self, file_content, filename=None, timestamp=None):
         loader = Loader(filename)
