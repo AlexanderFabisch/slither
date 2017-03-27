@@ -92,6 +92,20 @@ class Service:
             self.database.session.add(record)
 
     def import_activity(self, file_content, filename=None, timestamp=None):
+        """Import activity from a format that can be inferred automatically.
+
+        Parameters
+        ----------
+        file_content : str
+            Activity in a format like e.g. TCX
+
+        filename : str, optional (default: None)
+            Filename that can be used to infer the data format, e.g. "test.tcx"
+
+        timestamp : float, optional (default: None)
+            Timestamp of last update (in case this activity has been transfered
+            from a remote data repository)
+        """
         loader = Loader(filename)
         loader = loader.get_loader(file_content)
 
