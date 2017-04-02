@@ -10,64 +10,83 @@ import getpass
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 
-
 @auth.verify_password
 def verify_password(username, password):
     return pwd_context.verify(password, app.config["password"])
 
 
+class Server:
+    def __init__(self):
+        pass
+
+    def start(self, debug, port):
+        app.run("0.0.0.0", debug=debug, port=port)
+
+    def sync(self):
+        activities_on_client = request.get_json().get("activities")
+        registry = Registry(app.config["datadir"])
+        activities_on_server = registry.list()
+        latest_on_client, latest_on_server = self._compare(
+            activities_on_client, activities_on_server)
+        info = {"latest_on_client": latest_on_client,
+                "latest_on_server": latest_on_server}
+        return jsonify(info), 200
+
+
+    def _compare(self, activities_on_client, activities_on_server):
+        client = set(activities_on_client.keys())
+        server = set(activities_on_server.keys())
+        client_and_server = client.intersection(server)
+
+        latest_on_client = []
+        latest_on_server = []
+        for a in client_and_server:
+            if activities_on_client[a] > activities_on_server[a]:
+                latest_on_client.append(a)
+            elif activities_on_server[a] > activities_on_client[a]:
+                latest_on_server.append(a)
+        latest_on_client.extend(client.difference(client_and_server))
+        latest_on_server.extend(server.difference(client_and_server))
+
+        return latest_on_client, latest_on_server
+
+    def get_activity(self):
+        filename = request.get_json().get("filename")
+        registry = Registry(app.config["datadir"])
+        activity = registry.content(filename)
+        info = {"content": activity,
+                "filename": filename,
+                "timestamp": registry.timestamp(filename)}
+        return jsonify(info), 200
+
+    def add_activity(self):
+        json = request.get_json()
+        registry = Registry(app.config["datadir"])
+        registry.update(json.get("content"),
+                        json.get("filename"),
+                        json.get("timestamp"))
+        return Response(status=201)
+
+
+server = Server()
+
+
 @app.route("/api/sync")
 @auth.login_required
 def sync():
-    activities_on_client = request.get_json().get("activities")
-    registry = Registry(app.config["datadir"])
-    activities_on_server = registry.list()
-    latest_on_client, latest_on_server = compare(
-        activities_on_client, activities_on_server)
-    info = {"latest_on_client": latest_on_client,
-            "latest_on_server": latest_on_server}
-    return jsonify(info), 200
-
-
-def compare(activities_on_client, activities_on_server):
-    client = set(activities_on_client.keys())
-    server = set(activities_on_server.keys())
-    client_and_server = client.intersection(server)
-
-    latest_on_client = []
-    latest_on_server = []
-    for a in client_and_server:
-        if activities_on_client[a] > activities_on_server[a]:
-            latest_on_client.append(a)
-        elif activities_on_server[a] > activities_on_client[a]:
-            latest_on_server.append(a)
-    latest_on_client.extend(client.difference(client_and_server))
-    latest_on_server.extend(server.difference(client_and_server))
-
-    return latest_on_client, latest_on_server
+    return server.sync()
 
 
 @app.route("/api/activity")
 @auth.login_required
 def get_activity():
-    filename = request.get_json().get("filename")
-    registry = Registry(app.config["datadir"])
-    activity = registry.content(filename)
-    info = {"content": activity,
-            "filename": filename,
-            "timestamp": registry.timestamp(filename)}
-    return jsonify(info), 200
+    return server.get_activity()
 
 
 @app.route("/api/activity", methods=["POST"])
 @auth.login_required
 def add_activity():
-    json = request.get_json()
-    registry = Registry(app.config["datadir"])
-    registry.update(json.get("content"),
-                    json.get("filename"),
-                    json.get("timestamp"))
-    return Response(status=201)
+    return server.add_activity()
 
 
 def parse_args():
@@ -80,11 +99,11 @@ def parse_args():
     return args
 
 
-def main(args):
+def main(args, server):
     app.config["username"] = _read_input("Username: ")
     app.config["password"] = pwd_context.encrypt(getpass.getpass())
     app.config["datadir"] = args.datadir
-    app.run("0.0.0.0", debug=args.debug, port=args.port)
+    server.start(args.debug, args.port)
 
 
 def _read_input(text):
@@ -96,4 +115,4 @@ def _read_input(text):
 
 if __name__ == "__main__":
     args = parse_args()
-    main(args)
+    main(args, server)
