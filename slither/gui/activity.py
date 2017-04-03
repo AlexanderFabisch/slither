@@ -453,7 +453,7 @@ def plot(vel_axis, hr_axis, path):
     labels.append("Velocity")
 
     vel_axis.set_xlim((timestamps[0], timestamps[-1]))
-    mean = np.nanmean(np.sort(velocities)[n_steps / 4:-n_steps / 4])
+    mean = np.nanmean(np.sort(velocities)[n_steps // 4:-n_steps // 4])
     vel_axis.set_ylim((0, 2 * mean))
     vel_axis.set_xlabel("Time [min]")
     vel_axis.set_ylabel("Velocity [km/h]")
@@ -461,7 +461,7 @@ def plot(vel_axis, hr_axis, path):
     vel_axis.grid(True)
 
     if np.isfinite(heartrates).any():
-        mean = np.nanmean(np.sort(heartrates)[n_steps / 4:-n_steps / 4])
+        mean = np.nanmean(np.sort(heartrates)[n_steps // 4:-n_steps // 4])
         hr_line, = hr_axis.plot(timestamps, heartrates, color="#a61f34",
                                 alpha=0.8, lw=2)
         handles.append(hr_line)

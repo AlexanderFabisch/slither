@@ -1,6 +1,6 @@
 import os
 import sqlalchemy
-import domain_model
+from . import domain_model
 from sqlalchemy.orm import sessionmaker
 
 

@@ -1,4 +1,4 @@
-from tcx_loader import TcxLoader
+from .tcx_loader import TcxLoader
 
 
 class Loader:
