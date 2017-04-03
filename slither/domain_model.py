@@ -119,9 +119,15 @@ class Activity(Base):
         record = float("inf")
 
         for t in range(len(v)):
-            dist = v[t] * dt[t]
+            if np.isnan(v[t]):
+                queue_dist = 0.0
+                queue_time = 0.0
+                dqueue.clear()
+                tqueue.clear()
+                continue
             if v[t] > config["max_velocity"][self.sport]:
                 continue
+            dist = v[t] * dt[t]
             dqueue.appendleft(dist)
             tqueue.appendleft(dt[t])
             queue_dist += dist
