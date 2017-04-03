@@ -1,5 +1,6 @@
 pyyaml
 numpy
+scipy
 matplotlib
 Jinja2
 lxml
