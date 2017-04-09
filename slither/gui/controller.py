@@ -91,8 +91,12 @@ class ImportActivityThread(QThread):
         super(ImportActivityThread, self).__init__()
 
     def run(self):
-        with open(self.filename, "r") as f:
-            self.running_service.import_activity(f.read(), self.filename)
+        if isinstance(self.filename, tuple):
+            filename = self.filename[0]
+        else:
+            filename = self.filename
+        with open(filename, "r") as f:
+            self.running_service.import_activity(f.read(), filename)
 
 
 class SyncThread(QThread):
