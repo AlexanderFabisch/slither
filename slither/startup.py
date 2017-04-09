@@ -1,7 +1,7 @@
 import sys
 
 try:
-    from PyQt4.QtCore import QApplication
+    from PyQt4.QtGui import QApplication
 except ImportError:
     from PyQt5.QtWidgets import QApplication
 
