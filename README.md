@@ -7,7 +7,7 @@ A private replacement for online training logs.
 ## Install
 
     sudo pip install -r requirements.txt
-    # install PyQt4
+    # install PyQt4 or PyQt5
     sudo python setup.py install
 
 Now you can start slither from the command line:
