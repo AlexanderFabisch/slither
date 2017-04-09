@@ -1,5 +1,10 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+except ImportError:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 from ..config import config
 from ..data_utils import d
 from datetime import timedelta
@@ -30,8 +35,7 @@ class SummaryTab(QWidget):
 
         self.update_button = QPushButton("Update")
         layout.addWidget(self.update_button, 0, 2)
-        QObject.connect(self.update_button, SIGNAL("clicked()"),
-                        self.update_view)
+        self.update_button.clicked.connect(self.update_view)
 
         self.summary_table = SummaryTable(self.controller)
         layout.addWidget(self.summary_table, 1, 0, 1, 3)

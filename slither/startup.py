@@ -1,6 +1,9 @@
 import sys
 
-from PyQt4.QtGui import QApplication
+try:
+    from PyQt4.QtCore import QApplication
+except ImportError:
+    from PyQt5.QtWidgets import QApplication
 
 from .gui import Controller, MainWindow
 from .service import Service

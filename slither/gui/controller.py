@@ -1,4 +1,7 @@
-from PyQt4.QtCore import *
+try:
+    from PyQt4.QtCore import *
+except ImportError:
+    from PyQt5.QtCore import *
 from datetime import datetime
 from .sync_dialog import SyncDialog
 
@@ -22,7 +25,7 @@ class Controller(QObject):
         self.activities_tab = main_window.activities_tab
         self.calendar_tab = main_window.calendar_tab
         self.records_tab = main_window.records_tab
-        QObject.connect(self, SIGNAL("started()"), self.sync)
+        self.started.connect(self.sync)
         self.started.emit()
 
     def sync(self):
@@ -31,7 +34,7 @@ class Controller(QObject):
         self.sync_dialog = SyncDialog()
         self.sync_dialog.show()
         worker = SyncThread(self.service)
-        QObject.connect(worker, SIGNAL("finished()"), self.sync_dialog.close)
+        worker.finished.connect(self.sync_dialog.close)
         self._run_worker(worker)
 
     def delete_activity(self, activity):
@@ -65,11 +68,11 @@ class Controller(QObject):
 
     def import_activity(self, filename):
         worker = ImportActivityThread(filename, self.service)
-        QObject.connect(worker, SIGNAL("finished()"), self.sync)
+        worker.finished.connect(self.sync)
         self._run_worker(worker)
 
     def _run_worker(self, worker):
-        QObject.connect(worker, SIGNAL("finished()"), self.update_overview)
+        worker.finished.connect(self.update_overview)
         self.workers_mutex.lock()
         self.workers.append(worker)
         self.workers_mutex.unlock()

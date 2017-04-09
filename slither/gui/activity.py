@@ -4,13 +4,26 @@ import jinja2
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.QtSvg import *
-from PyQt4.QtWebKit import *
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import \
-    NavigationToolbar2QT as NavigationToolbar
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+    from PyQt4.QtSvg import *
+    from PyQt4.QtWebKit import *
+    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as \
+        FigureCanvas
+    from matplotlib.backends.backend_qt4agg import \
+        NavigationToolbar2QT as NavigationToolbar
+except ImportError:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtSvg import *
+    from PyQt5.QtWebKitWidgets import *
+    from PyQt5.QtWebKit import *
+    from PyQt5.QtWidgets import *
+    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as \
+        FigureCanvas
+    from matplotlib.backends.backend_qt5agg import \
+        NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from scipy.signal import medfilt
 
@@ -59,22 +72,19 @@ class ActivityOverview(QWidget):
 
         import_button = QPushButton("Import")
         layout.addWidget(import_button, 0, 0)
-        QObject.connect(import_button, SIGNAL("clicked()"), self.import_data)
+        import_button.clicked.connect(self.import_data)
 
         delete_button = QPushButton("Delete")
         layout.addWidget(delete_button, 0, 1)
-        QObject.connect(delete_button, SIGNAL("clicked()"),
-                        self.delete_selection)
+        delete_button.clicked.connect(self.delete_selection)
 
         details_button = QPushButton("Details")
         layout.addWidget(details_button, 0, 2)
-        QObject.connect(details_button, SIGNAL("clicked()"),
-                        self.load_details)
+        details_button.clicked.connect(self.load_details)
 
         edit_button = QPushButton("Edit")
         layout.addWidget(edit_button, 0, 3)
-        QObject.connect(edit_button, SIGNAL("clicked()"),
-                        self.edit)
+        edit_button.clicked.connect(self.edit)
 
         layout.addWidget(self.activity_table, 1, 0, 1, 4)
 

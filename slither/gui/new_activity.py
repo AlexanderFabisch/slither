@@ -1,5 +1,10 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+except ImportError:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 from ..data_utils import d, time_representation, split_time
 from ..config import config
 from datetime import datetime
@@ -66,8 +71,7 @@ class EditActivity(QWidget):
         save_button = QPushButton("Save")
         layout.addWidget(save_button, 7, 2, 1, 6, Qt.AlignRight)
 
-        QObject.connect(save_button, SIGNAL("clicked()"),
-                        self.send_activity_info)
+        save_button.clicked.connect(self.send_activity_info)
 
         if self.activity is not None:
             self._load_activity(self.activity)

@@ -1,4 +1,7 @@
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtGui import *
+except ImportError:
+    from PyQt5.QtWidgets import *
 from ..data_utils import d
 
 

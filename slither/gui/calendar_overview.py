@@ -1,5 +1,10 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+except ImportError:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 from datetime import datetime
 from ..data_utils import d
 
@@ -8,7 +13,7 @@ class CalendarOverview(QCalendarWidget):
     def __init__(self, controller):
         super(CalendarOverview, self).__init__()
         self.controller = controller
-        QObject.connect(self, SIGNAL("clicked(QDate)"), self.controller.show_activity)
+        self.clicked.connect(self.controller.show_activity)
 
     def paintCell(self, painter, rect, date):
         activities = self.controller.service.list_activity_for_date(

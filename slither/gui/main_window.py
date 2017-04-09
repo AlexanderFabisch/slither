@@ -1,5 +1,10 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+except ImportError:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 from .activity import ActivityTab
 from .calendar_overview import CalendarOverview
 from .record_table import RecordTable
@@ -17,8 +22,7 @@ class MainWindow(QMainWindow):
 
         self.menu_bar = QMenuBar()
         new_action = QAction("New Activity", self)
-        QObject.connect(new_action, SIGNAL("triggered()"),
-                        self.new_activity)
+        new_action.triggered.connect(self.new_activity)
         self.menu_bar.addAction(new_action)
         self.setMenuBar(self.menu_bar)
 

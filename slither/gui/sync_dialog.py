@@ -1,4 +1,7 @@
-from PyQt4.QtGui import *
+try:
+    from PyQt4.QtGui import QProgressDialog
+except ImportError:
+    from PyQt5.QtWidgets import QProgressDialog
 
 
 class SyncDialog(QProgressDialog):
