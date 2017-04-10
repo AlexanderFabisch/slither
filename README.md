@@ -7,7 +7,9 @@ A private replacement for online training logs.
 ## Install
 
     sudo pip install -r requirements.txt
-    # install PyQt4 or PyQt5
+    # install PyQt4 or PyQt5 + QtSvg + QtWebkit
+    # e.g. (Ubuntu 16.04, Python 2.7):
+    sudo apt-get install python-pyqt5 python-pyqt5.qtsvg python-pyqt5.qtwebkit
     sudo python setup.py install
 
 Now you can start slither from the command line:
@@ -18,8 +20,8 @@ Now you can start slither from the command line:
 
 Slither has been tested with the following platforms:
 
-* Ubuntu 14.04, Python 2.7
-* Ubuntu 14.04, Python 3.4
+* Ubuntu 14.04, Python 2.7, 3.4
+* Ubuntu 16.04, Python 2.7, 3.5
 * Windows 8.1, Python 2.7
 
 ## Setup of Remote Data Repository
