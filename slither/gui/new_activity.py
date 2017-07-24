@@ -8,6 +8,7 @@ except ImportError:
 from ..data_utils import d, time_representation, split_time
 from ..config import config
 from datetime import datetime
+import sys
 
 
 class EditActivity(QWidget):
@@ -40,6 +41,7 @@ class EditActivity(QWidget):
         layout.addWidget(QLabel("Distance"), 3, 1, Qt.AlignRight)
         self.distance_edit = QDoubleSpinBox()
         self.distance_edit.setMinimum(0.0)
+        self.distance_edit.setMaximum(sys.float_info.max)
         self.distance_edit.setSingleStep(0.1)
         layout.addWidget(self.distance_edit, 3, 2, 1, 5)
         layout.addWidget(QLabel("km"), 3, 7)

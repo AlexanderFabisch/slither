@@ -12,6 +12,8 @@ Not released yet.
 
 * Fix record computation for activities that contain
   NaN in velocities.
+* Distances can be greater than 100 km now in the
+  editor.
 
 ### Refactoring
 
