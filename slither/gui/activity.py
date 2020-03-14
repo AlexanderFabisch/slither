@@ -8,7 +8,6 @@ try:
     from PyQt4.QtCore import *
     from PyQt4.QtGui import *
     from PyQt4.QtSvg import *
-    from PyQt4.QtWebKit import *
     from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as \
         FigureCanvas
     from matplotlib.backends.backend_qt4agg import \
@@ -17,13 +16,25 @@ except ImportError:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
     from PyQt5.QtSvg import *
-    from PyQt5.QtWebKitWidgets import *
-    from PyQt5.QtWebKit import *
     from PyQt5.QtWidgets import *
     from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as \
         FigureCanvas
     from matplotlib.backends.backend_qt5agg import \
         NavigationToolbar2QT as NavigationToolbar
+try:
+    from PyQt4.QtWebKit import *
+    WebView = QWebView
+    WebPage = QWebPage
+except ImportError:
+    try:
+        from PyQt5.QtWebKitWidgets import *
+        from PyQt5.QtWebKit import *
+        WebView = QWebView
+        WebPage = QWebPage
+    except ImportError:
+        from PyQt5.QtWebEngineWidgets import *
+        WebView = QWebEngineView
+        WebPage = QWebEnginePage
 from matplotlib.figure import Figure
 from scipy.signal import medfilt
 
@@ -332,10 +343,10 @@ class Plot(QWidget):
         self.canvas.draw()
 
 
-class Map(QWebView):
+class Map(WebView):
     def __init__(self, parent=None):
         super(Map, self).__init__(parent)
-        self.setPage(QWebPage())
+        self.setPage(WebPage())
         self.setStyleSheet("background-color:lightgray;")
 
     def load_map(self, activity):
