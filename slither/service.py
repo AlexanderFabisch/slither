@@ -68,7 +68,7 @@ class Service:
         self._delete_records_for(activity)
         self.database.session.flush()
 
-        for k, v in metadata.iteritems():
+        for k, v in metadata.items():
             setattr(activity, k, v)
 
         self._store_activity(activity)
