@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 from slither.data_utils import to_utf8
 from .config import config
-from .data_utils import haversine_dist
+from .data_utils import dist_on_earth
 from .domain_model import Activity
 
 
@@ -153,8 +153,8 @@ class TcxLoader:
                 if dt <= 0.0:
                     velocity = velocities[t - 1]
                 else:
-                    dist = haversine_dist(coords[t - 1, 0], coords[t - 1, 1],
-                                          coords[t, 0], coords[t, 1])
+                    dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
+                                         coords[t, 0], coords[t, 1])
                     velocity = dist / dt
             velocities[t] = velocity
         return velocities
