@@ -164,13 +164,14 @@ def is_outlier(points, thresh=3.5):
     Statistical Techniques, Edward F. Mykytka, Ph.D., Editor.
     """
     points = np.asarray(points)
-    if len(points.shape) == 1:
+    if points.ndim == 1:
         points = points[:, np.newaxis]
 
-    median = np.median(points, axis=0)
+    nonzero = np.unique(np.nonzero(points)[0])
+    median = np.median(points[nonzero], axis=0)
     diff = np.sum((points - median) ** 2, axis=-1)
     diff = np.sqrt(diff)
-    med_abs_deviation = np.median(diff)
+    med_abs_deviation = np.median(diff[nonzero])
 
     modified_z_score = 0.6745 * diff / med_abs_deviation
 
