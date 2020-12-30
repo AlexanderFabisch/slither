@@ -538,7 +538,7 @@ def plot_velocities(activity, ax):
     velocities = velocities[no_outlier] * 3.6
     dt = np.diff(path["timestamps"])[finite_velocities][no_outlier]
 
-    ax.hist(velocities, bins=50, normed=True, weights=dt)
+    ax.hist(velocities, bins=50, weights=dt)
     ax.set_xlabel("Velocity [km/h]")
     ax.set_ylabel("Percentage")
     ax.set_yticks(())
