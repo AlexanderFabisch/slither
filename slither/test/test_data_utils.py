@@ -1,6 +1,6 @@
 import numpy as np
 from slither.data_utils import (convert_mps_to_kmph, time_representation,
-                                haversine_dist, check_coords, is_outlier,
+                                dist_on_earth, check_coords, is_outlier,
                                 DataDisplay)
 from numpy.testing import assert_array_equal
 from nose.tools import assert_almost_equal, assert_equal
@@ -15,13 +15,9 @@ def test_time_representation():
 
 
 def test_haversine_dist():
-    d = haversine_dist(0.0, 0.0, 0.0, 0.0)
+    d = dist_on_earth(0.0, 0.0, 0.0, 0.0)
     assert_almost_equal(d, 0.0)
-    d = haversine_dist(0.5 * np.pi, 0.0, 0.0, 0.0, 23.45)
-    assert_almost_equal(d, 0.5 * np.pi * 23.45)
-    d = haversine_dist(0.0, np.pi, 0.0, 0.0, 34.56)
-    assert_almost_equal(d, np.pi * 34.56)
-    d = haversine_dist(np.zeros(3), np.zeros(3), np.zeros(3), np.zeros(3))
+    d = dist_on_earth(np.zeros(3), np.zeros(3), np.zeros(3), np.zeros(3))
     assert_equal(d.shape, (3,))
 
 
@@ -65,11 +61,11 @@ def test_display_heartrate():
 
 
 def test_is_outlier():
-    outliers = is_outlier(np.array([0, 1, 2]))
+    outliers = is_outlier(np.array([1, 2, 3]))
     assert_array_equal(outliers, np.array([False, False, False]))
-    outliers = is_outlier(np.array([0, 1, 2, 10]))
+    outliers = is_outlier(np.array([1, 2, 3, 10]))
     assert_array_equal(outliers, np.array([False, False, False, True]))
-    outliers = is_outlier(np.array([-10, 0, 1, 2, 10]))
+    outliers = is_outlier(np.array([-10, 1, 2, 3, 10]))
     assert_array_equal(outliers, np.array([True, False, False, False, True]))
-    outliers = is_outlier(np.array([-10, 0, 10]))
+    outliers = is_outlier(np.array([-9, 1, 11]))
     assert_array_equal(outliers, np.array([False, False, False]))
