@@ -10,6 +10,7 @@ from .domain_model import Activity
 
 
 class TcxLoader:
+    """Loads training center XML (TCX) files."""
     def __init__(self, tcx_content):
         self.content = to_utf8(tcx_content)
         self.training = None
