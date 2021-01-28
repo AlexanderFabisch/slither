@@ -23,9 +23,10 @@ class GpxLoader:
         activity = Activity(**self._metadata())
 
         if activity.has_path:
-            path, distance = self._compute()
+            path, distance, time = self._compute()
             activity.set_path(**path)
             activity.distance = distance
+            activity.time = time
 
         return activity
 
@@ -79,7 +80,8 @@ class GpxLoader:
 
         result["velocities"], distance = self._compute_velocities(
             result["timestamps"], result["coords"])
-        return result, distance
+        time = result["timestamps"][-1] - result["timestamps"][0]
+        return result, distance, time
 
     def _parse_timestamp(self, trackpoint):
         date = datetime_from_str(trackpoint.find("time").text)
