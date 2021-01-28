@@ -1,4 +1,5 @@
 from .tcx_loader import TcxLoader
+from .gpx_loader import GpxLoader
 
 
 class Loader:
@@ -7,6 +8,8 @@ class Loader:
 
     def get_loader(self, file_content):
         ending = self.filename.split(".")[-1]
+        if ending.lower() == "gpx":
+            return GpxLoader(file_content)
         if ending.lower() in ["tcx", "xml"]:
             return TcxLoader(file_content)
         else:
