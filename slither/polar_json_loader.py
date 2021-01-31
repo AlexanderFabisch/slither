@@ -29,30 +29,41 @@ class PolarJsonLoader:
         if data["name"] in self.name_to_sport:
             sport = self.name_to_sport[data["name"]]
         else:
-            sport = "Other"
+            sport = "other"
         start_time = datetime_from_str(data["startTime"])
         if "distance" in data:
             distance = data["distance"]
         else:
             distance = 0.0
         duration = float(data["duration"][2:-1])  # TODO correct unit?
-        calories = data["kiloCalories"]
+        if "kiloCalories" in data:
+            calories = data["kiloCalories"]
+        else:
+            calories = 0.0
         filetype = "json"
-        #print(data.keys())
         assert len(data["exercises"]) == 1
         exercise = data["exercises"][0]
         has_path = "recordedRoute" in exercise["samples"]
         if has_path:
-            altitudes = [entry["altitude"] for entry in exercise["samples"]["recordedRoute"]]
-            longitudes = [entry["longitude"] for entry in exercise["samples"]["recordedRoute"]]
-            latitudes = [entry["latitude"] for entry in exercise["samples"]["recordedRoute"]]
-            timestamps = [self._parse_timestamp(entry["dateTime"]) for entry in exercise["samples"]["recordedRoute"]]
-            if (len(exercise["samples"]["heartRate"]) == 0
-                    or "value" not in exercise["samples"]["heartRate"][0]):
-                heartrates = [float("nan")] * len(altitudes)
-            else:
-                heartrates = [hr["value"] for hr in exercise["samples"]["heartRate"]]
-            heartrate = np.mean(heartrates)
+            timestamps = []
+            alts = []
+            lons = []
+            lats = []
+            # TODO use correct timestamps for gps and heartrate
+            #print(len(exercise["samples"]["recordedRoute"]))
+            #print(len(exercise["samples"]["heartRate"]))
+            for entry in exercise["samples"]["recordedRoute"]:
+                alts.append(entry["altitude"])
+                lons.append(entry["longitude"])
+                lats.append(entry["latitude"])
+                timestamps.append(self._parse_timestamp(entry["dateTime"]))
+            hrs = [float("nan")] * len(alts)
+            for idx, hr in enumerate(exercise["samples"]["heartRate"]):
+                if idx >= len(hrs):
+                    break
+                if "value" in hr:
+                    hrs[idx] = hr["value"]
+            heartrate = np.nanmean(hrs)
         else:
             heartrate = float("nan")
 
@@ -62,8 +73,7 @@ class PolarJsonLoader:
             filetype=filetype, has_path=has_path)
 
         if has_path:
-            path = self._compute(
-                timestamps, longitudes, latitudes, altitudes, heartrates)
+            path = self._compute(timestamps, lats, lons, alts, hrs)
             activity.set_path(**path)
 
         return activity
@@ -72,10 +82,10 @@ class PolarJsonLoader:
         date = datetime_from_str(t)
         return time.mktime(date.timetuple())
 
-    def _compute(self, timestamps, longitudes, latitudes, altitudes, heartrates):
+    def _compute(self, timestamps, latitudes, longitudes, altitudes, heartrates):
         result = {
             "timestamps": np.array(timestamps),
-            "coords": np.deg2rad(np.column_stack((longitudes, latitudes))),
+            "coords": np.deg2rad(np.column_stack((latitudes, longitudes))),
             "altitudes": np.array(altitudes),
             "heartrates": np.array(heartrates)  # TODO missing heartrates?
         }
