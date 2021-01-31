@@ -29,6 +29,7 @@ class PolarJsonLoader:
         if data["name"] in self.name_to_sport:
             sport = self.name_to_sport[data["name"]]
         else:
+            print("Unknown sport: '%s'" % data["name"])
             sport = "other"
         start_time = datetime_from_str(data["startTime"])
         if "distance" in data:
