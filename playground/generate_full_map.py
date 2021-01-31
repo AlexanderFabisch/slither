@@ -1,56 +1,8 @@
-import jinja2
+import folium
 import numpy as np
 from slither.service import Service
 from slither.domain_model import Trackpoint
 from slither.data_utils import check_coords
-
-
-TEMPLATE = """<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8' />
-    <title></title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-    <style>
-        #mapdiv {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            transition: height 0.5s ease-in-out;
-        }
-    </style>
-</head>
-<body>
-
-<div id="mapdiv"></div>
-<!-- Map rendered with Leaflet http://leafletjs.com/ and OpenStreetMap -->
-<script>
-var map = L.map('mapdiv');
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18
-}).addTo(map);
-{% for path in coords %}
-var latlngs = [
-{% for lat, lon in path %}
-    [{{ lat }}, {{ lon }}],
-{% endfor %}
-];
-var path = L.polyline(latlngs, {color: 'blue'}).addTo(map);
-{% endfor %}
-map.fitBounds(path.getBounds());
-
-$mapdiv.on('map-container-resize', function () {
-   setTimeout(function(){ map.invalidateSize()}, 400);
-});
-</script>
-
-</body>
-</html>
-"""
 
 
 def all_trackpoints():
@@ -69,13 +21,14 @@ def all_trackpoints():
     return new_coords
 
 
-def render_map(coords):
-    template = jinja2.Template(TEMPLATE)
-    return template.render(coords=coords)
+def render_map(all_coords):
+    """Draw path on map with leaflet.js."""
+    m = folium.Map(location=all_coords[-1][-1])
+    for coords in all_coords:
+        folium.PolyLine(coords).add_to(m)
+    return m
 
 
-# http://leafletjs.com
 coords = all_trackpoints()
-html = render_map(coords)
-with open("index.html", "w") as f:
-    f.write(html)
+m = render_map(coords)
+m.save("index.html")
