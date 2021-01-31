@@ -4,5 +4,5 @@ from nose.tools import assert_true
 
 
 def test_resource_filename():
-    filename = slither_ressource_filename("map.html.template")
+    filename = slither_ressource_filename("export.tcx.template")
     assert_true(os.path.exists(filename))

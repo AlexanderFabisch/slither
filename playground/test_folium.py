@@ -13,7 +13,6 @@ def render_map(activity):
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
 
-    print(path.keys())
     center = np.mean(coords, axis=0)
     m = folium.Map(location=center)
     folium.Marker(
