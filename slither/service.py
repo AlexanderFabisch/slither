@@ -14,24 +14,28 @@ import os
 
 class Service:
     def __init__(self, debug=False, db_filename="db.sqlite", datadir="data",
-                 remote=None, username=None, password=None):
+                 remote=None, username=None, password=None, base_path=None):
         self.debug = debug
         self.db_filename = db_filename
         self.datadir = datadir
         self.remote = remote
         self.username = username
         self.password = password
+        self.base_path = base_path
 
         temp_dir = self._setup_directories(debug, datadir)
         self.database = Database(os.path.join(temp_dir, db_filename))
         self.registry = Registry(temp_dir)
 
     def _setup_directories(self, debug, datadir):
-        if debug:
-            temp_dir = os.path.expanduser(
-                os.path.join("~", ".slither", "debug"))
+        if self.base_path is None:
+            if debug:
+                temp_dir = os.path.expanduser(
+                    os.path.join("~", ".slither", "debug"))
+            else:
+                temp_dir = os.path.expanduser(os.path.join("~", ".slither"))
         else:
-            temp_dir = os.path.expanduser(os.path.join("~", ".slither"))
+            temp_dir = self.base_path
         config["temp_dir"] = temp_dir
         self.full_datadir = os.path.join(temp_dir, datadir)
         if not os.path.exists(self.full_datadir):
@@ -91,7 +95,7 @@ class Service:
             record = activity.compute_records(distance)
             self.database.session.add(record)
 
-    def import_activity(self, file_content, filename=None, timestamp=None):
+    def import_activity(self, file_content, filename=None, timestamp=None, **kwargs):
         """Import activity from a format that can be inferred automatically.
 
         Parameters
@@ -105,9 +109,12 @@ class Service:
         timestamp : float, optional (default: None)
             Timestamp of last update (in case this activity has been transfered
             from a remote data repository)
+
+        **kwargs : dict, optional (default: {})
+            Optional data loader arguments
         """
         loader = Loader(filename)
-        loader = loader.get_loader(file_content)
+        loader = loader.get_loader(file_content, **kwargs)
 
         activity = loader.load()
 

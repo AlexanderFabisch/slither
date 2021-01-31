@@ -11,7 +11,8 @@ from .service import Service
 
 def start(args):
     service = Service(args.debug, args.db_filename, args.datadir,
-                      args.remote, args.username, args.password)
+                      args.remote, args.username, args.password,
+                      args.base_path)
     app = QApplication(sys.argv)
     controller = Controller(service, app)
     win = MainWindow(controller)

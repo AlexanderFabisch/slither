@@ -2,7 +2,6 @@
 import argparse
 
 import slither.startup
-from slither import gui
 
 
 def main():
@@ -20,6 +19,9 @@ def parse_args():
                         help="Directory to store files")
     parser.add_argument("--db_filename", type=str, default="db.sqlite",
                         help="Filename of SQLite database")
+    parser.add_argument("--base_path", type=str, default=None,
+                        help="Base path in which data will be stored. "
+                             "This will be ~/.slither by default.")
     args = parser.parse_args()
     return args
 
