@@ -11,8 +11,8 @@ from .domain_model import Activity
 
 class GpxLoader:
     """Loads GPS exchange format."""
-    def __init__(self, tcx_content):
-        self.content = to_utf8(tcx_content)
+    def __init__(self, gpx_content):
+        self.content = to_utf8(gpx_content)
         self.training = None
         self.metadata = None
 
