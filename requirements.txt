@@ -2,11 +2,11 @@ pyyaml
 numpy
 scipy
 matplotlib
-Jinja2
 lxml
 beautifulsoup4
 sqlalchemy
 pyproj
+folium
 
 Flask
 Flask-HTTPAuth

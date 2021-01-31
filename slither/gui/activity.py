@@ -1,6 +1,6 @@
 import os
 
-import jinja2
+import folium
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -514,19 +514,32 @@ def post_processing(path):
 
 
 def render_map(activity):
+    """Draw path on map with leaflet.js."""
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
     distance_markers = activity.generate_distance_markers()
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
+    # TODO find a way to colorize path according to velocities
 
-    with open(slither_ressource_filename("map.html.template"), "r") as template:
-        template = jinja2.Template(template.read())
-    return template.render(
-        coords=coords, distance_markers=distance_markers,
-        velocities=path["velocities"], colors=config["colors"],
-        velocity_thresholds=config["velocity_thresholds"].get(
-            activity.sport, config["velocity_thresholds"]["other"]))
+    center = np.mean(coords, axis=0)
+    m = folium.Map(location=center)
+    folium.Marker(
+        coords[0].tolist(), tooltip="Start",
+        icon=folium.Icon(color="red", icon="flag")).add_to(m)
+    folium.Marker(
+        coords[-1].tolist(), tooltip="Finish",
+        icon=folium.Icon(color="green", icon="flag")).add_to(m)
+    for label, marker in distance_markers.items():
+        marker_location = coords[marker].tolist()
+        folium.Marker(
+            marker_location, tooltip=label,
+            icon=folium.Icon(color="blue", icon="flag")).add_to(m)
+    folium.PolyLine(coords).add_to(m)
+    south_west = np.min(coords, axis=0).tolist()
+    north_east = np.max(coords, axis=0).tolist()
+    folium.FitBounds([south_west, north_east]).add_to(m)
+    return m.get_root().render()
 
 
 def plot_velocities(activity, ax):
