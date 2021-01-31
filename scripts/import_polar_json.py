@@ -5,10 +5,14 @@ import sys
 
 filenames = sys.argv[1:]
 name_to_sport = {
+    "Running": "running",
     "Laufen": "running",
     "Radfahren": "cycling",
     "Rennrad": "racecycling",
-    "Schwimmen": "swimming",
+    "Bahnschwimmen": "swimming",
+    "Bahnschwimm.": "swimming",
+    "Sons.Outdoorsp": "other",
+    "Sons.Indoorsp": "other",
 }
 
 s = Service(base_path="tmp/data_import")
