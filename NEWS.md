@@ -4,6 +4,12 @@
 
 Not released yet.
 
+### Features
+
+* Loader for GPS exchange format (GPX).
+* Loader for JSON files exported from Polar flow.
+* It is now possible to specify a base path in which all data will be stored.
+
 ### Supported platforms
 
 * Add support for PyQt5 in addition to PyQt4.
@@ -18,6 +24,7 @@ Not released yet.
 ### Refactoring
 
 * Remote data repository has a class as a public interface.
+* Map rendering uses folium library.
 
 ## Version 0.1
 
