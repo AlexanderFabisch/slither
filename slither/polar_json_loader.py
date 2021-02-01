@@ -21,9 +21,6 @@ class PolarJsonLoader:
         self.metadata = None
         self.name_to_sport = name_to_sport
 
-    def get_target_filename(self):
-        return self._metadata()["filename"]
-
     def load(self):
         data = json.loads(self.content)
         if data["name"] in self.name_to_sport:
@@ -36,12 +33,13 @@ class PolarJsonLoader:
             distance = data["distance"]
         else:
             distance = 0.0
-        duration = float(data["duration"][2:-1])  # TODO correct unit?
+        duration = float(data["duration"][2:-1])
         if "kiloCalories" in data:
             calories = data["kiloCalories"]
         else:
             calories = 0.0
         filetype = "json"
+
         assert len(data["exercises"]) == 1
         exercise = data["exercises"][0]
         has_path = "recordedRoute" in exercise["samples"]
@@ -50,21 +48,25 @@ class PolarJsonLoader:
             alts = []
             lons = []
             lats = []
-            # TODO use correct timestamps for gps and heartrate
-            #print(len(exercise["samples"]["recordedRoute"]))
-            #print(len(exercise["samples"]["heartRate"]))
+
             for entry in exercise["samples"]["recordedRoute"]:
                 alts.append(entry["altitude"])
                 lons.append(entry["longitude"])
                 lats.append(entry["latitude"])
                 timestamps.append(self._parse_timestamp(entry["dateTime"]))
+
             hrs = [float("nan")] * len(alts)
             for idx, hr in enumerate(exercise["samples"]["heartRate"]):
                 if idx >= len(hrs):
+                    print("More GPS samples than heartrate measurements")
                     break
                 if "value" in hr:
                     hrs[idx] = hr["value"]
-            heartrate = np.nanmean(hrs)
+
+            if all(np.isnan(hrs)):
+                heartrate = float("nan")
+            else:
+                heartrate = np.nanmean(hrs)
         else:
             heartrate = float("nan")
 
