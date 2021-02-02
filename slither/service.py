@@ -95,7 +95,7 @@ class Service:
             record = activity.compute_records(distance)
             self.database.session.add(record)
 
-    def import_activity(self, file_content, filename=None, timestamp=None, **kwargs):
+    def import_activity(self, file_content, filename=None, timestamp=None):
         """Import activity from a format that can be inferred automatically.
 
         Parameters
@@ -109,12 +109,9 @@ class Service:
         timestamp : float, optional (default: None)
             Timestamp of last update (in case this activity has been transfered
             from a remote data repository)
-
-        **kwargs : dict, optional (default: {})
-            Optional data loader arguments
         """
         loader = Loader(filename)
-        loader = loader.get_loader(file_content, **kwargs)
+        loader = loader.get_loader(file_content)
 
         activity = loader.load()
 
