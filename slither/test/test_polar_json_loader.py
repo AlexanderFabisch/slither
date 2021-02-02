@@ -1,12 +1,12 @@
 import os
-from slither.gpx_loader import GpxLoader
+from slither.polar_json_loader import PolarJsonLoader
 from nose.tools import assert_equal, assert_in
 
 
 def test_load_tracked_activity():
-    with open(os.path.join("test_data", "running.gpx")) as f:
+    with open(os.path.join("test_data", "running.json")) as f:
         content = f.read()
-    loader = GpxLoader(content)
+    loader = PolarJsonLoader(content)
 
     activity = loader.load()
     paths = activity.get_path()
@@ -16,4 +16,4 @@ def test_load_tracked_activity():
     assert_in("altitudes", paths)
     assert_in("heartrates", paths)
     assert_in("velocities", paths)
-    assert_equal(len(paths["timestamps"]), 3032)
+    assert_equal(len(paths["timestamps"]), 2751)

@@ -8,6 +8,16 @@ from .data_utils import dist_on_earth
 from .domain_model import Activity
 
 
+SPORTS_MAPPING = {
+    "RUNNING": "running",
+    "CYCLING": "cycling",
+    "ROAD_BIKING": "racecycling",
+    "POOL_SWIMMING": "swimming",
+    "OTHER_OUTDOOR": "other",
+    "OTHER_INDOOR": "other",
+}
+
+
 class PolarJsonLoader:
     """Loads JSON files from Polar data export.
 
@@ -15,19 +25,13 @@ class PolarJsonLoader:
 
         https://account.polar.com/#export
     """
-    def __init__(self, content, name_to_sport={}):
+    def __init__(self, content):
         self.content = content
         self.training = None
         self.metadata = None
-        self.name_to_sport = name_to_sport
 
     def load(self):
         data = json.loads(self.content)
-        if data["name"] in self.name_to_sport:
-            sport = self.name_to_sport[data["name"]]
-        else:
-            print("Unknown sport: '%s'" % data["name"])
-            sport = "other"
         start_time = datetime_from_str(data["startTime"])
         if "distance" in data:
             distance = data["distance"]
@@ -42,6 +46,13 @@ class PolarJsonLoader:
 
         assert len(data["exercises"]) == 1
         exercise = data["exercises"][0]
+
+        if exercise["sport"] not in SPORTS_MAPPING:
+            print("Unknown sport: '%s'" % data["name"])
+            sport = "other"
+        else:
+            sport = SPORTS_MAPPING[exercise["sport"]]
+
         has_path = "recordedRoute" in exercise["samples"]
         if has_path:
             timestamps = []
@@ -90,7 +101,7 @@ class PolarJsonLoader:
             "timestamps": np.array(timestamps),
             "coords": np.deg2rad(np.column_stack((latitudes, longitudes))),
             "altitudes": np.array(altitudes),
-            "heartrates": np.array(heartrates)  # TODO missing heartrates?
+            "heartrates": np.array(heartrates)
         }
 
         result["velocities"] = self._compute_velocities(
