@@ -2,6 +2,11 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 from slither.tcx_loader import TcxLoader
+try:
+    import seaborn as sns
+    sns.set()
+except ImportError:
+    print("Seaborn not available, using default matplotlib style.")
 
 
 filename = sys.argv[-1]
