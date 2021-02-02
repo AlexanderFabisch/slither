@@ -146,7 +146,7 @@ class DataDisplay:  # TODO localization
             return "%.2f km" % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
-        if time  == 0.0:
+        if time == 0.0:
             return "-"
         if time is None or not np.isfinite(time):
             return "NA"
