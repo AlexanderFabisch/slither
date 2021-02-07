@@ -101,7 +101,7 @@ class ActivityOverview(QWidget):
 
     def import_data(self):
         filename = QFileDialog.getOpenFileName(self, "Open TCX file")
-        if filename == "":
+        if filename == "" or filename[0] == "":  # Qt4 and 5 compatible
             return
         self.controller.import_activity(filename)
 
