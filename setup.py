@@ -16,4 +16,4 @@ if __name__ == "__main__":
           package_data={"slither": ["resources/*"]},
           requires=["pyyaml", "numpy", "matplotlib",
                     "lxml", "beautifulsoup4", "sqlalchemy",
-                    "pyproj", "folium"])
+                    "pyproj", "Jinja2", "folium"])
