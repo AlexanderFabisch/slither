@@ -10,13 +10,13 @@
     xmlns:ns4="http://www.garmin.com/xmlschemas/ProfileExtension/v1">
   <Activities>
     <Activity Sport="{{ activity.sport }}">
-      <Id>{{ activity.start_time|datetime_to_str }}<Id>
+      <Id>{{ activity.start_time|datetime_to_str }}</Id>
       <Lap StartTime="{{ activity.start_time|datetime_to_str }}">
         <TotalTimeSeconds>{{ activity.time }}</TotalTimeSeconds>
         <DistanceMeters>{{ activity.distance }}</DistanceMeters>
         <Calories>{{ activity.calories }}</Calories>
         <AverageHeartRateBpm>
-          <Value>{{ activity.heartrate }}</Value>
+          <Value>{%- if activity.heartrate is none -%}nan{%- else -%}{{ activity.heartrate }}{%- endif -%}</Value>
         </AverageHeartRateBpm>
         {%- if activity.has_path %}
         <Track>
