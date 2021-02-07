@@ -161,7 +161,11 @@ class TcxLoader:
         if heartrate_tag is None:
             heartrate = float("nan")
         else:
-            heartrate = float(heartrate_tag.find("Value").text)
+            text = heartrate_tag.find("Value").text
+            if text == "None":
+                heartrate = float("nan")
+            else:
+                heartrate = float(text)
         return heartrate
 
     def _parse_altitude(self, trackpoint):

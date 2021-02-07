@@ -37,8 +37,8 @@ class Registry:
             if os.path.exists(filename):
                 os.remove(filename)
         else:
-            with open(filename, "w") as f:
-                f.write(str(to_utf8(content)))
+            with open(filename, "wb") as f:
+                f.write(to_utf8(content))
         self.registry[filename] = timestamp
         self._write()
 
