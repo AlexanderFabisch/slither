@@ -115,18 +115,20 @@ class Service:
 
         activity = loader.load()
 
+        self.add_new_activity(activity, timestamp)
+
+    def add_new_activity(self, activity, timestamp=None):
         target_filename = os.path.join(
             self.full_datadir, activity.get_filename())
         if os.path.exists(target_filename):
             raise ValueError("File '%s' exists already" % target_filename)
-
         self.database.session.add(activity)
         self.database.session.flush()
         self._add_records_for(activity)
         self.database.session.commit()
-
         try:
-            self.registry.update(loader.content, target_filename, timestamp)
+            tcx = TcxExport().dumps(activity)
+            self.registry.update(tcx, target_filename, timestamp)
         except:
             self.delete_activity(activity)
             raise IOError("File '%s' could not be written" % target_filename)
