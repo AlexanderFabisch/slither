@@ -515,13 +515,18 @@ def post_processing(path):
 
 def render_map(activity):
     """Draw path on map with leaflet.js."""
+    m = make_map(activity)
+    return m.get_root().render()
+
+
+def make_map(activity):
+    """Create map with folium"""
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
     distance_markers = activity.generate_distance_markers()
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
     # TODO find a way to colorize path according to velocities
-
     center = np.mean(coords, axis=0)
     m = folium.Map(location=center)
     folium.Marker(
@@ -539,7 +544,7 @@ def render_map(activity):
     south_west = np.min(coords, axis=0).tolist()
     north_east = np.max(coords, axis=0).tolist()
     folium.FitBounds([south_west, north_east]).add_to(m)
-    return m.get_root().render()
+    return m
 
 
 def plot_velocities(activity, ax):
