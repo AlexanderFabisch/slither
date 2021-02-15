@@ -1,9 +1,11 @@
 import os
 
-import folium
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+
+from ..visualization import render_map, plot_velocities
+
 try:
     from PyQt4.QtCore import *
     from PyQt4.QtGui import *
@@ -38,11 +40,10 @@ except ImportError:
 from matplotlib.figure import Figure
 from scipy.signal import medfilt
 
-from ..data_utils import is_outlier
 from .new_activity import EditActivity
 from ..config import slither_ressource_filename
 from ..config import config
-from ..data_utils import d, convert_mps_to_kmph, check_coords
+from ..data_utils import d, convert_mps_to_kmph
 
 
 class ActivityTab(QWidget):
@@ -511,47 +512,3 @@ def post_processing(path):
     heartrates = medfilt(path["heartrates"], filter_width)
 
     return timestamps, velocities, heartrates
-
-
-def render_map(activity):
-    """Draw path on map with leaflet.js."""
-    path = activity.get_path()
-    coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = activity.generate_distance_markers()
-    valid_velocities = np.isfinite(path["velocities"])
-    path["velocities"][np.logical_not(valid_velocities)] = 0.0
-    # TODO find a way to colorize path according to velocities
-
-    center = np.mean(coords, axis=0)
-    m = folium.Map(location=center)
-    folium.Marker(
-        coords[0].tolist(), tooltip="Start",
-        icon=folium.Icon(color="red", icon="flag")).add_to(m)
-    folium.Marker(
-        coords[-1].tolist(), tooltip="Finish",
-        icon=folium.Icon(color="green", icon="flag")).add_to(m)
-    for label, marker in distance_markers.items():
-        marker_location = coords[marker].tolist()
-        folium.Marker(
-            marker_location, tooltip=label,
-            icon=folium.Icon(color="blue", icon="flag")).add_to(m)
-    folium.PolyLine(coords).add_to(m)
-    south_west = np.min(coords, axis=0).tolist()
-    north_east = np.max(coords, axis=0).tolist()
-    folium.FitBounds([south_west, north_east]).add_to(m)
-    return m.get_root().render()
-
-
-def plot_velocities(activity, ax):
-    path = activity.get_path()
-    velocities = path["velocities"][1:]
-    finite_velocities = np.isfinite(velocities)
-    velocities = velocities[finite_velocities]
-    no_outlier = np.logical_not(is_outlier(velocities))
-    velocities = velocities[no_outlier] * 3.6
-    dt = np.diff(path["timestamps"])[finite_velocities][no_outlier]
-
-    ax.hist(velocities, bins=50, weights=dt)
-    ax.set_xlabel("Velocity [km/h]")
-    ax.set_ylabel("Percentage")
-    ax.set_yticks(())
