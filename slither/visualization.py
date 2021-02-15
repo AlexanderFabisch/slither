@@ -1,7 +1,10 @@
 import folium
+import matplotlib
 import numpy as np
+from scipy.signal import medfilt
 
-from slither.data_utils import check_coords, is_outlier
+from slither.config import config
+from slither.data_utils import check_coords, is_outlier, convert_mps_to_kmph
 
 
 def render_map(activity):
@@ -75,8 +78,64 @@ def plot_elevation(path, ax):
     ax.set_title(f"Elevation gain: {int(np.round(up, 0))} m, elevation loss: {int(np.round(down, 0))} m, "
                  f"slope {np.round(slope_in_percent, 2)} %")
     ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
-    ax.plot(distances_in_km, altitudes)
+    plot(distances_in_km, altitudes)
     ax.set_xlim((0, total_distance_in_km))
     ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
     ax.set_xlabel("Distance [km]")
     ax.set_ylabel("Elevation [m]")
+
+
+def plot(vel_axis, hr_axis, path):
+    timestamps, velocities, heartrates = post_processing(path)
+
+    matplotlib.rcParams["font.size"] = 10
+    matplotlib.rcParams["legend.fontsize"] = 10
+
+    handles = []
+    labels = []
+
+    n_steps = len(timestamps)
+
+    vel_line, = vel_axis.plot(timestamps, velocities, color="#4f86f7",
+                              alpha=0.8, lw=2)
+    handles.append(vel_line)
+    labels.append("Velocity")
+
+    vel_axis.set_xlim((timestamps[0], timestamps[-1]))
+    mean = np.nanmean(np.sort(velocities)[n_steps // 4:-n_steps // 4])
+    vel_axis.set_ylim((0, 2 * mean))
+    vel_axis.set_xlabel("Time [min]")
+    vel_axis.set_ylabel("Velocity [km/h]")
+    vel_axis.tick_params(axis="both", which="both", length=0)
+    vel_axis.grid(True)
+
+    if np.isfinite(heartrates).any():
+        mean = np.nanmean(np.sort(heartrates)[n_steps // 4:-n_steps // 4])
+        hr_line, = hr_axis.plot(timestamps, heartrates, color="#a61f34",
+                                alpha=0.8, lw=2)
+        handles.append(hr_line)
+        labels.append("Heart Rate")
+
+        hr_axis.set_ylim((0, 2 * mean))
+        hr_axis.set_ylabel("Heart Rate [bpm]")
+        hr_axis.tick_params(axis="both", which="both", length=0)
+        hr_axis.spines["top"].set_visible(False)
+    else:
+        hr_axis.set_yticks(())
+    hr_axis.grid(False)
+
+    return handles, labels
+
+
+def post_processing(path):
+    timestamps = np.copy(path["timestamps"])
+    timestamps -= timestamps[0]
+    timestamps /= 60.0
+
+    filter_width = config["plot"]["filter_width"]
+    velocities = medfilt(path["velocities"], filter_width)
+    velocities = convert_mps_to_kmph(velocities)
+
+    heartrates = medfilt(path["heartrates"], filter_width)
+
+    return timestamps, velocities, heartrates

@@ -1,10 +1,8 @@
 import os
 
-import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 
-from ..visualization import render_map, plot_velocities
+from ..visualization import render_map, plot_velocities, plot
 
 try:
     from PyQt4.QtCore import *
@@ -38,12 +36,11 @@ except ImportError:
         WebView = QWebEngineView
         WebPage = QWebEnginePage
 from matplotlib.figure import Figure
-from scipy.signal import medfilt
 
 from .new_activity import EditActivity
 from ..config import slither_ressource_filename
 from ..config import config
-from ..data_utils import d, convert_mps_to_kmph
+from ..data_utils import d
 
 
 class ActivityTab(QWidget):
@@ -456,59 +453,3 @@ class VelocityHistogram(QWidget):
             self.ax.set_yticks(())
 
         self.canvas.draw()
-
-
-def plot(vel_axis, hr_axis, path):
-    timestamps, velocities, heartrates = post_processing(path)
-
-    matplotlib.rcParams["font.size"] = 10
-    matplotlib.rcParams["legend.fontsize"] = 10
-
-    handles = []
-    labels = []
-
-    n_steps = len(timestamps)
-
-    vel_line, = vel_axis.plot(timestamps, velocities, color="#4f86f7",
-                              alpha=0.8, lw=2)
-    handles.append(vel_line)
-    labels.append("Velocity")
-
-    vel_axis.set_xlim((timestamps[0], timestamps[-1]))
-    mean = np.nanmean(np.sort(velocities)[n_steps // 4:-n_steps // 4])
-    vel_axis.set_ylim((0, 2 * mean))
-    vel_axis.set_xlabel("Time [min]")
-    vel_axis.set_ylabel("Velocity [km/h]")
-    vel_axis.tick_params(axis="both", which="both", length=0)
-    vel_axis.grid(True)
-
-    if np.isfinite(heartrates).any():
-        mean = np.nanmean(np.sort(heartrates)[n_steps // 4:-n_steps // 4])
-        hr_line, = hr_axis.plot(timestamps, heartrates, color="#a61f34",
-                                alpha=0.8, lw=2)
-        handles.append(hr_line)
-        labels.append("Heart Rate")
-
-        hr_axis.set_ylim((0, 2 * mean))
-        hr_axis.set_ylabel("Heart Rate [bpm]")
-        hr_axis.tick_params(axis="both", which="both", length=0)
-        hr_axis.spines["top"].set_visible(False)
-    else:
-        hr_axis.set_yticks(())
-    hr_axis.grid(False)
-
-    return handles, labels
-
-
-def post_processing(path):
-    timestamps = np.copy(path["timestamps"])
-    timestamps -= timestamps[0]
-    timestamps /= 60.0
-
-    filter_width = config["plot"]["filter_width"]
-    velocities = medfilt(path["velocities"], filter_width)
-    velocities = convert_mps_to_kmph(velocities)
-
-    heartrates = medfilt(path["heartrates"], filter_width)
-
-    return timestamps, velocities, heartrates
