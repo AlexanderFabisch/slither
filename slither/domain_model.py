@@ -65,7 +65,7 @@ class Activity(Base):
         else:
             return None
 
-    def get_paces(self):
+    def get_paces(self):  # TODO move data processing to separate module
         path = self.get_path()
         velocities = path["velocities"][1:]
         timestamps = path["timestamps"]
@@ -92,7 +92,6 @@ class Activity(Base):
             paces.append((threshold, pace))
             last_t = t
         return paces
-
 
     def compute_records(self, distance):
         record = self._check_metadata(distance)
