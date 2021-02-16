@@ -37,6 +37,7 @@ def render_map(activity):
 
 
 def plot_velocities(activity, ax):
+    """Plot velocities over time."""
     path = activity.get_path()
     velocities = path["velocities"][1:]
     finite_velocities = np.isfinite(velocities)
@@ -52,6 +53,7 @@ def plot_velocities(activity, ax):
 
 
 def plot_elevation(path, ax):
+    """Plot elevation over distance."""
     dts = np.diff(path["timestamps"])
     velocities = path["velocities"][:-1]
     altitudes = path["altitudes"][:-1]
@@ -86,6 +88,7 @@ def plot_elevation(path, ax):
 
 
 def plot(vel_axis, hr_axis, path):
+    """Plot velocities and heartrates over time."""
     timestamps, velocities, heartrates = post_processing(path)
 
     matplotlib.rcParams["font.size"] = 10
