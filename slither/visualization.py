@@ -90,7 +90,9 @@ def plot_elevation(path, ax):
 
 def plot(vel_axis, hr_axis, path):
     """Plot velocities and heartrates over time."""
-    timestamps, velocities, heartrates = post_processing(path)
+    timestamps = minutes_from_start(path)
+    velocities = filtered_velocities_in_kmph(path, config["plot"]["filter_width"])
+    heartrates = filtered_heartrates(path, config["plot"]["filter_width"])
 
     matplotlib.rcParams["font.size"] = 10
     matplotlib.rcParams["legend.fontsize"] = 10
@@ -131,15 +133,17 @@ def plot(vel_axis, hr_axis, path):
     return handles, labels
 
 
-def post_processing(path):
+def filtered_heartrates(path, filter_width):
+    return medfilt(path["heartrates"], filter_width)
+
+
+def filtered_velocities_in_kmph(path, filter_width):
+    velocities = medfilt(path["velocities"], filter_width)
+    return convert_mps_to_kmph(velocities)
+
+
+def minutes_from_start(path):
     timestamps = np.copy(path["timestamps"])
     timestamps -= timestamps[0]
     timestamps /= 60.0
-
-    filter_width = config["plot"]["filter_width"]
-    velocities = medfilt(path["velocities"], filter_width)
-    velocities = convert_mps_to_kmph(velocities)
-
-    heartrates = medfilt(path["heartrates"], filter_width)
-
-    return timestamps, velocities, heartrates
+    return timestamps
