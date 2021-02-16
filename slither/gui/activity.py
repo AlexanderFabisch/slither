@@ -299,12 +299,12 @@ class Plot(QWidget):
         super(Plot, self).__init__(parent)
 
         try:
-            plt.style.use("ggplot")
+            import seaborn as sns
+            sns.set()
         except AttributeError:
             pass  # TODO log?
 
         self.fig_velocity = Figure((5, 3), dpi=100)
-        self.fig_velocity.patch.set_facecolor("lightgray")
         self.fig_velocity.subplots_adjust(
             left=0.12, right=0.88, bottom=0.15, top=0.98)
 
@@ -316,7 +316,6 @@ class Plot(QWidget):
         self.canvas.setParent(self)
         toolbar = NavigationToolbar(self.canvas, self)
 
-        self.setStyleSheet("background-color:lightgray;")
         plot_layout = QVBoxLayout()
         self.setLayout(plot_layout)
         plot_layout.addWidget(self.canvas)
@@ -349,7 +348,6 @@ class Map(WebView):
     def __init__(self, parent=None):
         super(Map, self).__init__(parent)
         self.setPage(WebPage())
-        self.setStyleSheet("background-color:lightgray;")
 
     def load_map(self, activity):
         if activity.has_path:
@@ -426,12 +424,12 @@ class VelocityHistogram(QWidget):
         super(VelocityHistogram, self).__init__(parent)
 
         try:
-            plt.style.use("ggplot")
+            import seaborn as sns
+            sns.set()
         except AttributeError:
             pass  # TODO log?
 
         self.fig = Figure((5, 3), dpi=100)
-        self.fig.patch.set_facecolor("lightgray")
         self.fig.subplots_adjust(left=0.12, right=0.88, bottom=0.15, top=0.98)
 
         self.ax = self.fig.add_subplot(111)
@@ -440,7 +438,6 @@ class VelocityHistogram(QWidget):
         self.canvas.setParent(self)
         toolbar = NavigationToolbar(self.canvas, self)
 
-        self.setStyleSheet("background-color:lightgray;")
         plot_layout = QVBoxLayout()
         self.setLayout(plot_layout)
         plot_layout.addWidget(self.canvas)
@@ -464,12 +461,12 @@ class ElevationProfile(QWidget):
         super(ElevationProfile, self).__init__(parent)
 
         try:
-            plt.style.use("ggplot")
+            import seaborn as sns
+            sns.set()
         except AttributeError:
             pass  # TODO log?
 
         self.fig = Figure((5, 3), dpi=100)
-        self.fig.patch.set_facecolor("lightgray")
         self.fig.subplots_adjust(left=0.12, right=0.88, bottom=0.15, top=0.88)
 
         self.ax = self.fig.add_subplot(111)
@@ -478,7 +475,6 @@ class ElevationProfile(QWidget):
         self.canvas.setParent(self)
         toolbar = NavigationToolbar(self.canvas, self)
 
-        self.setStyleSheet("background-color:lightgray;")
         plot_layout = QVBoxLayout()
         self.setLayout(plot_layout)
         plot_layout.addWidget(self.canvas)
