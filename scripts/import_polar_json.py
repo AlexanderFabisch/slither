@@ -1,7 +1,7 @@
 """Takes a data export from Polar flow and saves it in the database."""
 import sys
 from slither.service import Service
-from slither.polar_json_loader import PolarJsonLoader
+from slither.io.polar_json_loader import PolarJsonLoader
 
 
 filenames = sys.argv[1:]

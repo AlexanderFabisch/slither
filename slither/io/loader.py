@@ -1,5 +1,5 @@
-from .tcx_loader import TcxLoader
-from .gpx_loader import GpxLoader
+from slither.io.tcx_loader import TcxLoader
+from slither.io.gpx_loader import GpxLoader
 
 
 class Loader:

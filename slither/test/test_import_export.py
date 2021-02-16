@@ -1,4 +1,4 @@
-from slither.tcx_loader import TcxLoader
+from slither.io.tcx_loader import TcxLoader
 from slither.export import TcxExport
 from nose.tools import assert_equal, assert_almost_equal
 

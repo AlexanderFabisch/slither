@@ -1,6 +1,6 @@
 from . import domain_model
 from .config import config
-from .loader import Loader
+from .io import Loader
 from .export import TcxExport
 from .database import Database
 from .registry import Registry

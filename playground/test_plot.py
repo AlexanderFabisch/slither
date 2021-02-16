@@ -1,7 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 from slither.visualization import plot
-from slither.tcx_loader import TcxLoader
+from slither.io.tcx_loader import TcxLoader
 
 
 fig = plt.figure(figsize=(5, 3), dpi=100)
