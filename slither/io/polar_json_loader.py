@@ -4,8 +4,8 @@ from datetime import datetime
 import numpy as np
 import json
 
-from .data_utils import dist_on_earth
-from .domain_model import Activity
+from slither.data_utils import dist_on_earth
+from slither.domain_model import Activity
 
 
 SPORTS_MAPPING = {

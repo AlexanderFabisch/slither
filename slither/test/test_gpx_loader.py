@@ -1,5 +1,5 @@
 import os
-from slither.gpx_loader import GpxLoader
+from slither.io.gpx_loader import GpxLoader
 from nose.tools import assert_equal, assert_in
 
 

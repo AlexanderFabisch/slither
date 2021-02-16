@@ -5,8 +5,8 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 from slither.data_utils import to_utf8
-from .data_utils import dist_on_earth
-from .domain_model import Activity
+from slither.data_utils import dist_on_earth
+from slither.domain_model import Activity
 
 
 class TcxLoader:

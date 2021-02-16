@@ -1,5 +1,5 @@
 import os
-from slither.polar_json_loader import PolarJsonLoader
+from slither.io.polar_json_loader import PolarJsonLoader
 from nose.tools import assert_equal, assert_in
 
 

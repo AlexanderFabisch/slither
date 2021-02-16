@@ -1,6 +1,6 @@
 import sys
 import matplotlib.pyplot as plt
-from slither.tcx_loader import TcxLoader
+from slither.io.tcx_loader import TcxLoader
 from slither.visualization import plot_elevation
 try:
     import seaborn as sns

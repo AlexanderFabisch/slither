@@ -9,7 +9,7 @@ import sys
 import glob
 import json
 import datetime
-from slither.gpx_loader import GpxLoader
+from slither.io.gpx_loader import GpxLoader
 from slither.domain_model import Activity
 from slither.service import Service
 
