@@ -77,10 +77,11 @@ def plot_elevation(path, ax):
     down = -sum(altitude_diffs[altitude_diffs < 0])
     slope_in_percent = 100.0 * up / total_distance_in_m
 
-    ax.set_title(f"Elevation gain: {int(np.round(up, 0))} m, elevation loss: {int(np.round(down, 0))} m, "
-                 f"slope {np.round(slope_in_percent, 2)} %")
+    ax.set_title(f"Elevation gain: {int(np.round(up, 0))} m, "
+                 f"loss: {int(np.round(down, 0))} m, "
+                 f"slope {np.round(slope_in_percent, 2)}%")
     ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
-    plot(distances_in_km, altitudes)
+    ax.plot(distances_in_km, altitudes)
     ax.set_xlim((0, total_distance_in_km))
     ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
     ax.set_xlabel("Distance [km]")

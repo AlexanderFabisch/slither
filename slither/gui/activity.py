@@ -2,7 +2,7 @@ import os
 
 import matplotlib.pyplot as plt
 
-from ..visualization import render_map, plot_velocities, plot
+from ..visualization import render_map, plot_velocities, plot, plot_elevation
 
 try:
     from PyQt4.QtCore import *
@@ -264,6 +264,9 @@ class Details(QWidget):
         self.velocity_histogram = VelocityHistogram()
         tabs.addTab(self.velocity_histogram, "Velocities")
 
+        self.elevation_profile = ElevationProfile()
+        tabs.addTab(self.elevation_profile, "Elevation Profile")
+
     def display_activity(self, activity):
         self._display_general_info(activity)
         self.plot_widget.load_plot(activity)
@@ -271,6 +274,7 @@ class Details(QWidget):
         self.pace_widget.load_paces(activity)
         self.best_split_widget.load_best_splits(activity)
         self.velocity_histogram.load_velocity_histogram(activity)
+        self.elevation_profile.load_elevation_profile(activity)
 
     def _display_general_info(self, activity):
         self.start_time_label.setText(
@@ -448,6 +452,44 @@ class VelocityHistogram(QWidget):
 
         if activity.has_path:
             plot_velocities(activity, self.ax)
+        else:
+            self.ax.set_xticks(())
+            self.ax.set_yticks(())
+
+        self.canvas.draw()
+
+
+class ElevationProfile(QWidget):
+    def __init__(self, parent=None):
+        super(ElevationProfile, self).__init__(parent)
+
+        try:
+            plt.style.use("ggplot")
+        except AttributeError:
+            pass  # TODO log?
+
+        self.fig = Figure((5, 3), dpi=100)
+        self.fig.patch.set_facecolor("lightgray")
+        self.fig.subplots_adjust(left=0.12, right=0.88, bottom=0.15, top=0.88)
+
+        self.ax = self.fig.add_subplot(111)
+
+        self.canvas = FigureCanvas(self.fig)
+        self.canvas.setParent(self)
+        toolbar = NavigationToolbar(self.canvas, self)
+
+        self.setStyleSheet("background-color:lightgray;")
+        plot_layout = QVBoxLayout()
+        self.setLayout(plot_layout)
+        plot_layout.addWidget(self.canvas)
+        plot_layout.addWidget(toolbar)
+
+    def load_elevation_profile(self, activity):
+        self.fig.delaxes(self.ax)
+        self.ax = self.fig.add_subplot(111)
+
+        if activity.has_path:
+            plot_elevation(activity.get_path(), self.ax)
         else:
             self.ax.set_xticks(())
             self.ax.set_yticks(())
