@@ -131,3 +131,11 @@ def filtered_heartrates(path, filter_width):
 def filtered_velocities_in_kmph(path, filter_width):
     velocities = medfilt(path["velocities"], filter_width)
     return convert_mps_to_kmph(velocities)
+
+
+def elevation_summary(altitudes, total_distance_in_m):
+    altitude_diffs = np.diff(altitudes)
+    gain = sum(altitude_diffs[altitude_diffs > 0])
+    loss = -sum(altitude_diffs[altitude_diffs < 0])
+    slope_in_percent = 100.0 * gain / total_distance_in_m
+    return gain, loss, slope_in_percent
