@@ -2,7 +2,7 @@ try:
     from PyQt4.QtGui import *
 except ImportError:
     from PyQt5.QtWidgets import *
-from ..data_utils import d
+from ..ui_text import d
 
 
 class RecordTable(QTableWidget):
