@@ -1,10 +1,9 @@
 import folium
 import matplotlib
 import numpy as np
-from scipy.signal import medfilt
 
 from slither.config import config
-from slither.data_utils import check_coords, is_outlier, convert_mps_to_kmph
+from slither.preprocessing import is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph
 
 
 def render_map(activity):
@@ -131,15 +130,6 @@ def plot(vel_axis, hr_axis, path):
     hr_axis.grid(False)
 
     return handles, labels
-
-
-def filtered_heartrates(path, filter_width):
-    return medfilt(path["heartrates"], filter_width)
-
-
-def filtered_velocities_in_kmph(path, filter_width):
-    velocities = medfilt(path["velocities"], filter_width)
-    return convert_mps_to_kmph(velocities)
 
 
 def minutes_from_start(path):

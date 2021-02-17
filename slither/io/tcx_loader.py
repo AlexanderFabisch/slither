@@ -5,7 +5,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 from slither.data_utils import to_utf8
-from slither.data_utils import dist_on_earth
+from slither.preprocessing import dist_on_earth
 from slither.domain_model import Activity
 
 
