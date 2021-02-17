@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import json
 
-from slither.data_utils import dist_on_earth
+from slither.preprocessing import dist_on_earth
 from slither.domain_model import Activity
 
 
