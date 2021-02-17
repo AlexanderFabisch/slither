@@ -3,7 +3,8 @@ import matplotlib
 import numpy as np
 
 from slither.config import config
-from slither.preprocessing import is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph
+from slither.preprocessing import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
+                                   elevation_summary)
 
 
 def render_map(activity):
@@ -51,7 +52,7 @@ def plot_velocities(activity, ax):
     ax.set_yticks(())
 
 
-def plot_elevation(path, ax):
+def plot_elevation(path, ax):  # TODO refactor / preprocessing
     """Plot elevation over distance."""
     dts = np.diff(path["timestamps"])
     velocities = path["velocities"][:-1]
@@ -71,13 +72,10 @@ def plot_elevation(path, ax):
     distances_in_km = distances_in_km[valid_data]
     altitudes = altitudes[valid_data]
 
-    altitude_diffs = np.diff(altitudes)
-    up = sum(altitude_diffs[altitude_diffs > 0])
-    down = -sum(altitude_diffs[altitude_diffs < 0])
-    slope_in_percent = 100.0 * up / total_distance_in_m
+    gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 
-    ax.set_title(f"Elevation gain: {int(np.round(up, 0))} m, "
-                 f"loss: {int(np.round(down, 0))} m, "
+    ax.set_title(f"Elevation gain: {int(np.round(gain, 0))} m, "
+                 f"loss: {int(np.round(loss, 0))} m, "
                  f"slope {np.round(slope_in_percent, 2)}%")
     ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
     ax.plot(distances_in_km, altitudes)
