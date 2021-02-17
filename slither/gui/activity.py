@@ -40,7 +40,7 @@ from matplotlib.figure import Figure
 from .new_activity import EditActivity
 from ..config import slither_ressource_filename
 from ..config import config
-from ..data_utils import d
+from ..ui_text import d
 
 
 class ActivityTab(QWidget):

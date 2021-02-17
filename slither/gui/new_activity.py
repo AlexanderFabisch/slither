@@ -5,7 +5,7 @@ except ImportError:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
     from PyQt5.QtWidgets import *
-from ..data_utils import d, time_representation, split_time
+from ..ui_text import d, time_representation, split_time
 from ..config import config
 from datetime import datetime
 import sys

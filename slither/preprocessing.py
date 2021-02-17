@@ -2,7 +2,7 @@ import numpy as np
 import pyproj
 from scipy.signal import medfilt
 
-from slither.data_utils import convert_mps_to_kmph
+from slither.ui_text import convert_mps_to_kmph
 
 
 def check_coords(coords):

@@ -5,7 +5,7 @@ from collections import deque
 import numpy as np
 
 from .config import config
-from .data_utils import appropriate_partition, d
+from .ui_text import appropriate_partition, d
 
 
 Base = declarative_base()

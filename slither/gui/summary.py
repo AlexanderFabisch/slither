@@ -6,7 +6,7 @@ except ImportError:
     from PyQt5.QtGui import *
     from PyQt5.QtWidgets import *
 from ..config import config
-from ..data_utils import d
+from ..ui_text import d
 from datetime import timedelta
 
 

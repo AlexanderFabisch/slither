@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 from bs4 import BeautifulSoup
 
-from slither.data_utils import to_utf8
+from slither.ui_text import to_utf8
 from slither.preprocessing import dist_on_earth
 from slither.domain_model import Activity
 
