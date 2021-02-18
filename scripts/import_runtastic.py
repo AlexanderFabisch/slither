@@ -7,6 +7,7 @@ to the training session data (folder 'Sport-sessions').
 import os
 import glob
 import json
+import time
 import datetime
 import argparse
 import rich
@@ -60,13 +61,13 @@ with Progress() as progress:
             calories = 0
         distance = session_data["distance"]
         start_time = datetime.datetime.fromtimestamp(session_data["start_time"] / 1000.0)
-        time = session_data["duration"] / 1000.0
+        duration = session_data["duration"] / 1000.0
 
         close_activities = s.list_activity_for_date(start_time - datetime.timedelta(minutes=2))
         duplicate = False
         if close_activities:
             for a in close_activities:
-                if abs(time.mktime(start_time.timetuple()) - time.mktime(a.start_time.timetuple())) < 120:
+                if abs(time.mktime(start_time.timetuple()) - time.mktime(a.start_time.timetuple())) < 60:
                     duplicate = True
                     break
         if duplicate:
@@ -84,7 +85,7 @@ with Progress() as progress:
                 continue
             activity = Activity(
                 sport=sport, start_time=start_time, distance=distance,
-                time=time, calories=calories, has_path=False)
+                time=duration, calories=calories, has_path=False)
         else:
             gpx_file = gpx_file[0]
             with open(gpx_file, "r") as f:
