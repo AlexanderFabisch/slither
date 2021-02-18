@@ -14,6 +14,10 @@ if __name__ == "__main__":
                    os.path.join("bin", "slither_server")],
           packages=["slither", "slither/gui"],
           package_data={"slither": ["resources/*"]},
-          requires=["pyyaml", "numpy", "matplotlib",
-                    "lxml", "beautifulsoup4", "sqlalchemy",
-                    "pyproj", "Jinja2", "folium"])
+          install_requires=["pyyaml", "numpy", "matplotlib",
+                            "lxml", "beautifulsoup4", "sqlalchemy",
+                            "pyproj", "Jinja2", "folium"],
+          extras_require={
+              "all": ["rich"],
+              "test": ["nose", "coverage"]
+          })
