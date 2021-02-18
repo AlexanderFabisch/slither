@@ -8,12 +8,12 @@ import os
 import glob
 import json
 import datetime
+import argparse
 import rich
 from rich.progress import Progress
 from slither.io.gpx_loader import GpxLoader
 from slither.domain_model import Activity
 from slither.service import Service
-import argparse
 
 
 parser = argparse.ArgumentParser(
@@ -24,9 +24,10 @@ parser.add_argument(
 parser.add_argument(
     "--require_gpx", action="store_true",
     help="Require GPX file to import running or cycling activities.")
-parser.add_argument("--base_path", type=str, default=None,
-                    help="Base path in which data will be stored. "
-                         "This will be ~/.slither by default.")
+parser.add_argument(
+    "--base_path", type=str, default=None,
+    help="Base path in which data will be stored. "
+         "This will be ~/.slither by default.")
 args = parser.parse_args()
 
 sport_id_to_name = {
@@ -42,7 +43,8 @@ s = Service(base_path=args.base_path)
 with Progress() as progress:
     task = progress.add_task("Data import", total=len(args.filenames))
     for filename in sorted(args.filenames):
-        progress.console.print("Imported '%s'" % filename)
+        progress.console.print("Importing '%s'" % filename)
+        progress.advance(task)
         with open(filename, "r") as f:
             content = f.read()
         session_data = json.loads(content)
@@ -64,24 +66,25 @@ with Progress() as progress:
         duplicate = False
         if close_activities:
             for a in close_activities:
-                if ((a.start_time - start_time) < datetime.timedelta(minutes=4) or
-                        (start_time - a.start_time) < datetime.timedelta(minutes=4)):
+                if abs(time.mktime(start_time.timetuple()) - time.mktime(a.start_time.timetuple())) < 120:
                     duplicate = True
                     break
         if duplicate:
             progress.console.print("[red]Found activity with similar start time, ignored.[/red]")
             rich.inspect(session_data)
-            progress.advance(task)
             continue
 
-        gpx_search_path = os.path.join(os.sep.join(filename.split(os.sep)[:-1]), "GPS-data", "*_%s.gpx" % session_data["id"])
+        gpx_search_path = os.path.join(
+            os.sep.join(filename.split(os.sep)[:-1]),
+            "GPS-data", "*_%s.gpx" % session_data["id"])
         gpx_file = list(glob.glob(gpx_search_path))
         if len(gpx_file) == 0:
             if args.require_gpx and sport in ["running", "cycling", "racecycling"]:
                 progress.console.print("[red]Activity has no GPX file, ignored.[/red]")
-                progress.advance(task)
                 continue
-            activity = Activity(sport=sport, start_time=start_time, distance=distance, time=time, calories=calories, has_path=False)
+            activity = Activity(
+                sport=sport, start_time=start_time, distance=distance,
+                time=time, calories=calories, has_path=False)
         else:
             gpx_file = gpx_file[0]
             with open(gpx_file, "r") as f:
@@ -92,4 +95,3 @@ with Progress() as progress:
             activity.calories = calories
 
         s.add_new_activity(activity)
-        progress.advance(task)
