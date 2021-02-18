@@ -13,6 +13,7 @@ SPORTS_MAPPING = {
     "CYCLING": "cycling",
     "ROAD_BIKING": "racecycling",
     "POOL_SWIMMING": "swimming",
+    "OPEN_WATER_SWIMMING": "swimming",
     "OTHER_OUTDOOR": "other",
     "OTHER_INDOOR": "other",
 }
