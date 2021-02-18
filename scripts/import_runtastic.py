@@ -8,6 +8,7 @@ import os
 import glob
 import json
 import datetime
+import rich
 from rich.progress import Progress
 from slither.io.gpx_loader import GpxLoader
 from slither.domain_model import Activity
@@ -58,6 +59,20 @@ with Progress() as progress:
         distance = session_data["distance"]
         start_time = datetime.datetime.fromtimestamp(session_data["start_time"] / 1000.0)
         time = session_data["duration"] / 1000.0
+
+        close_activities = s.list_activity_for_date(start_time - datetime.timedelta(minutes=2))
+        duplicate = False
+        if close_activities:
+            for a in close_activities:
+                if ((a.start_time - start_time) < datetime.timedelta(minutes=4) or
+                        (start_time - a.start_time) < datetime.timedelta(minutes=4)):
+                    duplicate = True
+                    break
+        if duplicate:
+            progress.console.print("[red]Found activity with similar start time, ignored.[/red]")
+            rich.inspect(session_data)
+            progress.advance(task)
+            continue
 
         gpx_search_path = os.path.join(os.sep.join(filename.split(os.sep)[:-1]), "GPS-data", "*_%s.gpx" % session_data["id"])
         gpx_file = list(glob.glob(gpx_search_path))
