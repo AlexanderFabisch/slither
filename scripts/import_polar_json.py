@@ -34,7 +34,7 @@ with Progress() as progress:
                 duplicate = False
                 if close_activities:
                     for a in close_activities:
-                        if abs(time.mktime(activity.start_time.timetuple()) - time.mktime(a.start_time.timetuple())) < 120:
+                        if abs(time.mktime(activity.start_time.timetuple()) - time.mktime(a.start_time.timetuple())) < 60:
                             duplicate = True
                             break
                 if duplicate:
