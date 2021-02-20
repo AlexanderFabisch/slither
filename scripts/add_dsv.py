@@ -2,6 +2,7 @@
 import argparse
 import pandas as pd
 import numpy as np
+from rich.progress import Progress
 from slither.service import Service
 
 
@@ -19,30 +20,49 @@ def parse_args():
                         help="Directory to store files")
     parser.add_argument("--db_filename", type=str, default="db.sqlite",
                         help="Filename of SQLite database")
+    parser.add_argument("--base_path", type=str, default=None,
+                        help="Base path in which data will be stored. "
+                             "This will be ~/.slither by default.")
     args = parser.parse_args()
     return args
 
 
 def fill_database(args):
     s = Service(debug=args.debug, datadir=args.datadir,
-                db_filename=args.db_filename)
+                db_filename=args.db_filename, base_path=args.base_path)
     data = read_data(args.filename)
-    for row in data.iterrows():
-        row = row[1]
-        try:
-            distance = distance_from_stroke(row["Stroke"])
-            time = row["Time"]
-            if not np.isfinite(time):
-                raise Exception(time)
-            metadata = {"sport": "swimming",
-                        "start_time": row["Date"],
-                        "distance": distance,
-                        "time": time,
-                        "filetype": "",
-                        "has_path": False}
-            s.new_activity(metadata)
-        except Exception as e:
-            print(e)
+    with Progress() as progress:
+        task = progress.add_task("Data import", total=len(data))
+        for row in data.iterrows():
+            progress.console.print("Importing:\n%s" % (row,))
+            progress.advance(task)
+            row = row[1]
+            try:
+                distance = distance_from_stroke(row["Stroke"])
+                time = row["Time"]
+                if not np.isfinite(time):
+                    raise Exception(time)
+
+                activities = s.list_activity_for_date(row["Date"])
+                duplicate = False
+                for a in activities:
+                    if a.time == time and a.distance == distance:
+                        progress.console.print("Duplicate entry, ignored.")
+                        duplicate = True
+                        break
+                if duplicate:
+                    progress.console.print("[red]Found similar activity, ignored.[/red]")
+                    continue
+
+                metadata = {"sport": "swimming",
+                            "start_time": row["Date"],
+                            "distance": distance,
+                            "time": time,
+                            "filetype": "",
+                            "has_path": False}
+                s.new_activity(metadata)
+            except Exception as e:
+                progress.console.print(e)
 
 
 def read_data(filename):
@@ -61,7 +81,7 @@ def convert_time(t):
             t = r[1]
         first, h = t.split(",")
         parts = first.split(":")
-        parts = map(int, parts)
+        parts = list(map(int, parts))
         seconds = 60 * parts[0] + parts[1]
         return float(seconds) + float(h) / 100.0
     else:
