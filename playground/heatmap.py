@@ -35,7 +35,7 @@ sys.stdout.flush()
 lats = np.rad2deg(lats)
 lons = np.rad2deg(lons)
 print("Done.")
-# TODO lats + longs to Cartesian coordinates
+# TODO lats + longs to Cartesian coordinates, use python gdal see https://gitlab.com/h2020src/og3/cdff_dev/-/blob/master/cdff_dev/extensions/gps/conversion.pyx#L19
 print("Binning... ", end="")
 sys.stdout.flush()
 heatmap, xedge, yedge, binnumber = binned_statistic_2d(

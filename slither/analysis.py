@@ -2,7 +2,8 @@ import numpy as np
 import pyproj
 from scipy.signal import medfilt
 
-from slither.ui_text import convert_mps_to_kmph
+from slither.ui_text import convert_mps_to_kmph, appropriate_partition
+from slither.config import config
 
 
 def check_coords(coords):
@@ -139,3 +140,32 @@ def elevation_summary(altitudes, total_distance_in_m):
     loss = -sum(altitude_diffs[altitude_diffs < 0])
     slope_in_percent = 100.0 * gain / total_distance_in_m
     return gain, loss, slope_in_percent
+
+
+def get_paces(self):
+    path = self.get_path()
+    velocities = path["velocities"][1:]
+    timestamps = path["timestamps"]
+    delta_t = np.diff(timestamps)
+
+    max_velocity = config["max_velocity"].get(
+        self.sport, config["max_velocity"]["default"])
+    valid_velocities = np.where(velocities <= max_velocity)
+    velocities = velocities[valid_velocities]
+    delta_t = delta_t[valid_velocities]
+
+    dist = np.cumsum(velocities * delta_t)
+    split_distance = appropriate_partition(dist[-1])
+
+    pdt = config["pace_distance_table"]
+    pace_distance = pdt.get(self.sport, pdt["other"])
+
+    paces = []
+    last_t = 0
+    for threshold in range(split_distance, int(dist[-1]), split_distance):
+        t = np.argmax(dist >= threshold)
+        split_time = timestamps[t] - timestamps[last_t]
+        pace = split_time / split_distance * pace_distance
+        paces.append((threshold, pace))
+        last_t = t
+    return paces

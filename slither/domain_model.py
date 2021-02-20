@@ -5,7 +5,6 @@ from collections import deque
 import numpy as np
 
 from .config import config
-from .ui_text import appropriate_partition, d
 
 
 Base = declarative_base()
@@ -65,34 +64,6 @@ class Activity(Base):
         else:
             return None
 
-    def get_paces(self):  # TODO move data processing to separate module
-        path = self.get_path()
-        velocities = path["velocities"][1:]
-        timestamps = path["timestamps"]
-        delta_t = np.diff(timestamps)
-
-        max_velocity = config["max_velocity"].get(
-            self.sport, config["max_velocity"]["default"])
-        valid_velocities = np.where(velocities <= max_velocity)
-        velocities = velocities[valid_velocities]
-        delta_t = delta_t[valid_velocities]
-
-        dist = np.cumsum(velocities * delta_t)
-        split_distance = appropriate_partition(dist[-1])
-
-        pdt = config["pace_distance_table"]
-        pace_distance = pdt.get(self.sport, pdt["other"])
-
-        paces = []
-        last_t = 0
-        for threshold in range(split_distance, int(dist[-1]), split_distance):
-            t = np.argmax(dist >= threshold)
-            split_time = timestamps[t] - timestamps[last_t]
-            pace = split_time / split_distance * pace_distance
-            paces.append((threshold, pace))
-            last_t = t
-        return paces
-
     def compute_records(self, distance):
         record = self._check_metadata(distance)
         if self.has_path:
@@ -140,26 +111,6 @@ class Activity(Base):
                 queue_time -= time
 
         return record
-
-    def generate_distance_markers(self):
-        path = self.get_path()
-        timestamps = path["timestamps"]
-        velocities = path["velocities"]
-        valid_velocities = np.isfinite(velocities)
-        timestamps = timestamps[valid_velocities]
-        velocities = velocities[valid_velocities]
-
-        delta_t = np.diff(timestamps)
-        dist = np.cumsum(velocities[1:] * delta_t)
-
-        marker_dist = appropriate_partition(dist[-1])
-
-        marker_indices = {}
-        for threshold in np.arange(marker_dist, int(dist[-1]), marker_dist):
-            label = d.display_distance(threshold)
-            marker_indices[label] = np.argmax(dist >= threshold)
-
-        return marker_indices
 
 
 class Trackpoint(Base):
