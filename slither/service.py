@@ -1,7 +1,7 @@
 from . import domain_model
 from .config import config
 from .io import Loader
-from .export import TcxExport
+from slither.io.tcx_export import TcxExport
 from .database import Database
 from .registry import Registry
 from .summary import WeekSummary, MonthSummary, YearSummary

@@ -1,5 +1,5 @@
 from slither.service import Service
-from slither.export import TcxExport
+from slither.io.tcx_export import TcxExport
 
 
 s = Service()
