@@ -1,7 +1,5 @@
 import os
 
-import matplotlib.pyplot as plt
-
 from ..visualization import render_map, plot_velocities, plot, plot_elevation
 
 try:
@@ -41,6 +39,7 @@ from .new_activity import EditActivity
 from ..config import slither_ressource_filename
 from ..config import config
 from ..ui_text import d
+from ..analysis import get_paces
 
 
 class ActivityTab(QWidget):
@@ -383,7 +382,7 @@ class PaceTable(QTableWidget):
             return
 
         # TODO do we really want to compute this here?
-        paces = activity.get_paces()
+        paces = get_paces(activity)
         self.setRowCount(len(paces))
         for i, pace in enumerate(paces):
             self.setItem(i, 0, QTableWidgetItem(d.display_distance(pace[0])))

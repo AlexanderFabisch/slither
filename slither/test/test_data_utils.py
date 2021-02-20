@@ -1,7 +1,7 @@
 import numpy as np
 from slither.ui_text import (convert_mps_to_kmph, time_representation,
                              DataDisplay)
-from slither.preprocessing import is_outlier, dist_on_earth, check_coords
+from slither.analysis import is_outlier, dist_on_earth, check_coords
 from numpy.testing import assert_array_equal
 from nose.tools import assert_almost_equal, assert_equal
 

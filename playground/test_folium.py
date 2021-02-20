@@ -1,5 +1,6 @@
 import numpy as np
-from slither.gui.activity import check_coords
+from slither.analysis import check_coords
+from slither.visualization import generate_distance_markers
 from slither.service import Service
 
 
@@ -9,7 +10,7 @@ import folium
 def render_map(activity):
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = activity.generate_distance_markers()
+    distance_markers = generate_distance_markers(activity)
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
 

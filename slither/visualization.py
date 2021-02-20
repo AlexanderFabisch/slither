@@ -3,15 +3,16 @@ import matplotlib
 import numpy as np
 
 from slither.config import config
-from slither.preprocessing import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
-                                   elevation_summary)
+from slither.analysis import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
+                              elevation_summary)
+from slither.ui_text import appropriate_partition, d
 
 
 def render_map(activity):
     """Draw path on map with leaflet.js."""
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = activity.generate_distance_markers()
+    distance_markers = generate_distance_markers(activity)
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
     # TODO find a way to colorize path according to velocities
@@ -34,6 +35,27 @@ def render_map(activity):
     north_east = np.max(coords, axis=0).tolist()
     folium.FitBounds([south_west, north_east]).add_to(m)
     return m.get_root().render()
+
+
+def generate_distance_markers(activity):
+    path = activity.get_path()
+    timestamps = path["timestamps"]
+    velocities = path["velocities"]
+    valid_velocities = np.isfinite(velocities)
+    timestamps = timestamps[valid_velocities]
+    velocities = velocities[valid_velocities]
+
+    delta_t = np.diff(timestamps)
+    dist = np.cumsum(velocities[1:] * delta_t)
+
+    marker_dist = appropriate_partition(dist[-1])
+
+    marker_indices = {}
+    for threshold in np.arange(marker_dist, int(dist[-1]), marker_dist):
+        label = d.display_distance(threshold)
+        marker_indices[label] = np.argmax(dist >= threshold)
+
+    return marker_indices
 
 
 def plot_velocities(activity, ax):
