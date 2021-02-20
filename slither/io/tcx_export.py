@@ -9,7 +9,7 @@ class TcxExport:
 
     def dumps(self, activity):
         env = jinja2.Environment(
-            loader=jinja2.PackageLoader("slither", "resources"))
+            loader=jinja2.PackageLoader("slither", "../resources"))
         env.filters["rad2deg"] = rad2deg
         env.filters["datetime_to_str"] = datetime_to_str
         env.filters["timestamp_to_str"] = timestamp_to_str
