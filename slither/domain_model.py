@@ -1,9 +1,9 @@
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from collections import deque
 import numpy as np
 
+from .analysis import fastest_part
 from .config import config
 
 
@@ -67,7 +67,9 @@ class Activity(Base):
     def compute_records(self, distance):
         record = self._check_metadata(distance)
         if self.has_path:
-            record = min((record, self._check_path(distance)))
+            timestamps = self.get_path()["timestamps"]
+            velocities = self.get_path()["velocities"]
+            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
         return Record(sport=self.sport, distance=distance, time=record,
                       activity_id=self.id)
 
@@ -77,40 +79,6 @@ class Activity(Base):
             return self.time / ratio
         else:
             return float("inf")
-
-    def _check_path(self, distance):
-        queue_dist = 0.0
-        queue_time = 0.0
-        dqueue = deque()
-        tqueue = deque()
-
-        v = self.get_path()["velocities"][1:]
-        dt = np.diff(self.get_path()["timestamps"])
-        record = float("inf")
-
-        for t in range(len(v)):
-            if np.isnan(v[t]):
-                queue_dist = 0.0
-                queue_time = 0.0
-                dqueue.clear()
-                tqueue.clear()
-                continue
-            if v[t] > config["max_velocity"][self.sport]:
-                continue
-            dist = v[t] * dt[t]
-            dqueue.appendleft(dist)
-            tqueue.appendleft(dt[t])
-            queue_dist += dist
-            queue_time += dt[t]
-            while queue_dist > distance:
-                if queue_time < record:
-                    record = queue_time
-                dist = dqueue.pop()
-                time = tqueue.pop()
-                queue_dist -= dist
-                queue_time -= time
-
-        return record
 
 
 class Trackpoint(Base):

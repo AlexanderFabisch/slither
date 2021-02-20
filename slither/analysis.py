@@ -1,3 +1,5 @@
+from collections import deque
+
 import numpy as np
 import pyproj
 from scipy.signal import medfilt
@@ -169,3 +171,38 @@ def get_paces(self):
         paces.append((threshold, pace))
         last_t = t
     return paces
+
+
+def fastest_part(sport, timestamps, velocities, distance):
+    queue_dist = 0.0
+    queue_time = 0.0
+    dqueue = deque()
+    tqueue = deque()
+
+    v = velocities[1:]
+    dt = np.diff(timestamps)
+    record = float("inf")
+
+    for t in range(len(v)):
+        if np.isnan(v[t]):
+            queue_dist = 0.0
+            queue_time = 0.0
+            dqueue.clear()
+            tqueue.clear()
+            continue
+        if v[t] > config["max_velocity"][sport]:
+            continue
+        dist = v[t] * dt[t]
+        dqueue.appendleft(dist)
+        tqueue.appendleft(dt[t])
+        queue_dist += dist
+        queue_time += dt[t]
+        while queue_dist > distance:
+            if queue_time < record:
+                record = queue_time
+            dist = dqueue.pop()
+            time = tqueue.pop()
+            queue_dist -= dist
+            queue_time -= time
+
+    return record
