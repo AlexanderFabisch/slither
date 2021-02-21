@@ -4,8 +4,8 @@ import numpy as np
 
 from slither.config import config
 from slither.analysis import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
-                              elevation_summary)
-from slither.ui_text import appropriate_partition, d
+                              elevation_summary, appropriate_partition)
+from slither.ui_text import d
 
 
 def render_map(activity):
