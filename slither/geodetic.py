@@ -70,3 +70,41 @@ class PyprojDist:
 
 
 dist_on_earth = PyprojDist()
+
+
+def compute_velocities(timestamps, coords):
+    """Compute velocities from geodetic coordinates.
+
+    Parameters
+    ----------
+    timestamps : array, shape (n_steps,)
+        Timestamps
+
+    coords : array, shape (n_steps, 2)
+        Latitudes and longitudes in radians
+
+    Returns
+    -------
+    velocities : array, shape (n_steps,)
+        Velocities in meters per second
+
+    total_distance : float
+        Total distance in meters
+    """
+    velocities = np.empty(len(timestamps))
+    delta_t = np.diff(timestamps)
+    total_distance = 0.0
+    for t in range(len(velocities)):
+        if t == 0:
+            velocity = 0.0
+        else:
+            dt = delta_t[t - 1]
+            if dt <= 0.0:
+                velocity = velocities[t - 1]
+            else:
+                dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
+                                     coords[t, 0], coords[t, 1])
+                velocity = dist / dt
+                total_distance += dist
+        velocities[t] = velocity
+    return velocities, total_distance
