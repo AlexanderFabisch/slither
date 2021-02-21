@@ -5,7 +5,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 from slither.ui_text import to_utf8
-from slither.geodetic import dist_on_earth
+from slither.geodetic import compute_velocities
 from slither.domain_model import Activity
 
 
@@ -135,26 +135,9 @@ class TcxLoader:
             result["altitudes"][t] = self._parse_altitude(trackpoint)
             result["heartrates"][t] = self._parse_heartrate(trackpoint)
 
-        result["velocities"] = self._compute_velocities(
+        result["velocities"], _ = compute_velocities(
             result["timestamps"], result["coords"])
         return result
-
-    def _compute_velocities(self, timestamps, coords):
-        velocities = np.empty(len(timestamps))
-        delta_t = np.diff(timestamps)
-        for t in range(len(velocities)):
-            if t == 0:
-                velocity = 0.0
-            else:
-                dt = delta_t[t - 1]
-                if dt <= 0.0:
-                    velocity = velocities[t - 1]
-                else:
-                    dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
-                                         coords[t, 0], coords[t, 1])
-                    velocity = dist / dt
-            velocities[t] = velocity
-        return velocities
 
     def _parse_heartrate(self, trackpoint):
         heartrate_tag = trackpoint.find("HeartRateBpm")

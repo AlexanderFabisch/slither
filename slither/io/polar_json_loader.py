@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import json
 
-from slither.geodetic import dist_on_earth
+from slither.geodetic import compute_velocities
 from slither.domain_model import Activity
 
 
@@ -105,26 +105,9 @@ class PolarJsonLoader:
             "heartrates": np.array(heartrates)
         }
 
-        result["velocities"] = self._compute_velocities(
+        result["velocities"], _ = compute_velocities(
             result["timestamps"], result["coords"])
         return result
-
-    def _compute_velocities(self, timestamps, coords):
-        velocities = np.empty(len(timestamps))
-        delta_t = np.diff(timestamps)
-        for t in range(len(velocities)):
-            if t == 0:
-                velocity = 0.0
-            else:
-                dt = delta_t[t - 1]
-                if dt <= 0.0:
-                    velocity = velocities[t - 1]
-                else:
-                    dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
-                                         coords[t, 0], coords[t, 1])
-                    velocity = dist / dt
-            velocities[t] = velocity
-        return velocities
 
 
 def datetime_from_str(date_str):

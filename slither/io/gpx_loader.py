@@ -5,7 +5,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 from slither.ui_text import to_utf8
-from slither.geodetic import dist_on_earth
+from slither.geodetic import compute_velocities
 from slither.domain_model import Activity
 
 
@@ -78,7 +78,7 @@ class GpxLoader:
             result["altitudes"][t] = self._parse_altitude(trackpoint)
             result["heartrates"][t] = float("nan")
 
-        result["velocities"], distance = self._compute_velocities(
+        result["velocities"], distance = compute_velocities(
             result["timestamps"], result["coords"])
         time = result["timestamps"][-1] - result["timestamps"][0]
         return result, distance, time
@@ -95,25 +95,6 @@ class GpxLoader:
     def _parse_altitude(self, trackpoint):
         elevation = float(trackpoint.find("ele").text)
         return elevation
-
-    def _compute_velocities(self, timestamps, coords):
-        velocities = np.empty(len(timestamps))
-        delta_t = np.diff(timestamps)
-        total_distance = 0.0
-        for t in range(len(velocities)):
-            if t == 0:
-                velocity = 0.0
-            else:
-                dt = delta_t[t - 1]
-                if dt <= 0.0:
-                    velocity = velocities[t - 1]
-                else:
-                    dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
-                                         coords[t, 0], coords[t, 1])
-                    velocity = dist / dt
-                    total_distance += dist
-            velocities[t] = velocity
-        return velocities, total_distance
 
 
 def datetime_from_str(date_str):
