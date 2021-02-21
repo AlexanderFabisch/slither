@@ -95,7 +95,20 @@ def elevation_summary(altitudes, total_distance_in_m):
 
 
 def get_paces(activity):
-    """Generate pace table of an activity."""
+    """Generate pace table of an activity.
+
+    Parameters
+    ----------
+    activity : Activity
+        Activity
+
+    Returns
+    -------
+    paces : list
+        Each entry is a tuple of the traveled distance in meters and
+        corresponding average pace at this distance in seconds per
+        kilometer.
+    """
     path = activity.get_path()
     velocities = path["velocities"][1:]
     timestamps = path["timestamps"]
