@@ -144,14 +144,14 @@ def elevation_summary(altitudes, total_distance_in_m):
     return gain, loss, slope_in_percent
 
 
-def get_paces(self):
-    path = self.get_path()
+def get_paces(activity):
+    path = activity.get_path()
     velocities = path["velocities"][1:]
     timestamps = path["timestamps"]
     delta_t = np.diff(timestamps)
 
     max_velocity = config["max_velocity"].get(
-        self.sport, config["max_velocity"]["default"])
+        activity.sport, config["max_velocity"]["default"])
     valid_velocities = np.where(velocities <= max_velocity)
     velocities = velocities[valid_velocities]
     delta_t = delta_t[valid_velocities]
@@ -160,7 +160,7 @@ def get_paces(self):
     split_distance = appropriate_partition(dist[-1])
 
     pdt = config["pace_distance_table"]
-    pace_distance = pdt.get(self.sport, pdt["other"])
+    pace_distance = pdt.get(activity.sport, pdt["other"])
 
     paces = []
     last_t = 0
