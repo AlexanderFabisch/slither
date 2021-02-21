@@ -1,7 +1,6 @@
 from collections import deque
 
 import numpy as np
-import pyproj
 from scipy.signal import medfilt
 
 from slither.ui_text import convert_mps_to_kmph, appropriate_partition
@@ -57,76 +56,6 @@ def is_outlier(points, thresh=3.5):
     return modified_z_score > thresh
 
 
-def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
-    """Haversine distance between two positions on earth.
-
-    This is a simple approximation. A better way is to use pyproj,
-    which uses a WGS84 model of the earth.
-
-    Parameters
-    ----------
-    lat1 : array-like or float
-        latitude of position 1 in radians
-
-    long1 : array-like or float
-        longitude of position 1 in radians
-
-    lat2 : array-like or float
-        latitude of position 2 in radians
-
-    long2 : array-like or float
-        longitude of position 2 in radians
-
-    earth_radius : float
-        average radius of the earth in meters, should be between
-        6353000 and 6384000
-
-    Returns
-    -------
-    distance : float
-        Distance between two positions on the surface of the earth in meters
-    """
-    lat_dist = lat2 - lat1
-    long_dist = long2 - long1
-    a = (np.sin(0.5 * lat_dist) ** 2 +
-         np.cos(lat1) * np.cos(lat2) * np.sin(0.5 * long_dist) ** 2)
-    angular_dist = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
-    return earth_radius * angular_dist
-
-
-class PyprojDist:
-    def __init__(self):
-        self.geod = pyproj.Geod(ellps="WGS84")
-
-    def __call__(self, lat1, long1, lat2, long2):
-        """Compute distance between two positions on earth.
-
-        Parameters
-        ----------
-        lat1 : array-like or float
-            latitude of position 1 in radians
-
-        long1 : array-like or float
-            longitude of position 1 in radians
-
-        lat2 : array-like or float
-            latitude of position 2 in radians
-
-        long2 : array-like or float
-            longitude of position 2 in radians
-
-        Returns
-        -------
-        distance : float
-            Distance between two positions on the surface of the earth in meters
-        """
-        _, _, dist = self.geod.inv(long1, lat1, long2, lat2, radians=True)
-        return dist
-
-
-dist_on_earth = PyprojDist()
-
-
 def filtered_heartrates(path, filter_width):
     return medfilt(path["heartrates"], filter_width)
 
@@ -137,6 +66,27 @@ def filtered_velocities_in_kmph(path, filter_width):
 
 
 def elevation_summary(altitudes, total_distance_in_m):
+    """Overall elevation statistics.
+
+    Parameters
+    ----------
+    altitudes : array, shape (n_steps,)
+        Altitudes
+
+    total_distance_in_m : float
+        Total distance in meters
+
+    Returns
+    -------
+    gain : float
+        Total elevation gain
+
+    loss : float
+        Total elevation loss
+
+    slope_in_percent : float
+        Average slope in percent, ignoring elevation loss
+    """
     altitude_diffs = np.diff(altitudes)
     gain = sum(altitude_diffs[altitude_diffs > 0])
     loss = -sum(altitude_diffs[altitude_diffs < 0])
@@ -145,6 +95,7 @@ def elevation_summary(altitudes, total_distance_in_m):
 
 
 def get_paces(activity):
+    """Generate pace table of an activity."""
     path = activity.get_path()
     velocities = path["velocities"][1:]
     timestamps = path["timestamps"]
