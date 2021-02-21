@@ -154,6 +154,11 @@ def fastest_part(sport, timestamps, velocities, distance):
     distance : float
         Length of the segment for which we want to compute the fastest time
         in this activity.
+
+    Returns
+    -------
+    record : float
+        Fastest time for the requested distance in seconds
     """
     queue_dist = 0.0
     queue_time = 0.0
