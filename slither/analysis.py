@@ -174,6 +174,23 @@ def get_paces(self):
 
 
 def fastest_part(sport, timestamps, velocities, distance):
+    """Compute fastest time for a given distance in an activity.
+
+    Parameters
+    ----------
+    sport : str
+        Sport
+
+    timestamps : array, shape (n_steps,)
+        Timestamps
+
+    velocities : array, shape (n_steps,)
+        Velocities
+
+    distance : float
+        Length of the segment for which we want to compute the fastest time
+        in this activity.
+    """
     queue_dist = 0.0
     queue_time = 0.0
     dqueue = deque()
