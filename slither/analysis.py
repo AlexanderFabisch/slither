@@ -3,7 +3,7 @@ from collections import deque
 import numpy as np
 from scipy.signal import medfilt
 
-from slither.ui_text import convert_mps_to_kmph, appropriate_partition
+from slither.ui_text import convert_mps_to_kmph
 from slither.config import config
 
 
@@ -187,3 +187,28 @@ def fastest_part(sport, timestamps, velocities, distance):
             queue_time -= time
 
     return record
+
+
+def appropriate_partition(distance):
+    """Find appropriate partition of a distance into parts.
+
+    Parameters
+    ----------
+    distance : float
+        Traveled distance in meters
+
+    Returns
+    -------
+    segment_distance : float
+        Appropriate length of segments in which we split the total distance
+    """
+    if distance < 5000:
+        return 400
+    elif distance < 20000:
+        return 1000
+    elif distance < 40000:
+        return 2000
+    elif distance < 100000:
+        return 5000
+    else:
+        return 10000
