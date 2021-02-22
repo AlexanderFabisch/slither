@@ -9,6 +9,8 @@ Not released yet.
 * Loader for GPS exchange format (GPX).
 * Loader for JSON files exported from Polar flow.
 * It is now possible to specify a base path in which all data will be stored.
+* Elevation profiles for activities.
+* You can invalidate a record with a double click on it.
 
 ### Supported platforms
 
