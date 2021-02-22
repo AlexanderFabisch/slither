@@ -94,6 +94,8 @@ class ActivityOverview(QWidget):
         layout.addWidget(edit_button, 0, 3)
         edit_button.clicked.connect(self.edit)
 
+        self.activity_table.itemDoubleClicked.connect(self.load_details)
+
         layout.addWidget(self.activity_table, 1, 0, 1, 4)
 
     def import_data(self):
@@ -106,8 +108,11 @@ class ActivityOverview(QWidget):
         activity = self.activity_table.selected_activity()
         self.controller.delete_activity(activity)
 
-    def load_details(self):
-        activity = self.activity_table.selected_activity()
+    def load_details(self, item=None):
+        if item is None:
+            activity = self.activity_table.selected_activity()
+        else:
+            activity = self.activity_table.activities[item.row()]
         self.controller.show_activity_details(activity)
 
     def edit(self):
