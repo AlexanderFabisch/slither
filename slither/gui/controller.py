@@ -71,7 +71,7 @@ class Controller(QObject):
         worker.finished.connect(self.sync)
         self._run_worker(worker)
 
-    def _run_worker(self, worker):
+    def _run_worker(self, worker):  # TODO results in error when activity is requested in main thread
         worker.finished.connect(self.update_overview)
         self.workers_mutex.lock()
         self.workers.append(worker)
@@ -82,6 +82,10 @@ class Controller(QObject):
         self.workers_mutex.lock()
         self.workers = [w for w in self.workers if not w.isFinished()]
         self.workers_mutex.unlock()
+
+    def invalidate_record(self, record):
+        self.service.invalidate_record(record)
+        self.sync()
 
 
 class ImportActivityThread(QThread):

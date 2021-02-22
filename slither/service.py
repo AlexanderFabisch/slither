@@ -162,7 +162,8 @@ class Service:
 
     def list_records(self):
         q = self.database.session.query(domain_model.Record, func.min(domain_model.Record.time))
-        grouped = q.group_by(domain_model.Record.sport, domain_model.Record.distance)
+        grouped = q.filter(domain_model.Record.valid).group_by(
+            domain_model.Record.sport, domain_model.Record.distance)
         res = grouped.order_by(domain_model.Record.sport, domain_model.Record.distance).all()
         return [record for record, _ in res]
 
@@ -174,6 +175,10 @@ class Service:
 
     def summarize_years(self, sport=None):
         return YearSummary(self.database).summarize(sport)
+
+    def invalidate_record(self, record):
+        record.valid = False
+        self.database.session.commit()
 
     def sync_to_server(self):
         Synchronizer(self, self.remote, self.username, self.password
