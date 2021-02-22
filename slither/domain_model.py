@@ -102,6 +102,7 @@ class Record(Base):
     sport = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     distance = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
     time = sqlalchemy.Column(sqlalchemy.Float)
+    valid = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
     activity_id = sqlalchemy.Column(
         sqlalchemy.Integer, sqlalchemy.ForeignKey("activities.id"))
 
