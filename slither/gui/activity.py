@@ -109,10 +109,10 @@ class ActivityOverview(QWidget):
         self.controller.delete_activity(activity)
 
     def load_details(self, item=None):
-        if item is None:
-            activity = self.activity_table.selected_activity()
-        else:
+        if isinstance(item, QTableWidgetItem):
             activity = self.activity_table.activities[item.row()]
+        else:
+            activity = self.activity_table.selected_activity()
         self.controller.show_activity_details(activity)
 
     def edit(self):
