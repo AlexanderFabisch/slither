@@ -1,7 +1,6 @@
 import streamlit as st
 from slither.service import Service
 from slither.config import config
-from slither.ui_text import d
 import pandas as pd
 import altair as alt
 
