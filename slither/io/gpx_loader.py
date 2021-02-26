@@ -1,9 +1,9 @@
 import time
-from datetime import datetime
 
 import numpy as np
 from bs4 import BeautifulSoup
 
+from slither.io.utils import datetime_from_iso8601
 from slither.ui_text import to_utf8
 from slither.geodetic import compute_velocities
 from slither.domain_model import Activity
@@ -41,7 +41,7 @@ class GpxLoader:
         if gpx is None:
             raise Exception("No 'gpx' tag found")
         metadata = gpx.find("metadata")
-        start_time = datetime_from_str(metadata.find("time").text)
+        start_time = datetime_from_iso8601(metadata.find("time").text)
 
         self.metadata = {
             "sport": "Other",  # not available in GPX
@@ -84,7 +84,7 @@ class GpxLoader:
         return result, distance, time
 
     def _parse_timestamp(self, trackpoint):
-        date = datetime_from_str(trackpoint.find("time").text)
+        date = datetime_from_iso8601(trackpoint.find("time").text)
         return time.mktime(date.timetuple())
 
     def _parse_position(self, trackpoint):
@@ -95,10 +95,3 @@ class GpxLoader:
     def _parse_altitude(self, trackpoint):
         elevation = float(trackpoint.find("ele").text)
         return elevation
-
-
-def datetime_from_str(date_str):
-    # e.g. 2016-12-11T10:00:00.000Z
-    date_str = date_str[:-5]
-    dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-    return dt

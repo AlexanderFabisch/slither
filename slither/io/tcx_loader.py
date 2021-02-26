@@ -1,9 +1,9 @@
 import time
-from datetime import datetime
 
 import numpy as np
 from bs4 import BeautifulSoup
 
+from slither.io.utils import datetime_from_iso8601
 from slither.ui_text import to_utf8
 from slither.geodetic import compute_velocities
 from slither.domain_model import Activity
@@ -73,7 +73,7 @@ class TcxLoader:
         heartrates = np.empty(n_laps)
         for i, lap in enumerate(laps):
             if start_time is None:
-                start_time = datetime_from_str(lap["StartTime"])
+                start_time = datetime_from_iso8601(lap["StartTime"])
             total_dist += float(lap.find("DistanceMeters").text)
             times[i] = float(lap.find("TotalTimeSeconds").text)
             calories += float(lap.find("Calories").text)
@@ -181,12 +181,5 @@ class TcxLoader:
         return latitude, longitude
 
     def _parse_timestamp(self, trackpoint):
-        date = datetime_from_str(trackpoint.find("Time").text)
+        date = datetime_from_iso8601(trackpoint.find("Time").text)
         return time.mktime(date.timetuple())
-
-
-def datetime_from_str(date_str):
-    # e.g. 2016-12-11T10:00:00.000Z
-    date_str = date_str[:-5]
-    dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-    return dt
