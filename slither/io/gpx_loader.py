@@ -23,10 +23,8 @@ class GpxLoader:
         activity = Activity(**self._metadata())
 
         if activity.has_path:
-            path, distance, time = self._compute()
+            path, activity.distance, activity.time = self._compute()
             activity.set_path(**path)
-            activity.distance = distance
-            activity.time = time
 
         return activity
 
