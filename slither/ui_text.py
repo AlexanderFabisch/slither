@@ -74,10 +74,3 @@ class DataDisplay:  # TODO localization
 
 
 d = DataDisplay()
-
-
-def to_utf8(content):
-    try:
-        content = content.decode("windows-1252")
-    finally:
-        return content.encode("utf-8")

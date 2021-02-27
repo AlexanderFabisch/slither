@@ -18,3 +18,10 @@ def datetime_from_iso8601(date_str):
     """
     date_str = date_str[:-5]  # remove milliseconds: '.000Z'
     return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
+
+
+def to_utf8(content):
+    try:
+        content = content.decode("windows-1252")
+    finally:
+        return content.encode("utf-8")
