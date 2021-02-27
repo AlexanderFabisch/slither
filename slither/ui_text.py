@@ -1,8 +1,13 @@
 import numpy as np
 
 
+def convert_m_to_km(distance):
+    """Convert meters [m] to kilometers [km]."""
+    return distance / 1000.0
+
+
 def convert_mps_to_kmph(velocity):
-    """Convert meters per second to kilometers per hour."""
+    """Convert meters per second [m/s] to kilometers per hour [km/h]."""
     return 3.6 * velocity
 
 

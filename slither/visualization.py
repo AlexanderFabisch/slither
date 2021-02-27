@@ -4,8 +4,8 @@ import numpy as np
 
 from slither.config import config
 from slither.analysis import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
-                              elevation_summary, appropriate_partition)
-from slither.ui_text import d
+                              elevation_summary, appropriate_partition, compute_distances_for_valid_trackpoints)
+from slither.ui_text import d, convert_m_to_km
 
 
 def render_map(activity):
@@ -76,23 +76,15 @@ def plot_velocities(activity, ax):
 
 def plot_elevation(path, ax):  # TODO refactor / preprocessing
     """Plot elevation over distance."""
-    dts = np.diff(path["timestamps"])
-    velocities = path["velocities"][:-1]
-    altitudes = path["altitudes"][:-1]
-
-    valid_data = np.isfinite(velocities)
-    dts = dts[valid_data]
-    velocities = velocities[valid_data]
-    altitudes = altitudes[valid_data]
-    distances_in_m = np.cumsum(dts * velocities)
-    distances_in_km = distances_in_m / 1000.0
+    distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
+    distances_in_km = convert_m_to_km(distances_in_m)
     total_distance_in_m = np.nanmax(distances_in_m)
-    total_distance_in_km = np.nanmax(distances_in_km)
 
+    altitudes = path["altitudes"][valid_trackpoints]
     # TODO exactly 0 seems to be an indicator for an error, a better method would be to detect jumps
-    valid_data = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
-    distances_in_km = distances_in_km[valid_data]
-    altitudes = altitudes[valid_data]
+    valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
+    distances_in_km = distances_in_km[valid_altitudes]
+    altitudes = altitudes[valid_altitudes]
 
     gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 
@@ -101,7 +93,7 @@ def plot_elevation(path, ax):  # TODO refactor / preprocessing
                  f"slope {np.round(slope_in_percent, 2)}%")
     ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
     ax.plot(distances_in_km, altitudes)
-    ax.set_xlim((0, total_distance_in_km))
+    ax.set_xlim((0, convert_m_to_km(total_distance_in_m)))
     ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
     ax.set_xlabel("Distance [km]")
     ax.set_ylabel("Elevation [m]")
