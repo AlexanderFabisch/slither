@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from .ui_text import to_utf8
+from .io.utils import to_utf8
 
 
 class Synchronizer:

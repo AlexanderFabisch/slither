@@ -1,7 +1,7 @@
 import os
 import json
 import time
-from .ui_text import to_utf8
+from .io.utils import to_utf8
 
 
 class Registry:
