@@ -5,7 +5,7 @@ import numpy as np
 from slither.config import config
 from slither.analysis import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
                               elevation_summary, appropriate_partition, compute_distances_for_valid_trackpoints)
-from slither.ui_text import d, convert_m_to_km
+from slither.ui_text import d, convert_m_to_km, convert_mps_to_kmph
 
 
 def render_map(activity):
@@ -58,17 +58,16 @@ def generate_distance_markers(activity):
     return marker_indices
 
 
-def plot_velocities(activity, ax):
-    """Plot velocities over time."""
-    path = activity.get_path()
-    velocities = path["velocities"][1:]
+def plot_velocities(path, ax):
+    """Plot velocity histogram."""
+    velocities = path["velocities"]
     finite_velocities = np.isfinite(velocities)
     velocities = velocities[finite_velocities]
     no_outlier = np.logical_not(is_outlier(velocities))
-    velocities = velocities[no_outlier] * 3.6
-    dt = np.diff(path["timestamps"])[finite_velocities][no_outlier]
+    velocities = convert_mps_to_kmph(velocities[no_outlier])
+    delta_ts = np.gradient(path["timestamps"])[finite_velocities][no_outlier]
 
-    ax.hist(velocities, bins=50, weights=dt)
+    ax.hist(velocities, bins=50, weights=delta_ts)
     ax.set_xlabel("Velocity [km/h]")
     ax.set_ylabel("Percentage")
     ax.set_yticks(())

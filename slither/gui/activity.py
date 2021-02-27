@@ -452,7 +452,7 @@ class VelocityHistogram(QWidget):
         self.ax = self.fig.add_subplot(111)
 
         if activity.has_path:
-            plot_velocities(activity, self.ax)
+            plot_velocities(activity.get_path(), self.ax)
         else:
             self.ax.set_xticks(())
             self.ax.set_yticks(())
