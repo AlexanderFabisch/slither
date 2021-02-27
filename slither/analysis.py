@@ -62,6 +62,9 @@ def filtered_heartrates(path, filter_width):
 
 def filtered_velocities_in_kmph(path, filter_width):
     velocities = medfilt(path["velocities"], filter_width)
+    velocities = np.convolve(
+        velocities, np.ones(filter_width) / filter_width,
+        mode="same")
     return convert_mps_to_kmph(velocities)
 
 

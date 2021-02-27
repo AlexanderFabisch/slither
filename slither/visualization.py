@@ -18,22 +18,25 @@ def render_map(activity):
     # TODO find a way to colorize path according to velocities
 
     center = np.mean(coords, axis=0)
-    m = folium.Map(location=center)
-    folium.Marker(
-        coords[0].tolist(), tooltip="Start",
-        icon=folium.Icon(color="red", icon="flag")).add_to(m)
-    folium.Marker(
-        coords[-1].tolist(), tooltip="Finish",
-        icon=folium.Icon(color="green", icon="flag")).add_to(m)
-    for label, marker in distance_markers.items():
-        marker_location = coords[marker].tolist()
+    if np.isnan(center).any():
+        m = folium.Map()
+    else:
+        m = folium.Map(location=center)
         folium.Marker(
-            marker_location, tooltip=label,
-            icon=folium.Icon(color="blue", icon="flag")).add_to(m)
-    folium.PolyLine(coords).add_to(m)
-    south_west = np.min(coords, axis=0).tolist()
-    north_east = np.max(coords, axis=0).tolist()
-    folium.FitBounds([south_west, north_east]).add_to(m)
+            coords[0].tolist(), tooltip="Start",
+            icon=folium.Icon(color="red", icon="flag")).add_to(m)
+        folium.Marker(
+            coords[-1].tolist(), tooltip="Finish",
+            icon=folium.Icon(color="green", icon="flag")).add_to(m)
+        for label, marker in distance_markers.items():
+            marker_location = coords[marker].tolist()
+            folium.Marker(
+                marker_location, tooltip=label,
+                icon=folium.Icon(color="blue", icon="flag")).add_to(m)
+        folium.PolyLine(coords).add_to(m)
+        south_west = np.min(coords, axis=0).tolist()
+        north_east = np.max(coords, axis=0).tolist()
+        folium.FitBounds([south_west, north_east]).add_to(m)
     return m.get_root().render()
 
 
@@ -73,7 +76,7 @@ def plot_velocities(path, ax):
     ax.set_yticks(())
 
 
-def plot_elevation(path, ax):  # TODO refactor / preprocessing
+def plot_elevation(path, ax):
     """Plot elevation over distance."""
     distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
     distances_in_km = convert_m_to_km(distances_in_m)
@@ -84,6 +87,8 @@ def plot_elevation(path, ax):  # TODO refactor / preprocessing
     valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
     distances_in_km = distances_in_km[valid_altitudes]
     altitudes = altitudes[valid_altitudes]
+    if len(altitudes) == 0:
+        return
 
     gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 
@@ -100,7 +105,7 @@ def plot_elevation(path, ax):  # TODO refactor / preprocessing
 
 def plot(vel_axis, hr_axis, path):
     """Plot velocities and heartrates over time."""
-    timestamps = minutes_from_start(path)
+    time_in_min = minutes_from_start(path)
     velocities = filtered_velocities_in_kmph(path, config["plot"]["filter_width"])
     heartrates = filtered_heartrates(path, config["plot"]["filter_width"])
 
@@ -110,29 +115,31 @@ def plot(vel_axis, hr_axis, path):
     handles = []
     labels = []
 
-    n_steps = len(timestamps)
+    if np.isfinite(velocities).any():
+        vel_line, = vel_axis.plot(time_in_min, velocities, color="#4f86f7",
+                                  alpha=0.8, lw=2)
+        handles.append(vel_line)
+        labels.append("Velocity")
 
-    vel_line, = vel_axis.plot(timestamps, velocities, color="#4f86f7",
-                              alpha=0.8, lw=2)
-    handles.append(vel_line)
-    labels.append("Velocity")
-
-    vel_axis.set_xlim((timestamps[0], timestamps[-1]))
-    mean = np.nanmean(np.sort(velocities)[n_steps // 4:-n_steps // 4])
-    vel_axis.set_ylim((0, 2 * mean))
-    vel_axis.set_xlabel("Time [min]")
-    vel_axis.set_ylabel("Velocity [km/h]")
-    vel_axis.tick_params(axis="both", which="both", length=0)
-    vel_axis.grid(True)
+        vel_axis.set_xlim((time_in_min[0], time_in_min[-1]))
+        median_velocity = np.nanmedian(velocities)
+        max_velocity = np.nanmax(velocities)
+        vel_axis.set_ylim((0, max(2 * median_velocity, max_velocity)))
+        vel_axis.set_xlabel("Time [min]")
+        vel_axis.set_ylabel("Velocity [km/h]")
+        vel_axis.tick_params(axis="both", which="both", length=0)
+        vel_axis.grid(True)
+    else:
+        vel_axis.set_yticks(())
 
     if np.isfinite(heartrates).any():
-        mean = np.nanmean(np.sort(heartrates)[n_steps // 4:-n_steps // 4])
-        hr_line, = hr_axis.plot(timestamps, heartrates, color="#a61f34",
+        median_heartrate = np.nanmedian(heartrates)
+        hr_line, = hr_axis.plot(time_in_min, heartrates, color="#a61f34",
                                 alpha=0.8, lw=2)
         handles.append(hr_line)
         labels.append("Heart Rate")
 
-        hr_axis.set_ylim((0, 2 * mean))
+        hr_axis.set_ylim((0, 2 * median_heartrate))
         hr_axis.set_ylabel("Heart Rate [bpm]")
         hr_axis.tick_params(axis="both", which="both", length=0)
         hr_axis.spines["top"].set_visible(False)
