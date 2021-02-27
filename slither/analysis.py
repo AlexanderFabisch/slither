@@ -217,3 +217,30 @@ def appropriate_partition(distance):
         return 5000
     else:
         return 10000
+
+
+def compute_distances_for_valid_trackpoints(path):
+    """Compute distances for valid trackpoints from a path.
+
+    Parameters
+    ----------
+    path : dict
+        A path that has at lest the entries 'timestamps' and 'velocities'.
+
+    Returns
+    -------
+    distances_in_m : array, shape (n_valid_trackpoints,)
+        Distances in meters [m] per valid trackpoint.
+
+    valid_trackpoints : array, shape (n_valid_trackpoints,)
+        Indices of finite velocities in path.
+    """
+    delta_ts = np.gradient(path["timestamps"])
+    velocities = path["velocities"]
+
+    valid_trackpoints = np.isfinite(velocities)
+    delta_ts = delta_ts[valid_trackpoints]
+    velocities = velocities[valid_trackpoints]
+
+    distances_in_m = np.cumsum(delta_ts * velocities)
+    return distances_in_m, valid_trackpoints
