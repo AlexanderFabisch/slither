@@ -56,7 +56,7 @@ class TcxLoader:
             "sport": sport,
             "start_time": start_time,
             "distance": total_dist,
-            "time": np.sum(times),
+            "time": sum(times),
             "calories": calories,
             "heartrate": average_heartrate,
             "filetype": "tcx",

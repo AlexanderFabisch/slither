@@ -91,20 +91,21 @@ def compute_velocities(timestamps, coords):
     total_distance : float
         Total distance in meters
     """
-    velocities = np.empty(len(timestamps))
     delta_t = np.diff(timestamps)
+    dists = dist_on_earth(
+        coords[:-1, 0], coords[:-1, 1], coords[1:, 0], coords[1:, 1])
+
+    n_steps = len(timestamps)
+    velocities = np.empty(n_steps)
+    velocities[0] = 0.0
     total_distance = 0.0
-    for t in range(len(velocities)):
-        if t == 0:
-            velocity = 0.0
+
+    for t in range(1, n_steps):
+        dt = delta_t[t - 1]
+        if dt <= 0.0:
+            velocity = velocities[t - 1]
         else:
-            dt = delta_t[t - 1]
-            if dt <= 0.0:
-                velocity = velocities[t - 1]
-            else:
-                dist = dist_on_earth(coords[t - 1, 0], coords[t - 1, 1],
-                                     coords[t, 0], coords[t, 1])
-                velocity = dist / dt
-                total_distance += dist
+            velocity = dists[t - 1] / dt
+            total_distance += dists[t - 1]
         velocities[t] = velocity
     return velocities, total_distance
