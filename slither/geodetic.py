@@ -1,5 +1,6 @@
 import numpy as np
 import pyproj
+from .config import config
 
 
 def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
@@ -40,8 +41,12 @@ def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
 
 
 class PyprojDist:
-    def __init__(self):
-        self.geod = pyproj.Geod(ellps="WGS84")
+    def __init__(self, config):
+        if "geodetic" in config and "ellipsoid" in config["geodetic"]:
+            ellps = config["geodetic"]["ellipsoid"]
+        else:
+            ellps = "GRS80"
+        self.geod = pyproj.Geod(ellps=ellps)
 
     def __call__(self, lat1, long1, lat2, long2):
         """Compute distance between two positions on earth.
@@ -69,7 +74,7 @@ class PyprojDist:
         return dist
 
 
-dist_on_earth = PyprojDist()
+dist_on_earth = PyprojDist(config)
 
 
 def compute_velocities(timestamps, coords):

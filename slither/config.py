@@ -42,7 +42,11 @@ config = {
         {"filter_width": 31},
     "colors":
         ["#0000FF", "#0040FF", "#0080FF", "#00FFB0", "#00E000", "#80FF00",
-         "#FFFF00", "#FFC000", "#FF0000"]
+         "#FFFF00", "#FFC000", "#FF0000"],
+    "geodetic":
+        {
+            "ellipsoid": "GRS80"
+        }
 }
 
 
