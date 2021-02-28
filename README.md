@@ -48,7 +48,7 @@ Slither gives you full control over your data. Take a look at the
 if you need inspiration.
 
 You can, for example, generate a heatmap from the trackpoints from your
-GPS data. Here is an example from two holydays at Mallorca:
+GPS data. Here is an example from two weeks at Mallorca:
 
 ![Heatmap Mallorca](doc/source/_static/heatmap_mallorca.png)
 
