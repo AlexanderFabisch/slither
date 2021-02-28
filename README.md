@@ -55,3 +55,8 @@ GPS data. Here is an example from two holydays at Mallorca:
 Here is the same data with additional (exaggerated) altitude information:
 
 ![3D Mallorca](doc/source/_static/3d_mallorca.png)
+
+Another idea for an application would be to check the overall training volume
+before a running competition:
+
+![Training Volume](doc/source/_static/training_volume.png)
