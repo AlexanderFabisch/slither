@@ -43,7 +43,8 @@ Now you can connect from any client with:
 
 ## Examples
 
-Slither gives you full control over your data. Take a look at the
+Slither gives you full control over your data. All activities and all
+GPS data are stored in a simple SQLite database. Take a look at the
 [playground](https://github.com/AlexanderFabisch/slither/tree/master/playground)
 if you need inspiration.
 
