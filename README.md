@@ -54,4 +54,4 @@ GPS data. Here is an example from two holydays at Mallorca:
 
 Here is the same data with additional (exaggerated) altitude information:
 
-![Heatmap Mallorca](doc/source/_static/3d_mallorca.png)
+![3D Mallorca](doc/source/_static/3d_mallorca.png)
