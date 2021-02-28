@@ -22,16 +22,16 @@ def all_trackpoints(lat_range, lon_range):
     return df.latitude.to_numpy(), df.longitude.to_numpy(), df.altitude.to_numpy()
 
 
-alt_scale = 10.0
+alt_scale = 5.0
 # Mallorca
-#lat_range = (38.0, 41.0)
-#lon_range = (1.0, 4.0)
+lat_range = (38.0, 41.0)
+lon_range = (1.0, 4.0)
 # Bremen
 #lat_range = (52.5, 53.5)
 #lon_range = (8.5, 10.5)
 # Harz
-lat_range = (51.4, 51.9)
-lon_range = (10.3, 11.3)
+#lat_range = (51.4, 51.9)
+#lon_range = (10.3, 11.3)
 lats, lons, alts = all_trackpoints(lat_range, lon_range)
 eastings, northings, zone_number, zone_letter = utm.from_latlon(lats, lons, force_zone_number=31, force_zone_letter="T")
 eastings = convert_m_to_km(eastings)
