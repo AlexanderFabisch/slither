@@ -9,7 +9,9 @@ from slither.ui_text import convert_m_to_km
 
 def all_trackpoints(lat_range, lon_range):
     s = Service()
-    df = pd.read_sql_table("trackpoints", s.database.engine, index_col="id", columns=["latitude", "longitude", "altitude"])
+    df = pd.read_sql_table(
+        "trackpoints", s.database.engine,
+        index_col="id", columns=["latitude", "longitude", "altitude"])
     df.latitude = np.rad2deg(df.latitude)
     df.longitude = np.rad2deg(df.longitude)
     df = df[df.latitude >= lat_range[0]]
@@ -21,8 +23,15 @@ def all_trackpoints(lat_range, lon_range):
 
 
 alt_scale = 10.0
-lat_range = (38.0, 41.0)#(52.5, 53.5)
-lon_range = (1.0, 4.0)#(8.5, 10.5)
+# Mallorca
+#lat_range = (38.0, 41.0)
+#lon_range = (1.0, 4.0)
+# Bremen
+#lat_range = (52.5, 53.5)
+#lon_range = (8.5, 10.5)
+# Harz
+lat_range = (51.4, 51.9)
+lon_range = (10.3, 11.3)
 lats, lons, alts = all_trackpoints(lat_range, lon_range)
 eastings, northings, zone_number, zone_letter = utm.from_latlon(lats, lons, force_zone_number=31, force_zone_letter="T")
 eastings = convert_m_to_km(eastings)
