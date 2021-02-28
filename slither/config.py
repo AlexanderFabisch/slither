@@ -45,7 +45,7 @@ config = {
          "#FFFF00", "#FFC000", "#FF0000"],
     "geodetic":
         {
-            "ellipsoid": "GRS80"
+            "ellipsoid": "WGS84"
         }
 }
 
