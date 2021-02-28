@@ -45,7 +45,7 @@ class PyprojDist:
         if "geodetic" in config and "ellipsoid" in config["geodetic"]:
             ellps = config["geodetic"]["ellipsoid"]
         else:
-            ellps = "GRS80"
+            ellps = "WGS84"
         self.geod = pyproj.Geod(ellps=ellps)
 
     def __call__(self, lat1, long1, lat2, long2):
