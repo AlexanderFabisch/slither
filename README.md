@@ -2,7 +2,7 @@
 
 A private replacement for online training logs.
 
-![screenshot](slither.png)
+![screenshot](doc/source/_static/slither.png)
 
 ## Install
 
@@ -40,3 +40,18 @@ You have to enter a username and a password.
 Now you can connect from any client with:
 
     slither --remote <url> --username <username> --password <password>
+
+## Examples
+
+Slither gives you full control over your data. Take a look at the
+[playground](https://github.com/AlexanderFabisch/slither/tree/master/playground)
+if you need inspiration.
+
+You can, for example, generate a heatmap from the trackpoints from your
+GPS data. Here is an example from two holydays at Mallorca:
+
+![Heatmap Mallorca](doc/source/_static/heatmap_mallorca.png)
+
+Here is the same data with additional (exaggerated) altitude information:
+
+![Heatmap Mallorca](doc/source/_static/3d_mallorca.png)

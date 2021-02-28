@@ -22,7 +22,7 @@ def all_trackpoints(lat_range, lon_range):
     return df.latitude.to_numpy(), df.longitude.to_numpy(), df.altitude.to_numpy()
 
 
-alt_scale = 5.0
+alt_scale = 20.0
 # Mallorca
 lat_range = (38.0, 41.0)
 lon_range = (1.0, 4.0)
