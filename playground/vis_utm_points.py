@@ -40,10 +40,11 @@ alts = convert_m_to_km(alts)
 alts *= alt_scale
 
 fig = visualizer.figure()
+fig.plot_transform(s=10)
 pc = o3d.geometry.PointCloud()
 points = np.hstack((eastings[:, np.newaxis], northings[:, np.newaxis], alts[:, np.newaxis]))
-mean = np.mean(points, axis=0)
-points -= mean[np.newaxis]
+origin = np.min(points, axis=0)
+points -= origin
 pc.points = o3d.utility.Vector3dVector(points)
 fig.add_geometry(pc)
 fig.view_init()
