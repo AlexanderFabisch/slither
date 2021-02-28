@@ -11,7 +11,7 @@ from scipy.stats import binned_statistic_2d
 
 
 def all_trackpoints(lat_range, lon_range):
-    s = Service(base_path="tmp/data_import/")
+    s = Service()
     sql = "select latitude, longitude from trackpoints"
     df = pd.read_sql(sql, s.database.engine)
     df.latitude = np.rad2deg(df.latitude)
@@ -20,10 +20,21 @@ def all_trackpoints(lat_range, lon_range):
     df = df[df.latitude <= lat_range[1]]
     df = df[df.longitude >= lon_range[0]]
     df = df[df.longitude <= lon_range[1]]
+    df.dropna(inplace=True)
     return df.latitude.to_numpy(), df.longitude.to_numpy()
 
 
-lats, lons = all_trackpoints(lat_range=(52.5, 53.5), lon_range=(8.5, 10.5))
+# Mallorca
+lat_range = (38.0, 41.0)
+lon_range = (1.0, 4.0)
+# Bremen
+#lat_range = (52.5, 53.5)
+#lon_range = (8.5, 10.5)
+# Harz
+#lat_range = (51.4, 51.9)
+#lon_range = (10.3, 11.3)
+
+lats, lons = all_trackpoints(lat_range=lat_range, lon_range=lon_range)
 eastings, northings, zone_number, zone_letter = utm.from_latlon(lats, lons)
 eastings = convert_m_to_km(eastings)
 northings = convert_m_to_km(northings)
