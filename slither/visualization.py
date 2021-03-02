@@ -12,15 +12,15 @@ def render_map(activity):
     """Draw path on map with leaflet.js."""
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = generate_distance_markers(activity)
-    valid_velocities = np.isfinite(path["velocities"])
-    path["velocities"][np.logical_not(valid_velocities)] = 0.0
-    # TODO find a way to colorize path according to velocities
-
     center = np.mean(coords, axis=0)
     if np.isnan(center).any():
         m = folium.Map()
     else:
+        distance_markers = generate_distance_markers(path)
+        valid_velocities = np.isfinite(path["velocities"])
+        path["velocities"][np.logical_not(valid_velocities)] = 0.0
+        # TODO find a way to colorize path according to velocities
+
         m = folium.Map(location=center)
         folium.Marker(
             coords[0].tolist(), tooltip="Start",
@@ -40,8 +40,7 @@ def render_map(activity):
     return m.get_root().render()
 
 
-def generate_distance_markers(activity):
-    path = activity.get_path()
+def generate_distance_markers(path):
     timestamps = path["timestamps"]
     velocities = path["velocities"]
     valid_velocities = np.isfinite(velocities)

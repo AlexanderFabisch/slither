@@ -10,7 +10,7 @@ import folium
 def render_map(activity):
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    distance_markers = generate_distance_markers(activity)
+    distance_markers = generate_distance_markers(path)
     valid_velocities = np.isfinite(path["velocities"])
     path["velocities"][np.logical_not(valid_velocities)] = 0.0
 

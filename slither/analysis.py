@@ -124,6 +124,8 @@ def get_paces(activity):
     delta_t = delta_t[valid_velocities]
 
     dist = np.cumsum(velocities * delta_t)
+    if len(dist) == 0:
+        return []
     split_distance = appropriate_partition(dist[-1])
 
     pdt = config["pace_distance_table"]
