@@ -12,10 +12,10 @@ def render_map(activity):
     """Draw path on map with leaflet.js."""
     path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
-    center = np.mean(coords, axis=0)
-    if np.isnan(center).any():
+    if len(coords) == 0:
         m = folium.Map()
     else:
+        center = np.mean(coords, axis=0)
         distance_markers = generate_distance_markers(path)
         valid_velocities = np.isfinite(path["velocities"])
         path["velocities"][np.logical_not(valid_velocities)] = 0.0
@@ -65,11 +65,12 @@ def plot_velocities(path, ax):
     velocities = path["velocities"]
     finite_velocities = np.isfinite(velocities)
     velocities = velocities[finite_velocities]
-    no_outlier = np.logical_not(is_outlier(velocities))
-    velocities = convert_mps_to_kmph(velocities[no_outlier])
-    delta_ts = np.gradient(path["timestamps"])[finite_velocities][no_outlier]
+    if np.any(np.nonzero(velocities)):
+        no_outlier = np.logical_not(is_outlier(velocities))
+        velocities = convert_mps_to_kmph(velocities[no_outlier])
+        delta_ts = np.gradient(path["timestamps"])[finite_velocities][no_outlier]
 
-    ax.hist(velocities, bins=50, weights=delta_ts)
+        ax.hist(velocities, bins=50, weights=delta_ts)
     ax.set_xlabel("Velocity [km/h]")
     ax.set_ylabel("Percentage")
     ax.set_yticks(())
@@ -78,26 +79,27 @@ def plot_velocities(path, ax):
 def plot_elevation(path, ax):
     """Plot elevation over distance."""
     distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
-    distances_in_km = convert_m_to_km(distances_in_m)
-    total_distance_in_m = np.nanmax(distances_in_m)
+    if len(distances_in_m) > 0:
+        distances_in_km = convert_m_to_km(distances_in_m)
+        total_distance_in_m = np.nanmax(distances_in_m)
 
-    altitudes = path["altitudes"][valid_trackpoints]
-    # TODO exactly 0 seems to be an indicator for an error, a better method would be to detect jumps
-    valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
-    distances_in_km = distances_in_km[valid_altitudes]
-    altitudes = altitudes[valid_altitudes]
-    if len(altitudes) == 0:
-        return
+        altitudes = path["altitudes"][valid_trackpoints]
+        # TODO exactly 0 seems to be an indicator for an error, a better method would be to detect jumps
+        valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
+        distances_in_km = distances_in_km[valid_altitudes]
+        altitudes = altitudes[valid_altitudes]
+        if len(altitudes) == 0:
+            return
 
-    gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
+        gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 
-    ax.set_title(f"Elevation gain: {int(np.round(gain, 0))} m, "
-                 f"loss: {int(np.round(loss, 0))} m, "
-                 f"slope {np.round(slope_in_percent, 2)}%")
-    ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
-    ax.plot(distances_in_km, altitudes)
-    ax.set_xlim((0, convert_m_to_km(total_distance_in_m)))
-    ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
+        ax.set_title(f"Elevation gain: {int(np.round(gain, 0))} m, "
+                     f"loss: {int(np.round(loss, 0))} m, "
+                     f"slope {np.round(slope_in_percent, 2)}%")
+        ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
+        ax.plot(distances_in_km, altitudes)
+        ax.set_xlim((0, convert_m_to_km(total_distance_in_m)))
+        ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
     ax.set_xlabel("Distance [km]")
     ax.set_ylabel("Elevation [m]")
 

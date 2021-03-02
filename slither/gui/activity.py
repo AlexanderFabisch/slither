@@ -386,7 +386,6 @@ class PaceTable(QTableWidget):
             self.setRowCount(0)
             return
 
-        # TODO do we really want to compute this here?
         paces = get_paces(activity)
         self.setRowCount(len(paces))
         for i, pace in enumerate(paces):
