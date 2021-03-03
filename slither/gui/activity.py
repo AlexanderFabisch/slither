@@ -1,4 +1,5 @@
 import os
+from functools import partial
 
 from ..visualization import render_map, plot_velocities, plot, plot_elevation
 
@@ -250,26 +251,33 @@ class Details(QWidget):
         line.setFrameShape(QFrame.HLine)
         layout.addWidget(line, 5, 0, 1, 5)
 
-        tabs = QTabWidget()
-        layout.addWidget(tabs, 6, 0, 1, 5)
+        self.tabs = QTabWidget()
+        layout.addWidget(self.tabs, 6, 0, 1, 5)
 
         self.plot_widget = Plot()
-        tabs.addTab(self.plot_widget, "Plot")
+        self.tabs.addTab(self.plot_widget, "Plot")
 
         self.map_widget = Map()
-        tabs.addTab(self.map_widget, "Map")
+        map_item = self.tabs.addTab(self.map_widget, "Map")
 
         self.pace_widget = PaceTable()
-        tabs.addTab(self.pace_widget, "Pace")
+        self.tabs.addTab(self.pace_widget, "Pace")
 
         self.best_split_widget = BestSplitTable(self.main_window)
-        tabs.addTab(self.best_split_widget, "Best Splits")
+        self.tabs.addTab(self.best_split_widget, "Best Splits")
 
         self.velocity_histogram = VelocityHistogram()
-        tabs.addTab(self.velocity_histogram, "Velocities")
+        self.tabs.addTab(self.velocity_histogram, "Velocities")
 
         self.elevation_profile = ElevationProfile()
-        tabs.addTab(self.elevation_profile, "Elevation Profile")
+        self.tabs.addTab(self.elevation_profile, "Elevation Profile")
+
+        # We reload the map when we switch to this tab and we have
+        # a new activity because otherwise the map would sometimes
+        # be zoomed out.
+        self.tabs.currentChanged.connect(
+            partial(self.map_widget.refresh_if_changed_to_map,
+                    map_item=map_item))
 
     def display_activity(self, activity):
         self._display_general_info(activity)
@@ -352,13 +360,20 @@ class Map(WebView):
     def __init__(self, parent=None):
         super(Map, self).__init__(parent)
         self.setPage(WebPage())
+        self.new_activity_loaded = False
 
     def load_map(self, activity):
         if activity.has_path:
             html = render_map(activity)
             self.setHtml(html)
+            self.new_activity_loaded = True
         else:
             self.setHtml("")
+
+    def refresh_if_changed_to_map(self, item, map_item):
+        if item == map_item and self.new_activity_loaded:
+            self.new_activity_loaded = False
+            self.reload()
 
 
 class PaceTable(QTableWidget):
