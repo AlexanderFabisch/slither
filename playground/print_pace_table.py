@@ -11,7 +11,7 @@ with open(filename, "r") as f:
     loader = TcxLoader(f.read())
 
 a = loader.load()
-pace_table = get_paces(a)
+pace_table = get_paces(a.get_path(), a.sport)
 
 table = Table(title="Paces")
 table.add_column("Distance", justify="right")

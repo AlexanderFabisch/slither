@@ -97,13 +97,16 @@ def elevation_summary(altitudes, total_distance_in_m):
     return gain, loss, slope_in_percent
 
 
-def get_paces(activity):
+def get_paces(path, sport):
     """Generate pace table of an activity.
 
     Parameters
     ----------
-    activity : Activity
-        Activity
+    path : dict
+        A path that has at lest the entries 'timestamps' and 'velocities'.
+
+    sport : str
+        Sport
 
     Returns
     -------
@@ -112,13 +115,12 @@ def get_paces(activity):
         corresponding average pace at this distance in seconds per
         kilometer.
     """
-    path = activity.get_path()
     velocities = path["velocities"][1:]
     timestamps = path["timestamps"]
     delta_t = np.diff(timestamps)
 
     max_velocity = config["max_velocity"].get(
-        activity.sport, config["max_velocity"]["default"])
+        sport, config["max_velocity"]["default"])
     valid_velocities = np.where(velocities <= max_velocity)
     velocities = velocities[valid_velocities]
     delta_t = delta_t[valid_velocities]
@@ -129,7 +131,7 @@ def get_paces(activity):
     split_distance = appropriate_partition(dist[-1])
 
     pdt = config["pace_distance_table"]
-    pace_distance = pdt.get(activity.sport, pdt["other"])
+    pace_distance = pdt.get(sport, pdt["other"])
 
     paces = []
     last_t = 0

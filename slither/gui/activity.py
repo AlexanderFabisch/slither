@@ -401,7 +401,7 @@ class PaceTable(QTableWidget):
             self.setRowCount(0)
             return
 
-        paces = get_paces(activity)
+        paces = get_paces(activity.get_path(), activity.sport)
         self.setRowCount(len(paces))
         for i, pace in enumerate(paces):
             self.setItem(i, 0, QTableWidgetItem(d.display_distance(pace[0])))
