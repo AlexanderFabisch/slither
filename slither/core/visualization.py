@@ -10,16 +10,28 @@ from .ui_text import d, convert_m_to_km, convert_mps_to_kmph
 
 
 def render_map(path):
-    """Draw path on map with leaflet.js."""
+    """Draw path on map with leaflet.js.
+
+    Parameters
+    ----------
+    path : dict
+        A path that has at least the entries 'timestamps' and 'coords'.
+
+    Returns
+    -------
+    html : str
+        HTML representation of the rendered map.
+    """
     coords = np.rad2deg(check_coords(path["coords"]))
     if len(coords) == 0:
         m = folium.Map()
     else:
         center = np.mean(coords, axis=0)
         distance_markers = generate_distance_markers(path)
-        valid_velocities = np.isfinite(path["velocities"])
-        path["velocities"][np.logical_not(valid_velocities)] = 0.0
-        # TODO find a way to colorize path according to velocities
+
+        # TODO find a way to colorize path according to velocities (update docstring)
+        #valid_velocities = np.isfinite(path["velocities"])
+        #path["velocities"][np.logical_not(valid_velocities)] = 0.0
 
         m = folium.Map(location=center)
         folium.Marker(

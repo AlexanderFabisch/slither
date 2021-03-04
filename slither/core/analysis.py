@@ -103,7 +103,7 @@ def get_paces(path, sport):
     Parameters
     ----------
     path : dict
-        A path that has at lest the entries 'timestamps' and 'velocities'.
+        A path that has at least the entries 'timestamps' and 'velocities'.
 
     sport : str
         Sport
@@ -232,7 +232,7 @@ def compute_distances_for_valid_trackpoints(path):
     Parameters
     ----------
     path : dict
-        A path that has at lest the entries 'timestamps' and 'velocities'.
+        A path that has at least the entries 'timestamps' and 'velocities'.
 
     Returns
     -------
