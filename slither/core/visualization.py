@@ -68,12 +68,10 @@ def generate_distance_markers(path):
     distances, _ = compute_distances_for_valid_trackpoints(path)
     total_distance = distances[-1]
     marker_dist = appropriate_partition(total_distance)
-
-    marker_indices = {}
-    for threshold in np.arange(marker_dist, int(total_distance), marker_dist):
-        label = d.display_distance(threshold)
-        marker_indices[label] = np.argmax(distances >= threshold)
-
+    thresholds = np.arange(marker_dist, int(total_distance), marker_dist)
+    indices = np.searchsorted(distances, thresholds)
+    marker_indices = {d.display_distance(threshold): index
+                      for threshold, index in zip(thresholds, indices)}
     return marker_indices
 
 
