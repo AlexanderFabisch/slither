@@ -6,7 +6,7 @@ except ImportError:
     from PyQt5.QtGui import *
     from PyQt5.QtWidgets import *
 from datetime import datetime
-from ..ui_text import d
+from slither.core.ui_text import d
 
 
 class CalendarOverview(QCalendarWidget):

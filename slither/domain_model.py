@@ -3,8 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 import numpy as np
 
-from .analysis import fastest_part
-from .config import config
+from slither.core.analysis import fastest_part
+from slither.core.config import config
 
 
 Base = declarative_base()

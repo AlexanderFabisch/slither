@@ -1,4 +1,4 @@
-from slither.visualization import render_map
+from slither.core.visualization import render_map
 from slither.service import Service
 
 

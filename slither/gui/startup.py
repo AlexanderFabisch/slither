@@ -5,8 +5,8 @@ try:
 except ImportError:
     from PyQt5.QtWidgets import QApplication
 
-from .gui import Controller, MainWindow
-from .service import Service
+from . import Controller, MainWindow
+from ..service import Service
 
 
 def start(args):

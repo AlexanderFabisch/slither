@@ -2,7 +2,7 @@ import folium
 import numpy as np
 from slither.service import Service
 from slither.domain_model import Trackpoint
-from slither.analysis import check_coords
+from slither.core.analysis import check_coords
 
 
 def all_trackpoints():

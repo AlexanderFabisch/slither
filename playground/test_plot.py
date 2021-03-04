@@ -1,6 +1,6 @@
 import os
 import matplotlib.pyplot as plt
-from slither.visualization import plot
+from slither.core.visualization import plot
 from slither.io.tcx_loader import TcxLoader
 
 

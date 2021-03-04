@@ -1,5 +1,5 @@
 import os
-from slither.config import slither_ressource_filename
+from slither.core.config import slither_ressource_filename
 from nose.tools import assert_true
 
 

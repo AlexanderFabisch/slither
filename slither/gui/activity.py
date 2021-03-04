@@ -1,7 +1,7 @@
 import os
 from functools import partial
 
-from ..visualization import render_map, plot_velocities, plot, plot_elevation
+from slither.core.visualization import render_map, plot_velocities, plot, plot_elevation
 
 try:
     from PyQt4.QtCore import *
@@ -37,10 +37,10 @@ except ImportError:
 from matplotlib.figure import Figure
 
 from .new_activity import EditActivity
-from ..config import slither_ressource_filename
-from ..config import config
-from ..ui_text import d
-from ..analysis import get_paces
+from slither.core.config import slither_ressource_filename
+from slither.core.config import config
+from slither.core.ui_text import d
+from slither.core.analysis import get_paces
 
 
 class ActivityTab(QWidget):

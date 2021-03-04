@@ -1,6 +1,6 @@
 import numpy as np
-from slither.analysis import check_coords
-from slither.visualization import generate_distance_markers
+from slither.core.analysis import check_coords
+from slither.core.visualization import generate_distance_markers
 from slither.service import Service
 
 

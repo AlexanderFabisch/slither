@@ -2,8 +2,8 @@ import sys
 from rich.table import Table
 from rich.console import Console
 from slither.io.tcx_loader import TcxLoader
-from slither.analysis import get_paces
-from slither.ui_text import d
+from slither.core.analysis import get_paces
+from slither.core.ui_text import d
 
 
 filename = sys.argv[-1]

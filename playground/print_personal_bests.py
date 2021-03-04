@@ -2,7 +2,7 @@ from rich.table import Table
 from rich.console import Console
 from rich import box
 from slither.service import Service
-from slither.ui_text import d
+from slither.core.ui_text import d
 from slither import domain_model
 from sqlalchemy import func
 

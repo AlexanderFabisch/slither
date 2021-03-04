@@ -4,7 +4,7 @@ import utm  # https://github.com/Turbo87/utm
 from pytransform3d import visualizer
 import open3d as o3d
 from slither.service import Service
-from slither.ui_text import convert_m_to_km
+from slither.core.ui_text import convert_m_to_km
 
 
 def all_trackpoints(lat_range, lon_range):

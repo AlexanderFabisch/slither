@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import json
 
-from slither.geodetic import compute_velocities
+from slither.core.geodetic import compute_velocities
 from slither.domain_model import Activity
 
 

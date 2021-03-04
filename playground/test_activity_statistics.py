@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from slither.visualization import plot_velocities
+from slither.core.visualization import plot_velocities
 
 from slither.service import Service
 s = Service()

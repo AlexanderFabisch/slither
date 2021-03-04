@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 import utm  # https://github.com/Turbo87/utm
 from slither.service import Service
-from slither.ui_text import convert_m_to_km
+from slither.core.ui_text import convert_m_to_km
 from scipy.stats import binned_statistic_2d
 
 

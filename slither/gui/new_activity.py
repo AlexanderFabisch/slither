@@ -5,8 +5,8 @@ except ImportError:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
     from PyQt5.QtWidgets import *
-from ..ui_text import d, time_representation, split_time
-from ..config import config
+from slither.core.ui_text import d, time_representation, split_time
+from slither.core.config import config
 from datetime import datetime
 import sys
 

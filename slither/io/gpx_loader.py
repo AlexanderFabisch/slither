@@ -4,7 +4,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 from slither.io.utils import datetime_from_iso8601, to_utf8
-from slither.geodetic import compute_velocities
+from slither.core.geodetic import compute_velocities
 from slither.domain_model import Activity
 
 

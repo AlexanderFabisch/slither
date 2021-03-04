@@ -2,10 +2,11 @@ import folium
 import matplotlib
 import numpy as np
 
-from slither.config import config
-from slither.analysis import (is_outlier, check_coords, filtered_heartrates, filtered_velocities_in_kmph,
-                              elevation_summary, appropriate_partition, compute_distances_for_valid_trackpoints)
-from slither.ui_text import d, convert_m_to_km, convert_mps_to_kmph
+from .config import config
+from .analysis import (is_outlier, check_coords, filtered_heartrates,
+                       filtered_velocities_in_kmph, elevation_summary,
+                       appropriate_partition, compute_distances_for_valid_trackpoints)
+from .ui_text import d, convert_m_to_km, convert_mps_to_kmph
 
 
 def render_map(activity):

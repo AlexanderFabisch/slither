@@ -1,7 +1,7 @@
 from rich.table import Table
 from rich.console import Console
 from slither.service import Service
-from slither.ui_text import d
+from slither.core.ui_text import d
 
 
 s = Service()

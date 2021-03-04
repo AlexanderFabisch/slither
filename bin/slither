@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import argparse
 
-import slither.startup
+import slither.gui.startup
 
 
 def main():
     args = parse_args()
-    slither.startup.start(args)
+    slither.gui.startup.start(args)
 
 
 def parse_args():
