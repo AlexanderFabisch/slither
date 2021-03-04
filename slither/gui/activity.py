@@ -364,7 +364,7 @@ class Map(WebView):
 
     def load_map(self, activity):
         if activity.has_path:
-            html = render_map(activity)
+            html = render_map(activity.get_path())
             self.setHtml(html)
             self.new_activity_loaded = True
         else:

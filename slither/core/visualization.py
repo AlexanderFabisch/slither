@@ -9,9 +9,8 @@ from .analysis import (is_outlier, check_coords, filtered_heartrates,
 from .ui_text import d, convert_m_to_km, convert_mps_to_kmph
 
 
-def render_map(activity):
+def render_map(path):
     """Draw path on map with leaflet.js."""
-    path = activity.get_path()
     coords = np.rad2deg(check_coords(path["coords"]))
     if len(coords) == 0:
         m = folium.Map()

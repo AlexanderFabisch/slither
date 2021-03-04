@@ -7,6 +7,6 @@ activities = s.list_activities()
 a = [a for a in activities if a.has_path][0]
 print(a.start_time)
 
-map = render_map(a)
+map = render_map(a.get_path())
 with open("map.html", "w") as f:
     f.write(map)
