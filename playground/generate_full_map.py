@@ -17,7 +17,10 @@ def all_trackpoints():
 
     new_coords = []
     for path in coords:
-        new_coords.append(np.rad2deg(check_coords(path)))
+        c = np.rad2deg(check_coords(path))
+        if len(c) < 2:
+            continue
+        new_coords.append(c)
     return new_coords
 
 
