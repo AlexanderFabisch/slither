@@ -28,6 +28,8 @@ Not released yet.
 
 * Remote data repository has a class as a public interface.
 * Map rendering uses folium library.
+* slither.core now contains data analysis features that do not depend on
+  the service, database, or GUI.
 
 ## Version 0.1
 
