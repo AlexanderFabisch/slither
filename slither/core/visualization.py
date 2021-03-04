@@ -119,7 +119,7 @@ def plot_elevation(path, ax):
     ax.set_ylabel("Elevation [m]")
 
 
-def plot(vel_axis, hr_axis, path):
+def plot_speed_heartrate(vel_axis, hr_axis, path):
     """Plot velocities and heartrates over time."""
     time_in_min = minutes_from_start(path)
     velocities = filtered_velocities_in_kmph(path, config["plot"]["filter_width"])

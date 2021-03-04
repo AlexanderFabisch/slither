@@ -1,6 +1,6 @@
 import os
 import matplotlib.pyplot as plt
-from slither.core.visualization import plot
+from slither.core.visualization import plot_speed_heartrate
 from slither.io.tcx_loader import TcxLoader
 
 
@@ -13,7 +13,7 @@ with open(os.path.join("test_data", "running.tcx"), "r") as f:
     loader = TcxLoader(f.read())
 
 a = loader.load()
-lines, labels = plot(ax, twin_ax, a.get_path())
+lines, labels = plot_speed_heartrate(ax, twin_ax, a.get_path())
 fig.legend(handles=lines, labels=labels, loc="upper center")
 
 plt.show()

@@ -1,7 +1,7 @@
 import os
 from functools import partial
 
-from slither.core.visualization import render_map, plot_velocity_histogram, plot, plot_elevation
+from slither.core.visualization import render_map, plot_velocity_histogram, plot_speed_heartrate, plot_elevation
 
 try:
     from PyQt4.QtCore import *
@@ -342,7 +342,7 @@ class Plot(QWidget):
 
         if activity.has_path:
             path = activity.get_path()
-            lines, labels = plot(self.ax_velocity, self.ax_heartrate, path)
+            lines, labels = plot_speed_heartrate(self.ax_velocity, self.ax_heartrate, path)
             axbox = self.ax_velocity.get_position()
             self.legend = self.fig_velocity.legend(
                 handles=lines, labels=labels, loc=(axbox.x0 + 0.1,
