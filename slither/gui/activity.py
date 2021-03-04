@@ -1,7 +1,7 @@
 import os
 from functools import partial
 
-from slither.core.visualization import render_map, plot_velocities, plot, plot_elevation
+from slither.core.visualization import render_map, plot_velocity_histogram, plot, plot_elevation
 
 try:
     from PyQt4.QtCore import *
@@ -466,7 +466,7 @@ class VelocityHistogram(QWidget):
         self.ax = self.fig.add_subplot(111)
 
         if activity.has_path:
-            plot_velocities(activity.get_path(), self.ax)
+            plot_velocity_histogram(activity.get_path(), self.ax)
         else:
             self.ax.set_xticks(())
             self.ax.set_yticks(())

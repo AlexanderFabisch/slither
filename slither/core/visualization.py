@@ -75,7 +75,7 @@ def generate_distance_markers(path):
     return marker_indices
 
 
-def plot_velocities(path, ax):
+def plot_velocity_histogram(path, ax):
     """Plot velocity histogram."""
     velocities = path["velocities"]
     finite_velocities = np.isfinite(velocities)
