@@ -3,3 +3,11 @@ branch = True
 source = slither
 include = */slither/*
 omit = */slither/gui/*
+
+[report]
+omit = */slither/gui/*
+exclude_lines =
+    pragma: no cover
+    def plot_*
+    def render_*
+    except ImportError:
