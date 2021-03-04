@@ -53,21 +53,26 @@ def render_map(path):
 
 
 def generate_distance_markers(path):
-    timestamps = path["timestamps"]
-    velocities = path["velocities"]
-    valid_velocities = np.isfinite(velocities)
-    timestamps = timestamps[valid_velocities]
-    velocities = velocities[valid_velocities]
+    """Generate indices of distance markers.
 
-    delta_t = np.diff(timestamps)
-    dist = np.cumsum(velocities[1:] * delta_t)
+    Parameters
+    ----------
+    path : dict
+        A path that has at least the entries 'timestamps' and 'coords'.
 
-    marker_dist = appropriate_partition(dist[-1])
+    Returns
+    -------
+    marker_indices : dict
+        Mapping of label (e.g., '1 km') to corresponding index of the path.
+    """
+    distances, _ = compute_distances_for_valid_trackpoints(path)
+    total_distance = distances[-1]
+    marker_dist = appropriate_partition(total_distance)
 
     marker_indices = {}
-    for threshold in np.arange(marker_dist, int(dist[-1]), marker_dist):
+    for threshold in np.arange(marker_dist, int(total_distance), marker_dist):
         label = d.display_distance(threshold)
-        marker_indices[label] = np.argmax(dist >= threshold)
+        marker_indices[label] = np.argmax(distances >= threshold)
 
     return marker_indices
 
