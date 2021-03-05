@@ -20,8 +20,9 @@ Now you can start slither from the command line:
 
 Slither has been tested with the following platforms:
 
-* Ubuntu 14.04, Python 2.7, 3.4
+* Ubuntu 20.10, Python 3.8
 * Ubuntu 16.04, Python 2.7, 3.5
+* Ubuntu 14.04, Python 2.7, 3.4
 * Windows 8.1, Python 2.7
 
 ## Setup of Remote Data Repository
@@ -51,13 +52,13 @@ if you need inspiration.
 You can, for example, generate a heatmap from the trackpoints from your
 GPS data. Here is an example from two weeks at Mallorca:
 
-![Heatmap Mallorca](doc/source/_static/heatmap_mallorca.png)
+<img src="doc/source/_static/heatmap_mallorca.png" alt="Heatmap Mallorca" width="80%"/>
 
 Here is the same data with additional (exaggerated) altitude information:
 
-![3D Mallorca](doc/source/_static/3d_mallorca.png)
+<img src="doc/source/_static/3d_mallorca.png" alt="3D Mallorca" width="80%"/>
 
 Another idea for an application would be to check the overall training volume
 before a running competition:
 
-![Training Volume](doc/source/_static/training_volume.png)
+<img src="doc/source/_static/training_volume.png" alt="Training Volume" width="80%"/>
