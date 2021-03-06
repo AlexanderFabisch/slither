@@ -3,7 +3,6 @@ from collections import deque
 import numpy as np
 from scipy.signal import medfilt
 
-from .ui_text import convert_mps_to_kmph
 from .config import config
 
 
