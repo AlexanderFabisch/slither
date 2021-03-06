@@ -6,7 +6,7 @@ from .config import config
 from .analysis import (is_outlier, check_coords, filtered_heartrates,
                        filtered_velocities_in_kmph, elevation_summary,
                        appropriate_partition, compute_distances_for_valid_trackpoints)
-from .ui_text import d, convert_m_to_km, convert_mps_to_kmph
+from .ui_text import d, convert_m_to_km, convert_mps_to_kmph, minutes_from_start
 
 
 def render_map(path):
@@ -121,7 +121,7 @@ def plot_elevation(path, ax):
 
 def plot_speed_heartrate(vel_axis, hr_axis, path):
     """Plot velocities and heartrates over time."""
-    time_in_min = minutes_from_start(path)
+    time_in_min = minutes_from_start(path["timestamps"])
     velocities = filtered_velocities_in_kmph(path, config["plot"]["filter_width"])
     heartrates = filtered_heartrates(path, config["plot"]["filter_width"])
 
@@ -164,10 +164,3 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
     hr_axis.grid(False)
 
     return handles, labels
-
-
-def minutes_from_start(path):
-    timestamps = np.copy(path["timestamps"])
-    timestamps -= timestamps[0]
-    timestamps /= 60.0
-    return timestamps

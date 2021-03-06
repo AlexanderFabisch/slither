@@ -22,7 +22,7 @@ def is_outlier(points, thresh=3.5):
     points : array-like, shape (n_samples, n_dims)
         An array of observations
 
-    thresh : float
+    thresh : float, optional
         The modified z-score to use as a threshold. Observations with
         a modified z-score (based on the median absolute deviation) greater
         than this value will be classified as outliers.

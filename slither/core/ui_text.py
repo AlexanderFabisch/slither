@@ -25,6 +25,14 @@ def split_time(time):
     return hours, minutes, seconds
 
 
+def minutes_from_start(timestamps):
+    """Compute minutes from start of an array of timestamps in seconds."""
+    timestamps = np.copy(timestamps)
+    timestamps -= timestamps[0]
+    timestamps /= 60.0
+    return timestamps
+
+
 class DataDisplay:  # TODO localization
     def __init__(self):
         pass  # TODO read some configuration
