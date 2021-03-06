@@ -4,7 +4,7 @@ import numpy as np
 
 from .config import config
 from .analysis import (is_outlier, check_coords, filtered_heartrates,
-                       filtered_velocities_in_kmph, elevation_summary, filtered_altitudes,
+                       elevation_summary, filter_median_average,
                        appropriate_partition, compute_distances_for_valid_trackpoints)
 from .ui_text import d, convert_m_to_km, convert_mps_to_kmph, minutes_from_start
 
@@ -107,7 +107,7 @@ def plot_elevation(path, ax, filter=True):
             return
 
         if filter:
-            altitudes = filtered_altitudes(altitudes, config["plot"]["filter_width"])
+            altitudes = filter_median_average(altitudes, config["plot"]["filter_width"])
 
         gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 
@@ -125,7 +125,8 @@ def plot_elevation(path, ax, filter=True):
 def plot_speed_heartrate(vel_axis, hr_axis, path):
     """Plot velocities and heartrates over time."""
     time_in_min = minutes_from_start(path["timestamps"])
-    velocities = filtered_velocities_in_kmph(path, config["plot"]["filter_width"])
+    velocities = convert_mps_to_kmph(
+        filter_median_average(path["velocities"], config["plot"]["filter_width"]))
     heartrates = filtered_heartrates(path, config["plot"]["filter_width"])
 
     matplotlib.rcParams["font.size"] = 10

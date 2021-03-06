@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from slither.io.tcx_loader import TcxLoader
 from slither.core.analysis import is_outlier
 from slither.core.ui_text import convert_mps_to_kmph, minutes_from_start
-from slither.core.visualization import filtered_velocities_in_kmph
+from slither.core.visualization import filter_median_average
 try:
     import seaborn as sns
     sns.set()
@@ -26,7 +26,7 @@ valid_velocities[outliers] = np.nan
 invalid_velocities = velocities.copy()
 invalid_velocities[np.logical_not(outliers)] = np.nan
 
-filtered_velocities = filtered_velocities_in_kmph(path, 31)
+filtered_velocities = convert_mps_to_kmph(filter_median_average(path, 31))
 
 minutes = minutes_from_start(path["timestamps"])
 

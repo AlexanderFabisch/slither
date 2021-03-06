@@ -60,20 +60,12 @@ def filtered_heartrates(path, filter_width):
     return medfilt(path["heartrates"], filter_width)
 
 
-def filtered_velocities_in_kmph(path, filter_width):
-    velocities = medfilt(path["velocities"], filter_width)
-    velocities = np.convolve(
-        velocities, np.ones(filter_width) / filter_width,
+def filter_median_average(timeseries, filter_width):
+    timeseries = medfilt(timeseries, filter_width)
+    timeseries = np.convolve(
+        timeseries, np.ones(filter_width) / filter_width,
         mode="same")
-    return convert_mps_to_kmph(velocities)
-
-
-def filtered_altitudes(altitudes, filter_width):
-    altitudes = medfilt(altitudes, filter_width)
-    altitudes = np.convolve(
-        altitudes, np.ones(filter_width) / filter_width,
-        mode="same")
-    return altitudes
+    return timeseries
 
 
 def elevation_summary(altitudes, total_distance_in_m):
