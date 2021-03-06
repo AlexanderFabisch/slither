@@ -4,7 +4,7 @@ import numpy as np
 
 from .config import config
 from .analysis import (is_outlier, check_coords, filtered_heartrates,
-                       filtered_velocities_in_kmph, elevation_summary,
+                       filtered_velocities_in_kmph, elevation_summary, filtered_altitudes,
                        appropriate_partition, compute_distances_for_valid_trackpoints)
 from .ui_text import d, convert_m_to_km, convert_mps_to_kmph, minutes_from_start
 
@@ -91,7 +91,7 @@ def plot_velocity_histogram(path, ax):
     ax.set_yticks(())
 
 
-def plot_elevation(path, ax):
+def plot_elevation(path, ax, filter=True):
     """Plot elevation over distance."""
     distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
     if len(distances_in_m) > 0:
@@ -105,6 +105,9 @@ def plot_elevation(path, ax):
         altitudes = altitudes[valid_altitudes]
         if len(altitudes) == 0:
             return
+
+        if filter:
+            altitudes = filtered_altitudes(altitudes, config["plot"]["filter_width"])
 
         gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
 

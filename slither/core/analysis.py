@@ -68,6 +68,14 @@ def filtered_velocities_in_kmph(path, filter_width):
     return convert_mps_to_kmph(velocities)
 
 
+def filtered_altitudes(altitudes, filter_width):
+    altitudes = medfilt(altitudes, filter_width)
+    altitudes = np.convolve(
+        altitudes, np.ones(filter_width) / filter_width,
+        mode="same")
+    return altitudes
+
+
 def elevation_summary(altitudes, total_distance_in_m):
     """Overall elevation statistics.
 
