@@ -154,7 +154,7 @@ class ActivityTable(QTableWidget):
         self.setRowCount(len(self.activities))
         last_week_id = 0
         cycle_index = 0
-        color_cycle = [QColor(255, 100, 100, 50), QColor(100, 100, 255, 50)]
+        color_cycle = [QColor(255, 222, 87, 100), QColor(69, 132, 255, 100)]
         for i, activity in enumerate(self.activities):
             # We just need some unique week identifier...
             week_of_year = activity.start_time.isocalendar()[1]
