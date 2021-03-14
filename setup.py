@@ -16,7 +16,7 @@ if __name__ == "__main__":
           package_data={"slither": ["resources/*"]},
           install_requires=["pyyaml", "numpy", "matplotlib",
                             "lxml", "beautifulsoup4", "sqlalchemy",
-                            "pyproj", "Jinja2", "folium"],
+                            "pyproj", "Jinja2", "folium", "fitparse"],
           extras_require={
               "all": ["rich"],
               "test": ["nose", "coverage"]
