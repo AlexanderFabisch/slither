@@ -1,6 +1,5 @@
 from slither.io.tcx_loader import TcxLoader
 from slither.io.gpx_loader import GpxLoader
-from slither.io.fit_loader import FitLoader
 
 
 class Loader:
@@ -13,7 +12,5 @@ class Loader:
             return GpxLoader(file_content)
         if ending.lower() in ["tcx", "xml"]:
             return TcxLoader(file_content)
-        if ending.lower() == "fit":
-            return FitLoader(self.filename)
         else:
             raise ValueError("Cannot handle file format '%s'" % ending)
