@@ -42,26 +42,29 @@ class FitLoader:
                 "altitudes": np.empty(n_trackpoints),
                 "heartrates": np.empty(n_trackpoints)
             }
+            for k in path.keys():
+                path[k][:] = np.nan
 
             for i, record in enumerate(records):
                 record = record.get_values()
                 path["timestamps"][i] = time.mktime(record["timestamp"].timetuple())
                 if "position_lat" in record and "position_long" in record:
                     path["coords"][i] = record["position_lat"], record["position_long"]
-                else:
-                    path["coords"][i] = np.nan
                 if "altitude" in record:
                     path["altitudes"][i] = record["altitude"]
-                else:
-                    path["altitudes"][i] = np.nan
                 if "heart_rate" in record:
                     path["heartrates"][i] = record["heart_rate"]
-                else:
-                    path["heartrates"][i] = np.nan
 
+            finite_coords = np.isfinite(path["coords"])
+            path["coords"][finite_coords] = semicircles_to_radians(
+                path["coords"][finite_coords])
             path["velocities"], _ = compute_velocities(
                 path["timestamps"], path["coords"])
 
             activity.set_path(**path)
 
         return activity
+
+
+def semicircles_to_radians(angles):
+    return np.deg2rad(angles * (180.0 / (2 ** 31)))
