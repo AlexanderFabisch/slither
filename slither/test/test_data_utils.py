@@ -1,5 +1,5 @@
 import numpy as np
-from slither.core.ui_text import (DataDisplay)
+from slither.core.ui_text import DataDisplay
 from slither.core.unit_conversions import convert_mps_to_kmph, time_representation
 from slither.core.analysis import is_outlier, check_coords
 from slither.core.geodetic import dist_on_earth
