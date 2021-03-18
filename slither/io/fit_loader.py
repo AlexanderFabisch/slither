@@ -1,6 +1,7 @@
 import time
 import numpy as np
 from slither.core.geodetic import compute_velocities
+from slither.core.unit_conversions import semicircles_to_radians
 from slither.domain_model import Activity
 from fitparse import FitFile
 
@@ -64,7 +65,3 @@ class FitLoader:
             activity.set_path(**path)
 
         return activity
-
-
-def semicircles_to_radians(angles):
-    return np.deg2rad(angles * (180.0 / (2 ** 31)))

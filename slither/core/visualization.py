@@ -6,7 +6,8 @@ from .config import config
 from .analysis import (is_outlier, check_coords, filtered_heartrates,
                        elevation_summary, filter_median_average,
                        appropriate_partition, compute_distances_for_valid_trackpoints)
-from .ui_text import d, convert_m_to_km, convert_mps_to_kmph, minutes_from_start
+from .ui_text import d
+from slither.core.unit_conversions import convert_m_to_km, convert_mps_to_kmph, minutes_from_start
 
 
 def render_map(path):
