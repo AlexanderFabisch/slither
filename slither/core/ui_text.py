@@ -1,36 +1,5 @@
 import numpy as np
-
-
-def convert_m_to_km(distance):
-    """Convert meters [m] to kilometers [km]."""
-    return distance / 1000.0
-
-
-def convert_mps_to_kmph(velocity):
-    """Convert meters per second [m/s] to kilometers per hour [km/h]."""
-    return 3.6 * velocity
-
-
-def time_representation(hours, minutes, seconds):
-    """Conversion to internal time representation."""
-    return hours * 3600.0 + minutes * 60 + seconds
-
-
-def split_time(time):
-    """Split time in seconds into hours, minutes, and seconds."""
-    hours = time // 3600.0
-    rest = time % 3600.0
-    minutes = rest // 60.0
-    seconds = rest % 60.0
-    return hours, minutes, seconds
-
-
-def minutes_from_start(timestamps):
-    """Compute minutes from start of an array of timestamps in seconds."""
-    timestamps = np.copy(timestamps)
-    timestamps -= timestamps[0]
-    timestamps /= 60.0
-    return timestamps
+from slither.core.unit_conversions import split_time
 
 
 class DataDisplay:  # TODO localization
