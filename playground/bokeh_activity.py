@@ -26,6 +26,7 @@ velocities = convert_mps_to_kmph(
     filter_median_average(path["velocities"], config["plot"]["filter_width"]))
 
 heartrates = filtered_heartrates(path, config["plot"]["filter_width"])
+altitudes = path["altitudes"]
 
 tools = "wheel_zoom,xbox_select,reset"
 
@@ -43,6 +44,13 @@ plot_heartrate = plt.figure(
     x_axis_label="Time [min]", y_axis_label="Heartrate [bpm]")
 plot_heartrate.varea(x=time_in_min, y1=np.zeros_like(heartrates), y2=heartrates, color="red", fill_alpha=0.3)
 
-layout = column(plot_velocity, plot_heartrate)
+plot_altitude = plt.figure(
+    title="Heartrate",
+    sizing_mode="stretch_width", plot_height=150,
+    tools=tools,
+    x_axis_label="Time [min]", y_axis_label="Altitude [m]")
+plot_altitude.varea(x=time_in_min, y1=np.zeros_like(altitudes), y2=altitudes, color="green", fill_alpha=0.3)
+
+layout = column(plot_velocity, plot_heartrate, plot_altitude)
 curdoc().add_root(layout)
 curdoc().title = filename
