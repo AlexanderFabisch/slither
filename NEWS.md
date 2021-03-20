@@ -7,7 +7,9 @@ Not released yet.
 ### Features
 
 * Loader for GPS exchange format (GPX).
-* Loader for JSON files exported from Polar flow.
+* Loader for Flexible and Interoperable Data Transfer format (FIT).
+  Currently only available as a script and not from GUI.
+* Scripts to load data from Polar Flow and Adidas Running data export.
 * It is now possible to specify a base path in which all data will be stored.
 * Elevation profiles for activities.
 * You can invalidate a record with a double click on it.
