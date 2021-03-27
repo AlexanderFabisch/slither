@@ -1,7 +1,8 @@
 # Demo with bokeh (https://docs.bokeh.org/en/latest/)
 # Requirements: bokeh, pandas
 # Start with:
-# bokeh serve --show playground/bokeh_activity.py
+# bokeh serve --show playground/bokeh_activity.py --args filename
+import sys
 import numpy as np
 import pandas as pd
 from slither.io.tcx_loader import TcxLoader
@@ -16,7 +17,7 @@ from bokeh.models.tools import HoverTool
 from bokeh.models import CustomJSHover
 
 
-filename = "/home/afabisch/.slither/data/running_20190825_112213.tcx"  # TODO
+filename = sys.argv[-1]  # for example: "/home/afabisch/.slither/data/running_20190825_112213.tcx"
 with open(filename, "r") as f:
     loader = TcxLoader(f.read())
 
