@@ -5,6 +5,12 @@ from slither.core.unit_conversions import semicircles_to_radians
 from fitparse import FitFile
 
 
+SPORTS_MAPPING = {
+    # TODO biking?
+    "training": "other"
+}
+
+
 def read_fit(filename):
     """Read Flexible and Interoperable Data Transfer file (FIT).
 
@@ -27,6 +33,7 @@ def read_fit(filename):
     sport_messages = list(fitfile.get_messages("sport"))
     assert len(sport_messages) == 1
     sport = sport_messages[0].get_value("sport")
+    sport = SPORTS_MAPPING.get(sport, sport)
     activity_messages = list(fitfile.get_messages("activity"))
     assert len(activity_messages) == 1
     start_time = activity_messages[0].get_value("local_timestamp")
