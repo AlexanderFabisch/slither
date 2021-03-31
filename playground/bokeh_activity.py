@@ -5,7 +5,7 @@
 import sys
 import numpy as np
 import pandas as pd
-from slither.loader import TcxLoader
+from slither.io.tcx_loader import read_tcx
 from slither.core.config import config
 from slither.core.unit_conversions import convert_mps_to_kmph, minutes_from_start
 
@@ -19,13 +19,9 @@ from bokeh.models import CustomJSHover
 
 filename = sys.argv[-1]  # for example: "/home/afabisch/.slither/data/running_20190825_112213.tcx"
 with open(filename, "r") as f:
-    loader = TcxLoader(f.read())
+    metadata, path = read_tcx(f.read())
+assert metadata["has_path"]
 
-activity = loader.load()
-assert activity.has_path
-
-
-path = activity.get_path()
 path["latitudes"] = path["coords"][:, 0]
 path["longitudes"] = path["coords"][:, 1]
 del path["coords"]
