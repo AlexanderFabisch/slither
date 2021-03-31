@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from slither.io.tcx_loader import TcxLoader
+from slither.loader import TcxLoader
 from slither.core.analysis import is_outlier
 from slither.core.unit_conversions import convert_mps_to_kmph, minutes_from_start
 from slither.core.visualization import filter_median_average

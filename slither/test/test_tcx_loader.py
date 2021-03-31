@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from slither.io.tcx_loader import TcxLoader
+from slither.loader import TcxLoader
 from nose.tools import assert_equal, assert_in
 
 

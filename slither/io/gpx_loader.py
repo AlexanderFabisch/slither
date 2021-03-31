@@ -3,22 +3,8 @@ import time
 import numpy as np
 from bs4 import BeautifulSoup
 
-from slither.io.utils import datetime_from_iso8601, to_utf8
+from slither.io.utils import datetime_from_iso8601
 from slither.core.geodetic import compute_velocities
-from slither.domain_model import Activity
-
-
-class GpxLoader:
-    """Loads GPS exchange format."""
-    def __init__(self, gpx_content):
-        self.content = to_utf8(gpx_content)
-
-    def load(self):
-        metadata, path = read_gpx(self.content)
-        activity = Activity(**metadata)
-        if activity.has_path:
-            activity.set_path(**path)
-        return activity
 
 
 def read_gpx(content):
