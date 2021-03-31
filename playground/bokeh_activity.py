@@ -5,7 +5,7 @@
 import sys
 import numpy as np
 import pandas as pd
-from slither.io.tcx_loader import TcxLoader
+from slither.loader import TcxLoader
 from slither.core.config import config
 from slither.core.unit_conversions import convert_mps_to_kmph, minutes_from_start
 

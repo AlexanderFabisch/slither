@@ -2,21 +2,7 @@ import time
 import numpy as np
 from slither.core.geodetic import compute_velocities
 from slither.core.unit_conversions import semicircles_to_radians
-from slither.domain_model import Activity
 from fitparse import FitFile
-
-
-class FitLoader:
-    """Loads Flexible and Interoperable Data Transfer (FIT) files."""
-    def __init__(self, filename):
-        self.filename = filename
-
-    def load(self):
-        metadata, path = read_fit(self.filename)
-        activity = Activity(**metadata)
-        if activity.has_path:
-            activity.set_path(**path)
-        return activity
 
 
 def read_fit(filename):

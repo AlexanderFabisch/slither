@@ -5,20 +5,6 @@ from bs4 import BeautifulSoup
 
 from slither.io.utils import datetime_from_iso8601, to_utf8
 from slither.core.geodetic import compute_velocities
-from slither.domain_model import Activity
-
-
-class TcxLoader:
-    """Loads training center XML (TCX)."""
-    def __init__(self, content):
-        self.content = content
-
-    def load(self):
-        metadata, path = read_tcx(self.content)
-        activity = Activity(**metadata)
-        if activity.has_path:
-            activity.set_path(**path)
-        return activity
 
 
 def read_tcx(content):

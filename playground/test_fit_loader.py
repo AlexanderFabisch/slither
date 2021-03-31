@@ -1,6 +1,5 @@
 import sys
-from slither.io.fit_loader import FitLoader
-
+from slither.loader import FitLoader
 
 fit_loader = FitLoader(filename=sys.argv[-1])
 activity = fit_loader.load()

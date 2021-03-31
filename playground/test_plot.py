@@ -1,8 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 from slither.core.visualization import plot_speed_heartrate
-from slither.io.tcx_loader import TcxLoader
-
+from slither.loader import TcxLoader
 
 fig = plt.figure(figsize=(5, 3), dpi=100)
 fig.subplots_adjust(left=0.11, right=0.88, bottom=0.15, top=0.98)

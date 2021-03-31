@@ -12,7 +12,7 @@ import datetime
 import argparse
 import rich
 from rich.progress import Progress
-from slither.io.gpx_loader import GpxLoader
+from slither.loader import GpxLoader
 from slither.domain_model import Activity
 from slither.service import Service
 

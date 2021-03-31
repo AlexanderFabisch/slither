@@ -4,8 +4,7 @@ import time
 import argparse
 from rich.progress import Progress
 from slither.service import Service
-from slither.io.polar_json_loader import PolarJsonLoader
-
+from slither.loader import PolarJsonLoader
 
 parser = argparse.ArgumentParser(
     description="Import data exported from Polar.")

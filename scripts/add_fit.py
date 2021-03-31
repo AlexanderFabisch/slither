@@ -2,7 +2,7 @@
 import argparse
 from rich.progress import Progress
 from slither.service import Service
-from slither.io import FitLoader
+from slither.loader import FitLoader
 
 
 parser = argparse.ArgumentParser(

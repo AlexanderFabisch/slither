@@ -5,8 +5,6 @@ import numpy as np
 import json
 
 from slither.core.geodetic import compute_velocities
-from slither.domain_model import Activity
-
 
 SPORTS_MAPPING = {
     "RUNNING": "running",
@@ -17,26 +15,6 @@ SPORTS_MAPPING = {
     "OTHER_OUTDOOR": "other",
     "OTHER_INDOOR": "other",
 }
-
-
-class PolarJsonLoader:
-    """Loads JSON files from Polar data export.
-
-    You can export your personal data from Polar flow at
-
-        https://account.polar.com/#export
-    """
-    def __init__(self, content):
-        self.content = content
-        self.training = None
-        self.metadata = None
-
-    def load(self):
-        metadata, path = read_polar_json(self.content)
-        activity = Activity(**metadata)
-        if activity.has_path:
-            activity.set_path(**path)
-        return activity
 
 
 def read_polar_json(content):
