@@ -43,6 +43,10 @@ def read_gpx(content):
 
     if metadata["has_path"]:
         path, metadata["distance"], metadata["time"] = _parse_training(training)
+    else:
+        path = None
+        metadata["distance"] = 0.0
+        metadata["time"] = 0.0
 
     return metadata, path
 
