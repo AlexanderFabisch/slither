@@ -3,7 +3,7 @@ import time
 import numpy as np
 from bs4 import BeautifulSoup
 
-from slither.io.utils import datetime_from_iso8601
+from slither.io.utils import datetime_from_iso8601, to_utf8
 from slither.core.geodetic import compute_velocities
 
 
@@ -23,7 +23,7 @@ def read_gpx(content):
     path : dict
         Trackpoint data
     """
-    training = BeautifulSoup(content, "xml")
+    training = BeautifulSoup(to_utf8(content), "xml")
 
     metadata = _metadata(training)
 

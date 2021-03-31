@@ -3,7 +3,6 @@ from slither.io.fit_loader import read_fit
 from slither.io.gpx_loader import read_gpx
 from slither.io.polar_json_loader import read_polar_json
 from slither.io.tcx_loader import read_tcx
-from slither.io.utils import to_utf8
 
 
 class Loader:
@@ -38,7 +37,7 @@ class FitLoader:
 class GpxLoader:
     """Loads GPS exchange format."""
     def __init__(self, gpx_content):
-        self.content = to_utf8(gpx_content)
+        self.content = gpx_content
 
     def load(self):
         metadata, path = read_gpx(self.content)

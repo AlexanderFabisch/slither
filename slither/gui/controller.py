@@ -100,7 +100,11 @@ class ImportActivityThread(QThread):
         else:
             filename = self.filename
         with open(filename, "r") as f:
-            self.running_service.import_activity(f.read(), filename)
+            try:
+                content = f.read()
+            except:
+                content = None
+            self.running_service.import_activity(content, filename)
 
 
 class SyncThread(QThread):
