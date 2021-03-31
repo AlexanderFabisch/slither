@@ -12,83 +12,99 @@ class GpxLoader:
     """Loads GPS exchange format."""
     def __init__(self, gpx_content):
         self.content = to_utf8(gpx_content)
-        self.training = None
-        self.metadata = None
-
-    def get_target_filename(self):
-        return self._metadata()["filename"]
 
     def load(self):
-        activity = Activity(**self._metadata())
-
+        metadata, path = read_gpx(self.content)
+        activity = Activity(**metadata)
         if activity.has_path:
-            path, activity.distance, activity.time = self._compute()
             activity.set_path(**path)
-
         return activity
 
-    def _metadata(self):
-        if self.metadata is not None:
-            return self.metadata
 
-        if self.training is None:
-            self.training = BeautifulSoup(self.content, "xml")
+def read_gpx(content):
+    """Read GPS exchange format file (GPX).
 
-        gpx = self.training.find("gpx")
-        if gpx is None:
-            raise Exception("No 'gpx' tag found")
-        metadata = gpx.find("metadata")
-        start_time = datetime_from_iso8601(metadata.find("time").text)
+    Parameters
+    ----------
+    content : str
+        File content
 
-        self.metadata = {
-            "sport": "Other",  # not available in GPX
-            "start_time": start_time,
-            "filetype": "gpx",
-            "has_path": True}
-        return self.metadata
+    Returns
+    -------
+    metadata : dict
+        Activity metadata
 
-    def _compute(self):
-        if self.training is None:
-            self.training = BeautifulSoup(self.content, "xml")
+    path : dict
+        Trackpoint data
+    """
+    training = BeautifulSoup(content, "xml")
 
-        track = self.training.find("trk")
-        if track is None:
-            raise Exception("No 'trk' tag found")
-        track_sequence = track.find("trkseg")
-        if track_sequence is None:
-            raise Exception("No 'trkseg' tag found")
-        return self._parse_track_sequence(track_sequence)
+    metadata = _metadata(training)
 
-    def _parse_track_sequence(self, track_sequence):
-        trackpoints = track_sequence.findAll("trkpt")
-        n_trackpoints = len(trackpoints)
-        result = {
-            "timestamps": np.empty(n_trackpoints),
-            "coords": np.empty((n_trackpoints, 2)),
-            "altitudes": np.empty(n_trackpoints),
-            "heartrates": np.zeros(n_trackpoints)
-        }
+    if metadata["has_path"]:
+        path, metadata["distance"], metadata["time"] = _parse_training(training)
 
-        for t, trackpoint in enumerate(trackpoints):
-            result["timestamps"][t] = self._parse_timestamp(trackpoint)
-            result["coords"][t] = self._parse_position(trackpoint)
-            result["altitudes"][t] = self._parse_altitude(trackpoint)
-            result["heartrates"][t] = float("nan")
+    return metadata, path
 
-        result["velocities"], distance = compute_velocities(
-            result["timestamps"], result["coords"])
-        time = result["timestamps"][-1] - result["timestamps"][0]
-        return result, distance, time
 
-    def _parse_timestamp(self, trackpoint):
-        date = datetime_from_iso8601(trackpoint.find("time").text)
-        return time.mktime(date.timetuple())
+def _metadata(training):
+    gpx = training.find("gpx")
+    if gpx is None:
+        raise Exception("No 'gpx' tag found")
+    metadata = gpx.find("metadata")
+    start_time = datetime_from_iso8601(metadata.find("time").text)
 
-    def _parse_position(self, trackpoint):
-        latitude = np.deg2rad(float(trackpoint["lat"]))
-        longitude = np.deg2rad(float(trackpoint["lon"]))
-        return latitude, longitude
+    metadata = {
+        "sport": "Other",  # not available in GPX
+        "start_time": start_time,
+        "filetype": "gpx",
+        "has_path": True}
+    return metadata
 
-    def _parse_altitude(self, trackpoint):
-        elevation = float(trackpoint.find("ele").text)
-        return elevation
+
+def _parse_training(training):
+    track = training.find("trk")
+    if track is None:
+        raise Exception("No 'trk' tag found")
+    track_sequence = track.find("trkseg")
+    if track_sequence is None:
+        raise Exception("No 'trkseg' tag found")
+    return _parse_track_sequence(track_sequence)
+
+
+def _parse_track_sequence(track_sequence):
+    trackpoints = track_sequence.findAll("trkpt")
+    n_trackpoints = len(trackpoints)
+    result = {
+        "timestamps": np.empty(n_trackpoints),
+        "coords": np.empty((n_trackpoints, 2)),
+        "altitudes": np.empty(n_trackpoints),
+        "heartrates": np.zeros(n_trackpoints)
+    }
+
+    for t, trackpoint in enumerate(trackpoints):
+        result["timestamps"][t] = _parse_timestamp(trackpoint)
+        result["coords"][t] = _parse_position(trackpoint)
+        result["altitudes"][t] = _parse_altitude(trackpoint)
+        result["heartrates"][t] = float("nan")
+
+    result["velocities"], distance = compute_velocities(
+        result["timestamps"], result["coords"])
+    time = result["timestamps"][-1] - result["timestamps"][0]
+    return result, distance, time
+
+
+def _parse_timestamp(trackpoint):
+    date = datetime_from_iso8601(trackpoint.find("time").text)
+    return time.mktime(date.timetuple())
+
+
+def _parse_position(trackpoint):
+    latitude = np.deg2rad(float(trackpoint["lat"]))
+    longitude = np.deg2rad(float(trackpoint["lon"]))
+    return latitude, longitude
+
+
+def _parse_altitude(trackpoint):
+    elevation = float(trackpoint.find("ele").text)
+    return elevation
