@@ -23,6 +23,12 @@ def render_map(path):
     html : str
         HTML representation of the rendered map.
     """
+    m = make_map(path)
+    return m.get_root().render()
+
+
+def make_map(path):
+    """Create folium map."""
     coords = np.rad2deg(check_coords(path["coords"]))
     if len(coords) == 0:
         m = folium.Map()
@@ -50,7 +56,7 @@ def render_map(path):
         south_west = np.min(coords, axis=0).tolist()
         north_east = np.max(coords, axis=0).tolist()
         folium.FitBounds([south_west, north_east]).add_to(m)
-    return m.get_root().render()
+    return m
 
 
 def generate_distance_markers(path):
