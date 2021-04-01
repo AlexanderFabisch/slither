@@ -28,7 +28,18 @@ def render_map(path):
 
 
 def make_map(path):
-    """Create folium map."""
+    """Create folium map.
+
+    Parameters
+    ----------
+    path : dict
+        Path with entry 'coords': latitude and longitude coordinates in radians
+
+    Returns
+    -------
+    m : folium.Map
+        Map with path
+    """
     coords = np.rad2deg(check_coords(path["coords"]))
     if len(coords) == 0:
         m = folium.Map()
@@ -83,7 +94,16 @@ def generate_distance_markers(path):
 
 
 def plot_velocity_histogram(path, ax):
-    """Plot velocity histogram."""
+    """Plot velocity histogram.
+
+    Parameters
+    ----------
+    path : dict
+        Path with entry 'velocities'
+
+    ax : Matplotlib axis
+        Axis on which we draw
+    """
     velocities = path["velocities"]
     finite_velocities = np.isfinite(velocities)
     velocities = velocities[finite_velocities]
@@ -99,7 +119,19 @@ def plot_velocity_histogram(path, ax):
 
 
 def plot_elevation(path, ax, filter=True):
-    """Plot elevation over distance."""
+    """Plot elevation over distance.
+
+    Parameters
+    ----------
+    path : dict
+        Path with entries 'coords' and 'altitudes'
+
+    ax : Matplotlib axis
+        Axis on which we draw
+
+    filter : bool, optional (default: True)
+        Filter altitude data
+    """
     distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
     if len(distances_in_m) > 0:
         distances_in_km = convert_m_to_km(distances_in_m)
@@ -130,7 +162,27 @@ def plot_elevation(path, ax, filter=True):
 
 
 def plot_speed_heartrate(vel_axis, hr_axis, path):
-    """Plot velocities and heartrates over time."""
+    """Plot velocities and heartrates over time.
+
+    Parameters
+    ----------
+    vel_axis : Matplotlib axis
+        Axis on which we draw velocities
+
+    hr_axis : Matplotlib axis
+        Axis on which we draw heartrate data
+
+    path : dict
+        Path with entries 'timestamps', 'velocities', and 'heartrates'
+
+    Returns
+    -------
+    handles : list
+        Line handles to create a legend
+
+    labels : list
+        Labels for lines to create a legend
+    """
     time_in_min = minutes_from_start(path["timestamps"])
     velocities = convert_mps_to_kmph(
         filter_median_average(path["velocities"], config["plot"]["filter_width"]))
