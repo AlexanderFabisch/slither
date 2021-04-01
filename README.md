@@ -66,7 +66,7 @@ before a running competition:
 ## Slither Core and IO
 
 You don't have to use slither's GUI. `slither.core` and `slither.io` do not
-depend on Qt or the slither's domain model. They are general purpose tools
+depend on Qt or the domain model of slither. They are general purpose tools
 to handle GPS and workout data. The following features are available:
 
 * Data import from
