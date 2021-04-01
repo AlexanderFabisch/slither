@@ -56,10 +56,40 @@ def is_outlier(points, thresh=3.5):
 
 
 def filtered_heartrates(path, filter_width):
+    """Apply median filter to heartrates of a path.
+
+    Parameters
+    ----------
+    path : dict
+        Path with at least the entry 'heartrates'
+
+    filter_width : int
+        Width of the median filter
+
+    Returns
+    -------
+    heartrates : array, shape (n_steps,)
+        Filtered heartrates
+    """
     return medfilt(path["heartrates"], filter_width)
 
 
 def filter_median_average(timeseries, filter_width):
+    """Apply median and average filter to time series.
+
+    Parameters
+    ----------
+    timeseries : array-like, shape (n_steps,)
+        Time series
+
+    filter_width : int
+        Width of the two filters
+
+    Returns
+    -------
+    timeseries : array, shape (n_steps,)
+        Filtered time series
+    """
     timeseries = medfilt(timeseries, filter_width)
     timeseries = np.convolve(
         timeseries, np.ones(filter_width) / filter_width,
