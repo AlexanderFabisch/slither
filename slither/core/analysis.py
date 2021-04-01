@@ -7,7 +7,18 @@ from .config import config
 
 
 def check_coords(coords):
-    """Filter non-finite GPS coordinates."""
+    """Filter non-finite GPS coordinates.
+
+    Parameters
+    ----------
+    coords : array, shape (n_steps, 2)
+        Latitudes and longitudes
+
+    Returns
+    -------
+    filtered_coords : array, shape (n_valid_steps, 2)
+        All finite GPS coordinates
+    """
     coords_sum = coords[:, 0] + coords[:, 1]
     valid_coords = np.isfinite(coords_sum)
     return coords[valid_coords]
