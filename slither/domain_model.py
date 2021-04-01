@@ -11,6 +11,7 @@ Base = declarative_base()
 
 
 class Activity(Base):
+    """Activity."""
     __tablename__ = "activities"
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
@@ -82,6 +83,7 @@ class Activity(Base):
 
 
 class Trackpoint(Base):
+    """Trackpoint."""
     __tablename__ = "trackpoints"
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
@@ -96,6 +98,10 @@ class Trackpoint(Base):
 
 
 class Record(Base):
+    """Record.
+
+    A record is the fastest time for a given distance and sport.
+    """
     __tablename__ = "records"
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
