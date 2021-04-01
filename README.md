@@ -62,3 +62,27 @@ Another idea for an application would be to check the overall training volume
 before a running competition:
 
 <img src="doc/source/_static/training_volume.png" alt="Training Volume" width="80%"/>
+
+## Slither Core and IO
+
+You don't have to use slither's GUI. `slither.core` and `slither.io` do not
+depend on Qt or the slither's domain model. They are general purpose tools
+to handle GPS and workout data. The following features are available:
+
+* Data import from
+    * GPS exchange format (GPX)
+    * Flexible and Interoperable Data Transfer format (FIT)
+    * Training Center XML format (TCX)
+    * Polar's JSON format
+* Data export to TCX
+* Data analysis
+    * Data cleaning and preprocessing
+    * Distance and velocity computation from GPS trackpoints
+    * Computation of records (fastest segments for given distances)
+    * Computation of paces
+    * Elevation statistics
+* Visualization
+    * Map rendering with Folium
+    * Velocity histogram
+    * Elevation profile
+    * Plot of heartrate and speed over time
