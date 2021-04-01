@@ -86,3 +86,6 @@ to handle GPS and workout data. The following features are available:
     * Velocity histogram
     * Elevation profile
     * Plot of heartrate and speed over time
+
+You can build the API documentation with `pdoc slither --html --skip-errors`
+(requires [pdoc3](https://pdoc3.github.io/pdoc/)).
