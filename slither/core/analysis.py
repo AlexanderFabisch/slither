@@ -27,8 +27,8 @@ def check_coords(coords):
 def is_outlier(points, thresh=3.5):
     """Check an array for outliers.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     points : array-like, shape (n_samples, n_dims)
         An array of observations
 
@@ -37,8 +37,8 @@ def is_outlier(points, thresh=3.5):
         a modified z-score (based on the median absolute deviation) greater
         than this value will be classified as outliers.
 
-    Returns:
-    --------
+    Returns
+    -------
     mask : array-like, shape (n_samples,)
         A boolean array that indicates whether the corresponding sample is an
         outlier
