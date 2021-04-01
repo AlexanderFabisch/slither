@@ -1,3 +1,5 @@
+# pip install streamlit
+# run with: streamlit run playground/st_volume.py
 import streamlit as st
 from slither.service import Service
 from slither.core.config import config
