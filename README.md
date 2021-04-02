@@ -1,3 +1,5 @@
+![slither](doc/source/_static/logo.png)
+
 # Slither
 
 A private replacement for online training logs.
