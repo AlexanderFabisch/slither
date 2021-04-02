@@ -6,6 +6,11 @@ A private replacement for online training logs.
 
 ![screenshot](doc/source/_static/slither.png)
 
+You can use slither to keep track of your running, biking, or swimming activities.
+You don't need to upload your data to any external service for this. The source
+code of slither is completely open source and you can use it to analyse your own
+data with Python code.
+
 ## Install
 
     sudo pip install -r requirements.txt
