@@ -24,6 +24,54 @@ def check_coords(coords):
     return coords[valid_coords]
 
 
+def interpolate_nan(a):
+    """Interpolate NaNs in an array.
+
+    Parameters
+    ----------
+    a : array-like, shape (n_steps,)
+        Array with possible NaNs
+
+    Returns
+    -------
+    b = array, shape (n_steps,)
+        Array without NaNs
+    """
+    nans, x = _nan_helper(a)
+    b = np.copy(a)
+    b[nans] = np.interp(x(nans), x(~nans), b[~nans])
+    return b
+
+
+def _nan_helper(y):
+    """Helper to handle indices and logical indices of NaNs.
+
+    Source: https://stackoverflow.com/a/6520696/915743
+
+    Parameters
+    ----------
+    y : array-like, shape (n_steps,)
+        Array with possible NaNs
+
+    Returns
+    -------
+    nans : array, shape (n_steps,)
+        Logical indices of NaNs
+
+    index : callable
+        A function, with signature indices= index(logical_indices), to
+        convert logical indices of NaNs to 'equivalent' indices
+
+    Example
+    -------
+
+        >>> # linear interpolation of NaNs
+        >>> nans, x= nan_helper(y)
+        >>> y[nans]= np.interp(x(nans), x(~nans), y[~nans])
+    """
+    return np.isnan(y), lambda z: z.nonzero()[0]
+
+
 def is_outlier(points, thresh=3.5):
     """Check an array for outliers.
 
