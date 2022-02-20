@@ -2,7 +2,7 @@ import sys
 from rich.table import Table
 from rich.console import Console
 from slither.loader import TcxLoader
-from slither.core.analysis import fastest_part
+from slither.core.analysis import fastest_part, interpolate_nan
 from slither.core.ui_text import d
 
 
@@ -20,7 +20,8 @@ table = Table(title="Records")
 table.add_column("Distance", justify="right")
 table.add_column("Time", justify="right")
 for distance in distances:
-    record = fastest_part(a.sport, path["timestamps"], path["velocities"], distance)
+    velocities = interpolate_nan(path["velocities"])
+    record = fastest_part(a.sport, path["timestamps"], velocities, distance)
     table.add_row(d.display_distance(distance), d.display_time(record))
 console = Console()
 console.print(table)
