@@ -11,7 +11,7 @@ def all_trackpoints():
     timestamps = np.array([t.timestamp for t in trackpoints])
 
     coords = np.array([(t.latitude, t.longitude) for t in trackpoints],
-                      dtype=np.float)
+                      dtype=float)
     split_indices = np.where(np.abs(np.diff(timestamps)) > 100.0)[0]
     coords = np.array_split(coords, split_indices + 1)
 

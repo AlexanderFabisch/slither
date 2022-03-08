@@ -65,10 +65,64 @@ Here is the same data with additional (exaggerated) altitude information:
 
 <img src="doc/source/_static/3d_mallorca.png" alt="3D Mallorca" width="80%"/>
 
+We can also draw a full map with all tracks ever recorded:
+
+<img src="doc/source/_static/map.png" alt="All tracks" width="80%"/>
+
+Or we can plot the elevation profile of a track:
+
+<img src="doc/source/_static/elevation.png" alt="Elevation profile" width="80%"/>
+
 Another idea for an application would be to check the overall training volume
 before a running competition:
 
 <img src="doc/source/_static/training_volume.png" alt="Training Volume" width="80%"/>
+
+It is easy to generate an overview of all activities like this:
+
+```bash
+$ python playground/summarize_all.py
+                      Activities per Year
+┏━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Start    ┃ End      ┃ Activities ┃        Time ┃   Distance ┃
+┡━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ 01/01/20 │ 01/01/21 │        253 │ 256:56:16 h │ 2971.91 km │
+│ 01/01/19 │ 01/01/20 │        217 │ 260:19:52 h │ 2974.52 km │
+│ 01/01/18 │ 01/01/19 │        190 │ 218:31:01 h │ 2335.04 km │
+│ 01/01/17 │ 01/01/18 │        294 │ 296:47:37 h │ 2159.00 km │
+│ 01/01/16 │ 01/01/17 │        189 │ 210:39:16 h │ 1778.48 km │
+│ 01/01/15 │ 01/01/16 │        244 │ 250:26:08 h │ 1260.91 km │
+│ 01/01/14 │ 01/01/15 │         85 │  65:06:07 h │  526.12 km │
+│ 01/01/13 │ 01/01/14 │         11 │  00:10:25 h │      950 m │
+│ 01/01/12 │ 01/01/13 │         24 │  00:29:46 h │    2.45 km │
+│ 01/01/11 │ 01/01/12 │         49 │  02:11:20 h │    9.55 km │
+│ 01/01/10 │ 01/01/11 │         28 │  00:43:54 h │    3.60 km │
+│ 01/01/09 │ 01/01/10 │         40 │  01:17:44 h │    6.10 km │
+│ 01/01/08 │ 01/01/09 │         25 │  00:28:27 h │    2.45 km │
+│ 01/01/07 │ 01/01/08 │         45 │  00:36:26 h │    3.25 km │
+│ 01/01/06 │ 01/01/07 │         37 │  00:52:45 h │    4.25 km │
+│ 01/01/05 │ 01/01/06 │         35 │  00:40:12 h │    3.30 km │
+│ 01/01/04 │ 01/01/05 │         37 │  01:20:29 h │    6.05 km │
+│ 01/01/03 │ 01/01/04 │         13 │  00:25:41 h │     1850 m │
+│ 01/01/02 │ 01/01/03 │         18 │  00:51:41 h │    3.60 km │
+└──────────┴──────────┴────────────┴─────────────┴────────────┘
+```
+
+Or to analyze workouts individually:
+
+```bash
+$ python playground/print_pace_table.py test_data/running.tcx
+              Paces
+┏━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ Distance ┃ Pace (Time per km) ┃
+┡━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│    400 m │         00:05:25 h │
+│    800 m │         00:05:37 h │
+│   1200 m │         00:05:30 h │
+│   1600 m │         00:05:37 h │
+│     2 km │         00:05:37 h │
+└──────────┴────────────────────┘
+```
 
 ## Slither Core and IO
 
