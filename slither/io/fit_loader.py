@@ -7,6 +7,7 @@ from fitparse import FitFile
 
 SPORTS_MAPPING = {
     # TODO biking?
+    "walking": "running",
     "training": "other"
 }
 
@@ -31,7 +32,8 @@ def read_fit(filename):
     records = list(fitfile.get_messages("record"))
     n_trackpoints = len(records)
     sport_messages = list(fitfile.get_messages("sport"))
-    assert len(sport_messages) == 1
+    if len(sport_messages) != 1:
+        raise ValueError("No activity data!")
     sport = sport_messages[0].get_value("sport")
     sport = SPORTS_MAPPING.get(sport, sport)
     activity_messages = list(fitfile.get_messages("activity"))
