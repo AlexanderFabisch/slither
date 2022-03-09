@@ -1,3 +1,4 @@
+"""Slither service."""
 from . import domain_model
 from .core.config import config
 from .loader import Loader

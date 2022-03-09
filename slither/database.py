@@ -1,3 +1,4 @@
+"""Database interface."""
 import os
 import sqlalchemy
 from . import domain_model

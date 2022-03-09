@@ -1,3 +1,4 @@
+"""Local registry of activity files."""
 import os
 import json
 import time

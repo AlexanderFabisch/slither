@@ -1,3 +1,4 @@
+"""Summaries for time spans."""
 from datetime import datetime, timedelta
 from sqlalchemy import func
 from . import domain_model

@@ -1,3 +1,4 @@
+"""Data loaders."""
 from slither.domain_model import Activity
 from slither.io.fit_loader import read_fit
 from slither.io.gpx_loader import read_gpx
