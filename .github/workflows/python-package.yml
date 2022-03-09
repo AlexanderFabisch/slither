@@ -25,6 +25,6 @@ jobs:
         python -m pip install -e .[test]
     - name: Test with nosetests
       run: |
-        nosetests -sv slither/ --with-coverage
+        nosetests -sv slither/test/ --with-coverage
     - name: Codecov
       uses: codecov/codecov-action@v1.3.2
