@@ -131,6 +131,8 @@ $ python playground/print_pace_table.py test_data/running.tcx
 
 ## Slither Core and IO
 
+[![codecov](https://codecov.io/gh/AlexanderFabisch/slither/branch/master/graph/badge.svg?token=2WKOYQOU7L)](https://codecov.io/gh/AlexanderFabisch/slither)
+
 You don't have to use slither's GUI. `slither.core` and `slither.io` do not
 depend on Qt or the domain model of slither. They are general purpose tools
 to handle GPS and workout data. The following features are available:
