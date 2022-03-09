@@ -156,4 +156,5 @@ to handle GPS and workout data. The following features are available:
     * Plot of heartrate and speed over time
 
 You can build the API documentation with `pdoc slither --html --skip-errors`
-(requires [pdoc3](https://pdoc3.github.io/pdoc/)).
+(requires [pdoc3](https://pdoc3.github.io/pdoc/)) or read it
+[here](https://alexanderfabisch.github.io/slither/doc/slither/).
