@@ -1,3 +1,5 @@
+# Workflow based on https://github.com/pdoc3/pdoc/blob/master/.github/workflows/deploy-docs.yml
+
 name: Deploy documentation
 
 on:
