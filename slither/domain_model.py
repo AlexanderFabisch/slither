@@ -81,6 +81,10 @@ class Activity(Base):
         else:
             return float("inf")
 
+    def __str__(self):
+        return ("Activity(id=%s, sport=%s, start_time=%s, time=%f, ...)"
+                % (self.id, self.sport, self.start_time, self.time))
+
 
 class Trackpoint(Base):
     """Trackpoint."""
