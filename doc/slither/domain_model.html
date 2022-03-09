@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>slither.domain_model API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>slither.domain_model</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import sqlalchemy
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+import numpy as np
+
+from slither.core.analysis import fastest_part
+from slither.core.config import config
+
+
+Base = declarative_base()
+
+
+class Activity(Base):
+    &#34;&#34;&#34;Activity.&#34;&#34;&#34;
+    __tablename__ = &#34;activities&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    sport = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    start_time = sqlalchemy.Column(sqlalchemy.DateTime, nullable=False)
+    distance = sqlalchemy.Column(sqlalchemy.Float)
+    time = sqlalchemy.Column(sqlalchemy.Float)
+    calories = sqlalchemy.Column(sqlalchemy.Float)
+    heartrate = sqlalchemy.Column(sqlalchemy.Float)
+    filetype = sqlalchemy.Column(sqlalchemy.String, default=&#34;tcx&#34;)
+    has_path = sqlalchemy.Column(sqlalchemy.Boolean)
+    trackpoints = relationship(&#34;Trackpoint&#34;)
+
+    def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+        assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
+            len(timestamps), len(coords))
+        assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (
+            len(timestamps), len(altitudes))
+        assert len(timestamps) == len(heartrates), &#34;%d != %d&#34; % (
+            len(timestamps), len(heartrates))
+        assert len(timestamps) == len(velocities), &#34;%d != %d&#34; % (
+            len(timestamps), len(velocities))
+
+        self.trackpoints = [
+            Trackpoint(timestamp=t, latitude=p[0], longitude=p[1], altitude=a,
+                       heartrate=h, velocity=v)
+            for t, p, a, h, v in zip(timestamps, coords, altitudes, heartrates,
+                                     velocities)]
+
+    def get_filename(self):
+        start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
+        return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)
+
+    def get_path(self):
+        if hasattr(self, &#34;path&#34;):
+            return self.path
+        elif self.has_path:
+            self.path = {
+                &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
+                                       dtype=np.float),
+                &#34;coords&#34;: np.array([(t.latitude, t.longitude)
+                                    for t in self.trackpoints], dtype=np.float),
+                &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
+                                      dtype=np.float),
+                &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
+                                       dtype=np.float),
+                &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
+                                       dtype=np.float)
+            }
+            return self.path
+        else:
+            return None
+
+    def compute_records(self, distance):
+        record = self._check_metadata(distance)
+        if self.has_path:
+            timestamps = self.get_path()[&#34;timestamps&#34;]
+            velocities = self.get_path()[&#34;velocities&#34;]
+            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+        return Record(sport=self.sport, distance=distance, time=record,
+                      activity_id=self.id)
+
+    def _check_metadata(self, distance):
+        if self.distance &gt;= distance:
+            ratio = self.distance / distance
+            return self.time / ratio
+        else:
+            return float(&#34;inf&#34;)
+
+    def __str__(self):
+        return (&#34;Activity(id=%s, sport=%s, start_time=%s, time=%f, ...)&#34;
+                % (self.id, self.sport, self.start_time, self.time))
+
+
+class Trackpoint(Base):
+    &#34;&#34;&#34;Trackpoint.&#34;&#34;&#34;
+    __tablename__ = &#34;trackpoints&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    activity_id = sqlalchemy.Column(
+        sqlalchemy.Integer, sqlalchemy.ForeignKey(&#34;activities.id&#34;))
+    timestamp = sqlalchemy.Column(sqlalchemy.Float)
+    latitude = sqlalchemy.Column(sqlalchemy.Float)
+    longitude = sqlalchemy.Column(sqlalchemy.Float)
+    altitude = sqlalchemy.Column(sqlalchemy.Float)
+    heartrate = sqlalchemy.Column(sqlalchemy.Float)
+    velocity = sqlalchemy.Column(sqlalchemy.Float)
+
+
+class Record(Base):
+    &#34;&#34;&#34;Record.
+
+    A record is the fastest time for a given distance and sport.
+    &#34;&#34;&#34;
+    __tablename__ = &#34;records&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    sport = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    distance = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
+    time = sqlalchemy.Column(sqlalchemy.Float)
+    valid = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+    activity_id = sqlalchemy.Column(
+        sqlalchemy.Integer, sqlalchemy.ForeignKey(&#34;activities.id&#34;))
+
+    activity = relationship(&#34;Activity&#34;, foreign_keys=[activity_id])
+
+
+def init_database(session):
+    records = [
+        Record(sport=sport, distance=distance, time=float(&#34;inf&#34;))
+        for sport, distances in config[&#34;records&#34;].items()
+        for distance in distances
+    ]
+    session.add_all(records)
+    session.commit()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="slither.domain_model.init_database"><code class="name flex">
+<span>def <span class="ident">init_database</span></span>(<span>session)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def init_database(session):
+    records = [
+        Record(sport=sport, distance=distance, time=float(&#34;inf&#34;))
+        for sport, distances in config[&#34;records&#34;].items()
+        for distance in distances
+    ]
+    session.add_all(records)
+    session.commit()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="slither.domain_model.Activity"><code class="flex name class">
+<span>class <span class="ident">Activity</span></span>
+<span>(</span><span>**kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Activity.</p>
+<p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code>kwargs</code>.</p>
+<p>Only keys that are present as
+attributes of the instance's class are allowed. These could be,
+for example, any mapped columns or relationships.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Activity(Base):
+    &#34;&#34;&#34;Activity.&#34;&#34;&#34;
+    __tablename__ = &#34;activities&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    sport = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    start_time = sqlalchemy.Column(sqlalchemy.DateTime, nullable=False)
+    distance = sqlalchemy.Column(sqlalchemy.Float)
+    time = sqlalchemy.Column(sqlalchemy.Float)
+    calories = sqlalchemy.Column(sqlalchemy.Float)
+    heartrate = sqlalchemy.Column(sqlalchemy.Float)
+    filetype = sqlalchemy.Column(sqlalchemy.String, default=&#34;tcx&#34;)
+    has_path = sqlalchemy.Column(sqlalchemy.Boolean)
+    trackpoints = relationship(&#34;Trackpoint&#34;)
+
+    def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+        assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
+            len(timestamps), len(coords))
+        assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (
+            len(timestamps), len(altitudes))
+        assert len(timestamps) == len(heartrates), &#34;%d != %d&#34; % (
+            len(timestamps), len(heartrates))
+        assert len(timestamps) == len(velocities), &#34;%d != %d&#34; % (
+            len(timestamps), len(velocities))
+
+        self.trackpoints = [
+            Trackpoint(timestamp=t, latitude=p[0], longitude=p[1], altitude=a,
+                       heartrate=h, velocity=v)
+            for t, p, a, h, v in zip(timestamps, coords, altitudes, heartrates,
+                                     velocities)]
+
+    def get_filename(self):
+        start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
+        return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)
+
+    def get_path(self):
+        if hasattr(self, &#34;path&#34;):
+            return self.path
+        elif self.has_path:
+            self.path = {
+                &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
+                                       dtype=np.float),
+                &#34;coords&#34;: np.array([(t.latitude, t.longitude)
+                                    for t in self.trackpoints], dtype=np.float),
+                &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
+                                      dtype=np.float),
+                &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
+                                       dtype=np.float),
+                &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
+                                       dtype=np.float)
+            }
+            return self.path
+        else:
+            return None
+
+    def compute_records(self, distance):
+        record = self._check_metadata(distance)
+        if self.has_path:
+            timestamps = self.get_path()[&#34;timestamps&#34;]
+            velocities = self.get_path()[&#34;velocities&#34;]
+            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+        return Record(sport=self.sport, distance=distance, time=record,
+                      activity_id=self.id)
+
+    def _check_metadata(self, distance):
+        if self.distance &gt;= distance:
+            ratio = self.distance / distance
+            return self.time / ratio
+        else:
+            return float(&#34;inf&#34;)
+
+    def __str__(self):
+        return (&#34;Activity(id=%s, sport=%s, start_time=%s, time=%f, ...)&#34;
+                % (self.id, self.sport, self.start_time, self.time))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>sqlalchemy.orm.decl_api.Base</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="slither.domain_model.Activity.calories"><code class="name">var <span class="ident">calories</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.distance"><code class="name">var <span class="ident">distance</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.filetype"><code class="name">var <span class="ident">filetype</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.has_path"><code class="name">var <span class="ident">has_path</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.heartrate"><code class="name">var <span class="ident">heartrate</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.sport"><code class="name">var <span class="ident">sport</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.start_time"><code class="name">var <span class="ident">start_time</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.time"><code class="name">var <span class="ident">time</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.trackpoints"><code class="name">var <span class="ident">trackpoints</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="slither.domain_model.Activity.compute_records"><code class="name flex">
+<span>def <span class="ident">compute_records</span></span>(<span>self, distance)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compute_records(self, distance):
+    record = self._check_metadata(distance)
+    if self.has_path:
+        timestamps = self.get_path()[&#34;timestamps&#34;]
+        velocities = self.get_path()[&#34;velocities&#34;]
+        record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+    return Record(sport=self.sport, distance=distance, time=record,
+                  activity_id=self.id)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.get_filename"><code class="name flex">
+<span>def <span class="ident">get_filename</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_filename(self):
+    start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
+    return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.get_path"><code class="name flex">
+<span>def <span class="ident">get_path</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path(self):
+    if hasattr(self, &#34;path&#34;):
+        return self.path
+    elif self.has_path:
+        self.path = {
+            &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
+                                   dtype=np.float),
+            &#34;coords&#34;: np.array([(t.latitude, t.longitude)
+                                for t in self.trackpoints], dtype=np.float),
+            &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
+                                  dtype=np.float),
+            &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
+                                   dtype=np.float),
+            &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
+                                   dtype=np.float)
+        }
+        return self.path
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Activity.set_path"><code class="name flex">
+<span>def <span class="ident">set_path</span></span>(<span>self, timestamps, coords, altitudes, heartrates, velocities)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+    assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
+        len(timestamps), len(coords))
+    assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (
+        len(timestamps), len(altitudes))
+    assert len(timestamps) == len(heartrates), &#34;%d != %d&#34; % (
+        len(timestamps), len(heartrates))
+    assert len(timestamps) == len(velocities), &#34;%d != %d&#34; % (
+        len(timestamps), len(velocities))
+
+    self.trackpoints = [
+        Trackpoint(timestamp=t, latitude=p[0], longitude=p[1], altitude=a,
+                   heartrate=h, velocity=v)
+        for t, p, a, h, v in zip(timestamps, coords, altitudes, heartrates,
+                                 velocities)]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="slither.domain_model.Record"><code class="flex name class">
+<span>class <span class="ident">Record</span></span>
+<span>(</span><span>**kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Record.</p>
+<p>A record is the fastest time for a given distance and sport.</p>
+<p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code>kwargs</code>.</p>
+<p>Only keys that are present as
+attributes of the instance's class are allowed. These could be,
+for example, any mapped columns or relationships.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Record(Base):
+    &#34;&#34;&#34;Record.
+
+    A record is the fastest time for a given distance and sport.
+    &#34;&#34;&#34;
+    __tablename__ = &#34;records&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    sport = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    distance = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
+    time = sqlalchemy.Column(sqlalchemy.Float)
+    valid = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+    activity_id = sqlalchemy.Column(
+        sqlalchemy.Integer, sqlalchemy.ForeignKey(&#34;activities.id&#34;))
+
+    activity = relationship(&#34;Activity&#34;, foreign_keys=[activity_id])</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>sqlalchemy.orm.decl_api.Base</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="slither.domain_model.Record.activity"><code class="name">var <span class="ident">activity</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.activity_id"><code class="name">var <span class="ident">activity_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.distance"><code class="name">var <span class="ident">distance</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.sport"><code class="name">var <span class="ident">sport</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.time"><code class="name">var <span class="ident">time</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Record.valid"><code class="name">var <span class="ident">valid</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="slither.domain_model.Trackpoint"><code class="flex name class">
+<span>class <span class="ident">Trackpoint</span></span>
+<span>(</span><span>**kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Trackpoint.</p>
+<p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code>kwargs</code>.</p>
+<p>Only keys that are present as
+attributes of the instance's class are allowed. These could be,
+for example, any mapped columns or relationships.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Trackpoint(Base):
+    &#34;&#34;&#34;Trackpoint.&#34;&#34;&#34;
+    __tablename__ = &#34;trackpoints&#34;
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    activity_id = sqlalchemy.Column(
+        sqlalchemy.Integer, sqlalchemy.ForeignKey(&#34;activities.id&#34;))
+    timestamp = sqlalchemy.Column(sqlalchemy.Float)
+    latitude = sqlalchemy.Column(sqlalchemy.Float)
+    longitude = sqlalchemy.Column(sqlalchemy.Float)
+    altitude = sqlalchemy.Column(sqlalchemy.Float)
+    heartrate = sqlalchemy.Column(sqlalchemy.Float)
+    velocity = sqlalchemy.Column(sqlalchemy.Float)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>sqlalchemy.orm.decl_api.Base</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="slither.domain_model.Trackpoint.activity_id"><code class="name">var <span class="ident">activity_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.altitude"><code class="name">var <span class="ident">altitude</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.heartrate"><code class="name">var <span class="ident">heartrate</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.latitude"><code class="name">var <span class="ident">latitude</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.longitude"><code class="name">var <span class="ident">longitude</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.timestamp"><code class="name">var <span class="ident">timestamp</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+<dt id="slither.domain_model.Trackpoint.velocity"><code class="name">var <span class="ident">velocity</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+
+    dict_ = instance_dict(instance)
+    if self._supports_population and self.key in dict_:
+        return dict_[self.key]
+    else:
+        try:
+            state = instance_state(instance)
+        except AttributeError as err:
+            util.raise_(
+                orm_exc.UnmappedInstanceError(instance),
+                replace_context=err,
+            )
+        return self.impl.get(state, dict_)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="slither" href="index.html">slither</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="slither.domain_model.init_database" href="#slither.domain_model.init_database">init_database</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="slither.domain_model.Activity" href="#slither.domain_model.Activity">Activity</a></code></h4>
+<ul class="two-column">
+<li><code><a title="slither.domain_model.Activity.calories" href="#slither.domain_model.Activity.calories">calories</a></code></li>
+<li><code><a title="slither.domain_model.Activity.compute_records" href="#slither.domain_model.Activity.compute_records">compute_records</a></code></li>
+<li><code><a title="slither.domain_model.Activity.distance" href="#slither.domain_model.Activity.distance">distance</a></code></li>
+<li><code><a title="slither.domain_model.Activity.filetype" href="#slither.domain_model.Activity.filetype">filetype</a></code></li>
+<li><code><a title="slither.domain_model.Activity.get_filename" href="#slither.domain_model.Activity.get_filename">get_filename</a></code></li>
+<li><code><a title="slither.domain_model.Activity.get_path" href="#slither.domain_model.Activity.get_path">get_path</a></code></li>
+<li><code><a title="slither.domain_model.Activity.has_path" href="#slither.domain_model.Activity.has_path">has_path</a></code></li>
+<li><code><a title="slither.domain_model.Activity.heartrate" href="#slither.domain_model.Activity.heartrate">heartrate</a></code></li>
+<li><code><a title="slither.domain_model.Activity.id" href="#slither.domain_model.Activity.id">id</a></code></li>
+<li><code><a title="slither.domain_model.Activity.set_path" href="#slither.domain_model.Activity.set_path">set_path</a></code></li>
+<li><code><a title="slither.domain_model.Activity.sport" href="#slither.domain_model.Activity.sport">sport</a></code></li>
+<li><code><a title="slither.domain_model.Activity.start_time" href="#slither.domain_model.Activity.start_time">start_time</a></code></li>
+<li><code><a title="slither.domain_model.Activity.time" href="#slither.domain_model.Activity.time">time</a></code></li>
+<li><code><a title="slither.domain_model.Activity.trackpoints" href="#slither.domain_model.Activity.trackpoints">trackpoints</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="slither.domain_model.Record" href="#slither.domain_model.Record">Record</a></code></h4>
+<ul class="two-column">
+<li><code><a title="slither.domain_model.Record.activity" href="#slither.domain_model.Record.activity">activity</a></code></li>
+<li><code><a title="slither.domain_model.Record.activity_id" href="#slither.domain_model.Record.activity_id">activity_id</a></code></li>
+<li><code><a title="slither.domain_model.Record.distance" href="#slither.domain_model.Record.distance">distance</a></code></li>
+<li><code><a title="slither.domain_model.Record.id" href="#slither.domain_model.Record.id">id</a></code></li>
+<li><code><a title="slither.domain_model.Record.sport" href="#slither.domain_model.Record.sport">sport</a></code></li>
+<li><code><a title="slither.domain_model.Record.time" href="#slither.domain_model.Record.time">time</a></code></li>
+<li><code><a title="slither.domain_model.Record.valid" href="#slither.domain_model.Record.valid">valid</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="slither.domain_model.Trackpoint" href="#slither.domain_model.Trackpoint">Trackpoint</a></code></h4>
+<ul class="two-column">
+<li><code><a title="slither.domain_model.Trackpoint.activity_id" href="#slither.domain_model.Trackpoint.activity_id">activity_id</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.altitude" href="#slither.domain_model.Trackpoint.altitude">altitude</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.heartrate" href="#slither.domain_model.Trackpoint.heartrate">heartrate</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.id" href="#slither.domain_model.Trackpoint.id">id</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.latitude" href="#slither.domain_model.Trackpoint.latitude">latitude</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.longitude" href="#slither.domain_model.Trackpoint.longitude">longitude</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.timestamp" href="#slither.domain_model.Trackpoint.timestamp">timestamp</a></code></li>
+<li><code><a title="slither.domain_model.Trackpoint.velocity" href="#slither.domain_model.Trackpoint.velocity">velocity</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
