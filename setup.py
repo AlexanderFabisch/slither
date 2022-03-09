@@ -20,5 +20,6 @@ if __name__ == "__main__":
           extras_require={
               "all": ["rich"],
               "server": ["Flask", "Flask-HTTPAuth", "Werkzeug", "passlib"],
-              "test": ["nose", "coverage"]
+              "test": ["nose", "coverage"],
+              "doc": ["pdoc3"]
           })
