@@ -1,3 +1,4 @@
+"""Read GPS exchange format file (GPX)."""
 import time
 
 import numpy as np

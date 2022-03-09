@@ -1,3 +1,4 @@
+"""Read Polar's JSON format."""
 import time
 from datetime import datetime
 

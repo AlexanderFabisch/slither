@@ -1,3 +1,4 @@
+"""Read Flexible and Interoperable Data Transfer file (FIT)."""
 import time
 import numpy as np
 from slither.core.geodetic import compute_velocities

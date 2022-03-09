@@ -1,9 +1,11 @@
+"""Export training center XML file (TCX)."""
 import numpy as np
 import jinja2
 from datetime import datetime
 
 
 class TcxExport:
+    """Export training center XML file (TCX)."""
     def __init__(self):
         pass
 

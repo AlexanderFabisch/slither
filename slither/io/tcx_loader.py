@@ -1,3 +1,4 @@
+"""Read training center XML file (TCX)."""
 import time
 
 import numpy as np
