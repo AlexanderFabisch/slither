@@ -46,7 +46,8 @@ class Service:
 
     def clone(self):
         return Service(self.debug, self.db_filename, self.datadir,
-                       self.remote, self.username, self.password)
+                       self.remote, self.username, self.password,
+                       self.base_path)
 
     def list_activities(self):
         q = self.database.session.query(domain_model.Activity)
