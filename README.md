@@ -18,6 +18,8 @@ data with Python code.
     sudo apt-get install python-pyqt5 python-pyqt5.qtsvg python-pyqt5.qtwebkit
     # install slither from main directory:
     python setup.py install
+    # or with pip:
+    pip install -e .
 
 Now you can start slither from the command line:
 
@@ -38,8 +40,11 @@ Slither allows you to set up your own server to share data among clients.
 It will be used to share TCX files which can be uploaded and downloaded from
 clients. **Note:** there is no support for https yet.
 
-To initialize the remote repository, install slither on a server and start
-the slither server:
+To initialize the remote repository, install slither on a server with
+
+    pip install -e .[server]
+
+and start the slither server:
 
     slither_server --datadir <directory> --port <port>
 
