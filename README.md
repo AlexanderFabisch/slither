@@ -13,11 +13,11 @@ data with Python code.
 
 ## Install
 
-    sudo pip install -r requirements.txt
     # install PyQt4 or PyQt5 + QtSvg + QtWebkit
     # e.g. (Ubuntu 16.04, Python 2.7):
     sudo apt-get install python-pyqt5 python-pyqt5.qtsvg python-pyqt5.qtwebkit
-    sudo python setup.py install
+    # install slither from main directory:
+    python setup.py install
 
 Now you can start slither from the command line:
 
