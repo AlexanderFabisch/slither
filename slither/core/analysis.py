@@ -1,3 +1,4 @@
+"""Training data analysis and preprocessing."""
 from collections import deque
 
 import numpy as np

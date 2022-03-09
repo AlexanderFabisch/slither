@@ -1,3 +1,4 @@
+"""Text interface."""
 import numpy as np
 from slither.core.unit_conversions import split_time
 

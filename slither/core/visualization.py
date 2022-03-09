@@ -1,3 +1,4 @@
+"""Visualization of training data."""
 import folium
 import matplotlib
 import numpy as np

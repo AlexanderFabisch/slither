@@ -1,3 +1,4 @@
+"""Configuration for data analysis and user interface."""
 import os
 
 from pkg_resources import resource_filename
