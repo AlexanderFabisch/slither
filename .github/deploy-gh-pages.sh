@@ -1,11 +1,6 @@
 #!/bin/bash
 set -eu
 
-if [ ! -d doc/build ]; then
-    echo 'Error: invalid directory. Deploy from repo root.'
-    exit 1
-fi
-
 [ "$GH_PASSWORD" ] || exit 12
 
 head=$(git rev-parse HEAD)
