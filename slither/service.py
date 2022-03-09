@@ -59,6 +59,15 @@ class Service:
             date, date + timedelta(days=1))
 
     def new_activity(self, metadata):
+        """Add new activity.
+
+        Deprecated. Use add_new_activity instead.
+
+        Parameters
+        ----------
+        metadata : dict
+            Activity metadata.
+        """
         if "sport" not in metadata:
             raise ValueError("Sport is missing.")
         if "start_time" not in metadata:
@@ -108,8 +117,8 @@ class Service:
             Filename that can be used to infer the data format, e.g. "test.tcx"
 
         timestamp : float, optional (default: None)
-            Timestamp of last update (in case this activity has been transfered
-            from a remote data repository)
+            Timestamp of last update (in case this activity has been
+            transferred from a remote data repository)
         """
         loader = Loader(filename)
         loader = loader.get_loader(file_content)
@@ -119,6 +128,17 @@ class Service:
         self.add_new_activity(activity, timestamp)
 
     def add_new_activity(self, activity, timestamp=None):
+        """Add new activity.
+
+        Parameters
+        ----------
+        activity : Activity
+            New activity.
+
+        timestamp : float, optional (default: None)
+            Timestamp of last update (in case this activity has been
+            transferred from a remote data repository)
+        """
         target_filename = os.path.join(
             self.full_datadir, activity.get_filename())
         if os.path.exists(target_filename):
