@@ -9,7 +9,7 @@ from .analysis import (
     filter_median_average, appropriate_partition,
     compute_distances_for_valid_trackpoints)
 from .ui_text import d
-from slither.core.unit_conversions import (
+from .unit_conversions import (
     convert_m_to_km, convert_mps_to_kmph, minutes_from_start)
 
 

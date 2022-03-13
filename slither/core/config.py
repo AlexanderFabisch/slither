@@ -52,4 +52,16 @@ config = {
 
 
 def slither_ressource_filename(filename):
+    """Get resource filename.
+
+    Parameters
+    ----------
+    filename : str
+        Filename from slither package.
+
+    Returns
+    -------
+    filename : str
+        Full path to file.
+    """
     return resource_filename("slither", os.path.join("resources", filename))

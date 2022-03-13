@@ -305,14 +305,13 @@ def appropriate_partition(distance):
     """
     if distance < 5000:
         return 400
-    elif distance < 20000:
+    if distance < 20000:
         return 1000
-    elif distance < 40000:
+    if distance < 40000:
         return 2000
-    elif distance < 100000:
+    if distance < 100000:
         return 5000
-    else:
-        return 10000
+    return 10000
 
 
 def compute_distances_for_valid_trackpoints(path):

@@ -1,3 +1,4 @@
+"""Slither main window."""
 try:
     from PyQt4.QtCore import *
     from PyQt4.QtGui import *
@@ -13,6 +14,13 @@ from .summary import SummaryTab
 
 
 class MainWindow(QMainWindow):
+    """Slither main window.
+
+    Parameters
+    ----------
+    controller : Controller
+        GUI controller.
+    """
     def __init__(self, controller):
         super(MainWindow, self).__init__()
 
@@ -44,6 +52,13 @@ class MainWindow(QMainWindow):
         self.controller.initialization_finished(self)
 
     def goto_tab(self, name):
+        """Switch tab.
+
+        Parameters
+        ----------
+        name : str
+            Name of the tab.
+        """
         tab = {"overview": self.activities_tab,
                "calendar": self.calendar_tab,
                "records": self.records_tab,
@@ -51,6 +66,7 @@ class MainWindow(QMainWindow):
         self.central_widget.setCurrentWidget(tab)
 
     def new_activity(self):
+        """Open dialog to create new activity."""
         dialog = QDialog()
         layout = QHBoxLayout()
         layout.addWidget(EditActivity(self.controller))

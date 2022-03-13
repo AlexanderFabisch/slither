@@ -24,12 +24,11 @@ class DataDisplay:  # TODO localization
     def display_distance(self, distance):
         if distance == 0.0:
             return "-"
-        elif distance % 1000.0 == 0.0:
+        if distance % 1000.0 == 0.0:
             return "%d km" % (distance / 1000.0)
-        elif distance < 2000.0:
+        if distance < 2000.0:
             return "%d m" % np.round(distance, 0)
-        else:
-            return "%.2f km" % np.round(distance / 1000.0, 2)
+        return "%.2f km" % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
         if time == 0.0:
@@ -39,21 +38,19 @@ class DataDisplay:  # TODO localization
 
         if time < 60.0:
             return "%.2f s" % time
-        else:
-            hours, minutes, seconds = split_time(time)
-            return "%02d:%02d:%02d h" % (hours, minutes, seconds)
+
+        hours, minutes, seconds = split_time(time)
+        return "%02d:%02d:%02d h" % (hours, minutes, seconds)
 
     def display_calories(self, calories):
         if calories is None or calories == 0.0:
             return "-"
-        else:
-            return "%d kCal" % calories
+        return "%d kCal" % calories
 
     def display_heartrate(self, heartrate):
         if heartrate is None or heartrate == 0.0:
             return "-"
-        else:
-            return "%d bpm" % heartrate
+        return "%d bpm" % heartrate
 
 
 d = DataDisplay()

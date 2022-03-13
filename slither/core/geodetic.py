@@ -42,6 +42,14 @@ def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
 
 
 class PyprojDist:
+    """Compute distance between two positions on earth.
+
+    Parameters
+    ----------
+    config : dict
+        Configuration of distance. config['geodetic']['ellipsoid'] should be
+        defined.
+    """
     def __init__(self, config):
         if "geodetic" in config and "ellipsoid" in config["geodetic"]:
             ellps = config["geodetic"]["ellipsoid"]
