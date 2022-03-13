@@ -70,4 +70,3 @@ def test_week_summary():
     finally:
         for a in service.list_activities():
             service.delete_activity(a)
-

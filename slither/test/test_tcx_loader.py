@@ -11,7 +11,9 @@ def test_load_tracked_activity():
 
     activity = loader.load()
     assert_equal(activity.sport, "running")
-    assert_equal(activity.start_time, datetime(year=2016, month=12, day=11, hour=10, minute=54, second=30))
+    assert_equal(
+        activity.start_time,
+        datetime(year=2016, month=12, day=11, hour=10, minute=54, second=30))
     assert_equal(activity.distance, 2200)
     assert_equal(activity.time, 750)
     assert_equal(activity.heartrate, 154)

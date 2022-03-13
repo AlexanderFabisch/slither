@@ -69,7 +69,8 @@ class PyprojDist:
         Returns
         -------
         distance : float
-            Distance between two positions on the surface of the earth in meters
+            Distance between two positions on the surface of the earth in
+            meters
         """
         _, _, dist = self.geod.inv(long1, lat1, long2, lat2, radians=True)
         return dist

@@ -31,4 +31,3 @@ def test_add_activity():
         datetime(year=2000, month=10, day=15),
         datetime(year=2000, month=10, day=25))
     assert_equal(len(activities), 0)
-

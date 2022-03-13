@@ -12,8 +12,8 @@ def datetime_from_iso8601(date_str):
     date_str : str
         Example: 2016-12-11T10:00:00.000Z
 
-    Return
-    ------
+    Returns
+    -------
     dt : datetime
         Datetime representation
     """
@@ -22,6 +22,18 @@ def datetime_from_iso8601(date_str):
 
 
 def to_utf8(content):
+    """Convert string to UTF-8.
+
+    Parameters
+    ----------
+    content : str
+        String in windows-1252 or utf-8.
+
+    Returns
+    -------
+    utf8 : str
+        String in utf-8.
+    """
     try:
         content = content.decode("windows-1252")
     finally:

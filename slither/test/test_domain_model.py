@@ -11,7 +11,7 @@ def test_create_activity():
         timestamps=np.arange(n_steps),
         coords=np.vstack((np.linspace(0, np.pi, n_steps),
                           np.linspace(0, np.pi, n_steps))).T,
-        altitudes = np.zeros(n_steps),
+        altitudes=np.zeros(n_steps),
         heartrates=np.zeros(n_steps),
         velocities=np.zeros(n_steps)
     )

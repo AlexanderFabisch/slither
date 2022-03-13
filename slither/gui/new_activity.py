@@ -26,7 +26,8 @@ class EditActivity(QWidget):
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(8, 1)
 
-        layout.addWidget(QLabel("Start time"), 0, 1, Qt.AlignRight | Qt.AlignTop)
+        layout.addWidget(
+            QLabel("Start time"), 0, 1, Qt.AlignRight | Qt.AlignTop)
         self.calendar = QCalendarWidget()
         self.calendar.setMaximumHeight(200)
         layout.addWidget(self.calendar, 0, 2, 1, 6)

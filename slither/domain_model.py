@@ -51,16 +51,17 @@ class Activity(Base):
             return self.path
         elif self.has_path:
             self.path = {
-                "timestamps": np.array([t.timestamp for t in self.trackpoints],
-                                       dtype=np.float),
-                "coords": np.array([(t.latitude, t.longitude)
-                                    for t in self.trackpoints], dtype=np.float),
-                "altitudes": np.array([t.altitude for t in self.trackpoints],
-                                      dtype=np.float),
-                "heartrates": np.array([t.heartrate for t in self.trackpoints],
-                                       dtype=np.float),
-                "velocities": np.array([t.velocity for t in self.trackpoints],
-                                       dtype=np.float)
+                "timestamps": np.array(
+                    [t.timestamp for t in self.trackpoints], dtype=np.float),
+                "coords": np.array(
+                    [(t.latitude, t.longitude) for t in self.trackpoints],
+                    dtype=np.float),
+                "altitudes": np.array(
+                    [t.altitude for t in self.trackpoints], dtype=np.float),
+                "heartrates": np.array(
+                    [t.heartrate for t in self.trackpoints], dtype=np.float),
+                "velocities": np.array(
+                    [t.velocity for t in self.trackpoints], dtype=np.float)
             }
             return self.path
         else:
@@ -69,9 +70,9 @@ class Activity(Base):
     def compute_records(self, distance):
         record = self._check_metadata(distance)
         if self.has_path:
-            timestamps = self.get_path()["timestamps"]
-            velocities = self.get_path()["velocities"]
-            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+            fp = fastest_part(self.sport, self.get_path()["timestamps"],
+                              self.get_path()["velocities"], distance)
+            record = min((record, fp))
         return Record(sport=self.sport, distance=distance, time=record,
                       activity_id=self.id)
 

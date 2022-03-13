@@ -57,7 +57,8 @@ class Controller(QObject):
         if len(activities) > 0:
             # TODO what if there are multiple activities?
             self.main_window.goto_tab("overview")
-            self.main_window.activities_tab.load_activity_details(activities[0])
+            self.main_window.activities_tab.load_activity_details(
+                activities[0])
 
     def save_activity(self, metadata, activity=None):
         if activity is None:
@@ -71,7 +72,8 @@ class Controller(QObject):
         worker.finished.connect(self.sync)
         self._run_worker(worker)
 
-    def _run_worker(self, worker):  # TODO results in error when activity is requested in main thread
+    def _run_worker(self, worker):
+        # TODO results in error when activity is requested in main thread
         worker.finished.connect(self.update_overview)
         self.workers_mutex.lock()
         self.workers.append(worker)

@@ -1,7 +1,8 @@
 import os
 from functools import partial
 
-from slither.core.visualization import render_map, plot_velocity_histogram, plot_speed_heartrate, plot_elevation
+from slither.core.visualization import (render_map, plot_velocity_histogram,
+                                        plot_speed_heartrate, plot_elevation)
 
 try:
     from PyQt4.QtCore import *
@@ -215,7 +216,8 @@ class Details(QWidget):
         line.setFrameShape(QFrame.HLine)
         layout.addWidget(line, 1, 0, 1, 5)
 
-        distance_pictogram = QSvgWidget(slither_ressource_filename("distance.svg"))
+        distance_pictogram = QSvgWidget(
+            slither_ressource_filename("distance.svg"))
         distance_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(distance_pictogram, 2, 1)
         layout.addWidget(QLabel("Distance"), 3, 1)
@@ -239,7 +241,8 @@ class Details(QWidget):
         self.heartrate_label.setFixedWidth(text_size)
         layout.addWidget(self.heartrate_label, 4, 3)
 
-        calories_pictogram = QSvgWidget(slither_ressource_filename("calories.svg"))
+        calories_pictogram = QSvgWidget(
+            slither_ressource_filename("calories.svg"))
         calories_pictogram.setFixedSize(*small_picto_size)
         layout.addWidget(calories_pictogram, 2, 4)
         layout.addWidget(QLabel("Calories"), 3, 4)
@@ -299,11 +302,13 @@ class Details(QWidget):
         self.calories_label.setText(d.display_calories(activity.calories))
 
     def _pictogram(self, activity):
-        pictogram_filename = slither_ressource_filename(activity.sport + ".svg")
+        pictogram_filename = slither_ressource_filename(
+            activity.sport + ".svg")
         if os.path.exists(pictogram_filename):
             self.sport_pictogram.load(pictogram_filename)
         else:
-            self.sport_pictogram.load(slither_ressource_filename("unknown.svg"))
+            self.sport_pictogram.load(
+                slither_ressource_filename("unknown.svg"))
 
 
 class Plot(QWidget):
@@ -342,7 +347,8 @@ class Plot(QWidget):
 
         if activity.has_path:
             path = activity.get_path()
-            lines, labels = plot_speed_heartrate(self.ax_velocity, self.ax_heartrate, path)
+            lines, labels = plot_speed_heartrate(
+                self.ax_velocity, self.ax_heartrate, path)
             axbox = self.ax_velocity.get_position()
             self.legend = self.fig_velocity.legend(
                 handles=lines, labels=labels, loc=(axbox.x0 + 0.1,

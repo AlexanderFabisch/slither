@@ -27,7 +27,8 @@ def rad2deg(angle):  # handles None correctly
 
 
 def datetime_to_str(date):
-    return date.strftime("%Y-%m-%dT%H:%M:%S.000Z")  # e.g. 2016-12-11T10:00:00.000Z
+    # e.g. 2016-12-11T10:00:00.000Z
+    return date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
 
 def timestamp_to_str(timestamp):

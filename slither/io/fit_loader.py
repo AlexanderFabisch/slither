@@ -28,6 +28,11 @@ def read_fit(filename):
 
     path : dict
         Trackpoint data
+
+    Raises
+    ------
+    ValueError
+        No activity data
     """
     fitfile = FitFile(filename)
     records = list(fitfile.get_messages("record"))
@@ -68,9 +73,11 @@ def read_fit(filename):
 
         for i, record in enumerate(records):
             record = record.get_values()
-            path["timestamps"][i] = time.mktime(record["timestamp"].timetuple())
+            path["timestamps"][i] = time.mktime(
+                record["timestamp"].timetuple())
             if "position_lat" in record and "position_long" in record:
-                path["coords"][i] = record["position_lat"], record["position_long"]
+                path["coords"][i] = (record["position_lat"],
+                                     record["position_long"])
             if "altitude" in record:
                 path["altitudes"][i] = record["altitude"]
             if "heart_rate" in record:

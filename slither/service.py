@@ -68,6 +68,11 @@ class Service:
         ----------
         metadata : dict
             Activity metadata.
+
+        Raises
+        ------
+        ValueError
+            Insufficient metadata.
         """
         if "sport" not in metadata:
             raise ValueError("Sport is missing.")
@@ -138,7 +143,15 @@ class Service:
 
         timestamp : float, optional (default: None)
             Timestamp of last update (in case this activity has been
-            transferred from a remote data repository)
+            transferred from a remote data repository).
+
+        Raises
+        ------
+        ValueError
+            Activity exists already.
+
+        IOError
+            File cannot be stored in registry.
         """
         target_filename = os.path.join(
             self.full_datadir, activity.get_filename())
@@ -183,10 +196,12 @@ class Service:
         return records
 
     def list_records(self):
-        q = self.database.session.query(domain_model.Record, func.min(domain_model.Record.time))
+        q = self.database.session.query(
+            domain_model.Record, func.min(domain_model.Record.time))
         grouped = q.filter(domain_model.Record.valid).group_by(
             domain_model.Record.sport, domain_model.Record.distance)
-        res = grouped.order_by(domain_model.Record.sport, domain_model.Record.distance).all()
+        res = grouped.order_by(domain_model.Record.sport,
+                               domain_model.Record.distance).all()
         return [record for record, _ in res]
 
     def summarize_weeks(self, sport=None):

@@ -103,7 +103,7 @@ def _parse_activity(training_center_database):
 
     lap_infos = _parse_laps(activity)
     if len(lap_infos) > 0:
-        result = {k: np.concatenate([l[k] for l in lap_infos])
+        result = {k: np.concatenate([lap_info[k] for lap_info in lap_infos])
                   for k in lap_infos[0].keys()}
         return result
     else:

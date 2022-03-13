@@ -75,7 +75,8 @@ class SummaryTable(QTableWidget):
 
         self.setRowCount(len(entries))
         for i, entry in enumerate(entries):
-            self.setItem(i, 0, QTableWidgetItem(d.display_date(entry["start"])))
+            self.setItem(
+                i, 0, QTableWidgetItem(d.display_date(entry["start"])))
             # display last day of the period
             self.setItem(i, 1, QTableWidgetItem(
                 d.display_date(entry["end"] - timedelta(seconds=1))))

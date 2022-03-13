@@ -29,7 +29,8 @@ def read_gpx(content):
     metadata = _metadata(training)
 
     if metadata["has_path"]:
-        path, metadata["distance"], metadata["time"] = _parse_training(training)
+        path, metadata["distance"], metadata["time"] = _parse_training(
+            training)
     else:
         path = None
         metadata["distance"] = 0.0
