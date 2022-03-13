@@ -1,4 +1,8 @@
 """Slither service."""
+import os
+from datetime import timedelta
+import sqlalchemy
+from sqlalchemy import func
 from . import domain_model
 from .core.config import config
 from .loader import Loader
@@ -7,13 +11,35 @@ from .database import Database
 from .registry import Registry
 from .summary import WeekSummary, MonthSummary, YearSummary
 from .synchronization import Synchronizer
-import sqlalchemy
-from sqlalchemy import func
-from datetime import timedelta
-import os
 
 
 class Service:
+    """Service of the slither application.
+
+    Parameters
+    ----------
+    debug : bool, optional (default: False)
+        Start service in debug mode. In that case data will be stored in a
+        subfolder 'debug/'.
+
+    db_filename : str, optional (default: 'db.sqlite')
+        Name of the database file.
+
+    datadir : str, optional (default: 'data')
+        Subdirectory in which the activity files will be stored.
+
+    remote : str, optional (default: None)
+        URL to remote data repository.
+
+    username : str, optional (default: None)
+        Username for remote data repository.
+
+    password : str, optional (default: None)
+        Password for remote data repository.
+
+    base_path : str, optional (default: None)
+        Base path at which application data will be stored.
+    """
     def __init__(self, debug=False, db_filename="db.sqlite", datadir="data",
                  remote=None, username=None, password=None, base_path=None):
         self.debug = debug
@@ -29,6 +55,22 @@ class Service:
         self.registry = Registry(temp_dir)
 
     def _setup_directories(self, debug, datadir):
+        """Prepare files for application.
+
+        Parameters
+        ----------
+        debug : bool
+            Start service in debug mode. In that case data will be stored in a
+            subfolder 'debug/'.
+
+        datadir : str
+            Subdirectory in which the activity files will be stored.
+
+        Returns
+        -------
+        temp_dir : str
+            Path to directory in which application data will be stored.
+        """
         if self.base_path is None:
             if debug:
                 temp_dir = os.path.expanduser(
@@ -46,16 +88,42 @@ class Service:
         return temp_dir
 
     def clone(self):
+        """Clone service.
+
+        Returns
+        -------
+        service : Service
+            Cloned service.
+        """
         return Service(self.debug, self.db_filename, self.datadir,
                        self.remote, self.username, self.password,
                        self.base_path)
 
     def list_activities(self):
+        """List all activities.
+
+        Returns
+        -------
+        activities : list
+            List of all activities.
+        """
         q = self.database.session.query(domain_model.Activity)
         return q.order_by(sqlalchemy.desc(domain_model.Activity.start_time)
                           ).all()
 
     def list_activity_for_date(self, date):
+        """List activities on a specific day.
+
+        Parameters
+        ----------
+        date : datetime
+            Day.
+
+        Returns
+        -------
+        activities : list
+            List of all activities on a specific day.
+        """
         return self.database.list_activities_between(
             date, date + timedelta(days=1))
 
@@ -84,6 +152,16 @@ class Service:
         self._store_activity(activity)
 
     def update_activity(self, activity, metadata):
+        """Update activity.
+
+        Parameters
+        ----------
+        activity : Activity
+            An activity that should be modified.
+
+        metadata : dict
+            New metadata.
+        """
         self.registry.delete(activity.get_filename())
         self._delete_records_for(activity)
         self.database.session.flush()
@@ -94,6 +172,13 @@ class Service:
         self._store_activity(activity)
 
     def _store_activity(self, activity):
+        """Store an activity
+
+        Parameters
+        ----------
+        activity : Activity
+            An activity that should be stored.
+        """
         self.database.session.add(activity)
         self.database.session.flush()
 
@@ -106,6 +191,13 @@ class Service:
         self.registry.update(tcx, target_filename)
 
     def _add_records_for(self, activity):
+        """Add records from an activity.
+
+        Parameters
+        ----------
+        activity : Activity
+            An activity from which the records should be stored.
+        """
         distances = config["records"].get(activity.sport, [])
         for distance in distances:
             record = activity.compute_records(distance)
@@ -175,6 +267,13 @@ class Service:
         return [distance for distance, in res]
 
     def delete_activity(self, activity):
+        """Delete activity.
+
+        Parameters
+        ----------
+        activity : Activity
+            An activity that should be deleted.
+        """
         filename = os.path.join(self.full_datadir, activity.get_filename())
         self._delete_records_for(activity)
         self.database.session.delete(activity)
@@ -186,6 +285,13 @@ class Service:
             self.database.session.delete(record)
 
     def get_best_splits(self, activity):
+        """Get best splits of an activity.
+
+        Parameters
+        ----------
+        activity : Activity
+            An activity from which splits should be extracted.
+        """
         records = self._get_records_for_activity(activity)
         return [(record.distance, record.time) for record in records]
 
