@@ -26,12 +26,12 @@ def to_utf8(content):
 
     Parameters
     ----------
-    content : str
+    content : AnyStr
         String in windows-1252 or utf-8.
 
     Returns
     -------
-    utf8 : str
+    utf8 : bytes
         String in utf-8.
     """
     try:
