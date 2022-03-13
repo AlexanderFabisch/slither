@@ -51,12 +51,12 @@ class TcxExport:
 def rad2deg(angle):  # handles None correctly
     if angle is None:
         return np.nan
-    else:
-        return np.rad2deg(angle)
+    return np.rad2deg(angle)
 
 
 def datetime_to_str(date):
-    return date.strftime(&#34;%Y-%m-%dT%H:%M:%S.000Z&#34;)  # e.g. 2016-12-11T10:00:00.000Z
+    # e.g. 2016-12-11T10:00:00.000Z
+    return date.strftime(&#34;%Y-%m-%dT%H:%M:%S.000Z&#34;)
 
 
 def timestamp_to_str(timestamp):
@@ -81,7 +81,8 @@ def timestamp_to_str(timestamp):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def datetime_to_str(date):
-    return date.strftime(&#34;%Y-%m-%dT%H:%M:%S.000Z&#34;)  # e.g. 2016-12-11T10:00:00.000Z</code></pre>
+    # e.g. 2016-12-11T10:00:00.000Z
+    return date.strftime(&#34;%Y-%m-%dT%H:%M:%S.000Z&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slither.io.tcx_export.rad2deg"><code class="name flex">
@@ -96,8 +97,7 @@ def timestamp_to_str(timestamp):
 <pre><code class="python">def rad2deg(angle):  # handles None correctly
     if angle is None:
         return np.nan
-    else:
-        return np.rad2deg(angle)</code></pre>
+    return np.rad2deg(angle)</code></pre>
 </details>
 </dd>
 <dt id="slither.io.tcx_export.timestamp_to_str"><code class="name flex">

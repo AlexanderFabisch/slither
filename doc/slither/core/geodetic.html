@@ -71,6 +71,14 @@ def haversine_dist(lat1, long1, lat2, long2, earth_radius=6371000.0):
 
 
 class PyprojDist:
+    &#34;&#34;&#34;Compute distance between two positions on earth.
+
+    Parameters
+    ----------
+    config : dict
+        Configuration of distance. config[&#39;geodetic&#39;][&#39;ellipsoid&#39;] should be
+        defined.
+    &#34;&#34;&#34;
     def __init__(self, config):
         if &#34;geodetic&#34; in config and &#34;ellipsoid&#34; in config[&#34;geodetic&#34;]:
             ellps = config[&#34;geodetic&#34;][&#34;ellipsoid&#34;]
@@ -98,7 +106,8 @@ class PyprojDist:
         Returns
         -------
         distance : float
-            Distance between two positions on the surface of the earth in meters
+            Distance between two positions on the surface of the earth in
+            meters
         &#34;&#34;&#34;
         _, _, dist = self.geod.inv(long1, lat1, long2, lat2, radians=True)
         return dist
@@ -292,12 +301,26 @@ which uses a WGS84 model of the earth.</p>
 <span>(</span><span>config)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Compute distance between two positions on earth.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>config</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Configuration of distance. config['geodetic']['ellipsoid'] should be
+defined.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PyprojDist:
+    &#34;&#34;&#34;Compute distance between two positions on earth.
+
+    Parameters
+    ----------
+    config : dict
+        Configuration of distance. config[&#39;geodetic&#39;][&#39;ellipsoid&#39;] should be
+        defined.
+    &#34;&#34;&#34;
     def __init__(self, config):
         if &#34;geodetic&#34; in config and &#34;ellipsoid&#34; in config[&#34;geodetic&#34;]:
             ellps = config[&#34;geodetic&#34;][&#34;ellipsoid&#34;]
@@ -325,7 +348,8 @@ which uses a WGS84 model of the earth.</p>
         Returns
         -------
         distance : float
-            Distance between two positions on the surface of the earth in meters
+            Distance between two positions on the surface of the earth in
+            meters
         &#34;&#34;&#34;
         _, _, dist = self.geod.inv(long1, lat1, long2, lat2, radians=True)
         return dist</code></pre>

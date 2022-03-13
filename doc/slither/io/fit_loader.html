@@ -57,6 +57,11 @@ def read_fit(filename):
 
     path : dict
         Trackpoint data
+
+    Raises
+    ------
+    ValueError
+        No activity data
     &#34;&#34;&#34;
     fitfile = FitFile(filename)
     records = list(fitfile.get_messages(&#34;record&#34;))
@@ -97,9 +102,11 @@ def read_fit(filename):
 
         for i, record in enumerate(records):
             record = record.get_values()
-            path[&#34;timestamps&#34;][i] = time.mktime(record[&#34;timestamp&#34;].timetuple())
+            path[&#34;timestamps&#34;][i] = time.mktime(
+                record[&#34;timestamp&#34;].timetuple())
             if &#34;position_lat&#34; in record and &#34;position_long&#34; in record:
-                path[&#34;coords&#34;][i] = record[&#34;position_lat&#34;], record[&#34;position_long&#34;]
+                path[&#34;coords&#34;][i] = (record[&#34;position_lat&#34;],
+                                     record[&#34;position_long&#34;])
             if &#34;altitude&#34; in record:
                 path[&#34;altitudes&#34;][i] = record[&#34;altitude&#34;]
             if &#34;heart_rate&#34; in record:
@@ -138,6 +145,11 @@ def read_fit(filename):
 <dd>Activity metadata</dd>
 <dt><strong><code>path</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Trackpoint data</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>No activity data</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -158,6 +170,11 @@ def read_fit(filename):
 
     path : dict
         Trackpoint data
+
+    Raises
+    ------
+    ValueError
+        No activity data
     &#34;&#34;&#34;
     fitfile = FitFile(filename)
     records = list(fitfile.get_messages(&#34;record&#34;))
@@ -198,9 +215,11 @@ def read_fit(filename):
 
         for i, record in enumerate(records):
             record = record.get_values()
-            path[&#34;timestamps&#34;][i] = time.mktime(record[&#34;timestamp&#34;].timetuple())
+            path[&#34;timestamps&#34;][i] = time.mktime(
+                record[&#34;timestamp&#34;].timetuple())
             if &#34;position_lat&#34; in record and &#34;position_long&#34; in record:
-                path[&#34;coords&#34;][i] = record[&#34;position_lat&#34;], record[&#34;position_long&#34;]
+                path[&#34;coords&#34;][i] = (record[&#34;position_lat&#34;],
+                                     record[&#34;position_long&#34;])
             if &#34;altitude&#34; in record:
                 path[&#34;altitudes&#34;][i] = record[&#34;altitude&#34;]
             if &#34;heart_rate&#34; in record:

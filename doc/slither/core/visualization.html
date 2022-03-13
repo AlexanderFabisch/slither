@@ -33,11 +33,13 @@ import matplotlib
 import numpy as np
 
 from .config import config
-from .analysis import (is_outlier, check_coords, filtered_heartrates,
-                       elevation_summary, filter_median_average,
-                       appropriate_partition, compute_distances_for_valid_trackpoints)
+from .analysis import (
+    is_outlier, check_coords, filtered_heartrates, elevation_summary,
+    filter_median_average, appropriate_partition,
+    compute_distances_for_valid_trackpoints)
 from .ui_text import d
-from slither.core.unit_conversions import convert_m_to_km, convert_mps_to_kmph, minutes_from_start
+from .unit_conversions import (
+    convert_m_to_km, convert_mps_to_kmph, minutes_from_start)
 
 
 def render_map(path):
@@ -77,9 +79,9 @@ def make_map(path):
         center = np.mean(coords, axis=0)
         distance_markers = generate_distance_markers(path)
 
-        # TODO find a way to colorize path according to velocities (update docstring)
-        #valid_velocities = np.isfinite(path[&#34;velocities&#34;])
-        #path[&#34;velocities&#34;][np.logical_not(valid_velocities)] = 0.0
+        # TODO find a way to colorize path according to velocities
+        # valid_velocities = np.isfinite(path[&#34;velocities&#34;])
+        # path[&#34;velocities&#34;][np.logical_not(valid_velocities)] = 0.0
 
         m = folium.Map(location=center)
         folium.Marker(
@@ -140,7 +142,8 @@ def plot_velocity_histogram(path, ax):
     if np.any(np.nonzero(velocities)):
         no_outlier = np.logical_not(is_outlier(velocities))
         velocities = convert_mps_to_kmph(velocities[no_outlier])
-        delta_ts = np.gradient(path[&#34;timestamps&#34;])[finite_velocities][no_outlier]
+        delta_ts = np.gradient(
+            path[&#34;timestamps&#34;])[finite_velocities][no_outlier]
 
         ax.hist(velocities, bins=50, weights=delta_ts)
     ax.set_xlabel(&#34;Velocity [km/h]&#34;)
@@ -162,28 +165,34 @@ def plot_elevation(path, ax, filter=True):
     filter : bool, optional (default: True)
         Filter altitude data
     &#34;&#34;&#34;
-    distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
+    distances_in_m, valid_trackpoints = \
+        compute_distances_for_valid_trackpoints(path)
     if len(distances_in_m) &gt; 0:
         distances_in_km = convert_m_to_km(distances_in_m)
         total_distance_in_m = np.nanmax(distances_in_m)
 
         altitudes = path[&#34;altitudes&#34;][valid_trackpoints]
-        # TODO exactly 0 seems to be an indicator for an error, a better method would be to detect jumps
-        valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
+        # TODO exactly 0 seems to be an indicator for an error, a better
+        # method would be to detect jumps
+        valid_altitudes = np.logical_and(
+            np.isfinite(altitudes), altitudes != 0.0)
         distances_in_km = distances_in_km[valid_altitudes]
         altitudes = altitudes[valid_altitudes]
         if len(altitudes) == 0:
             return
 
         if filter:
-            altitudes = filter_median_average(altitudes, config[&#34;plot&#34;][&#34;filter_width&#34;])
+            altitudes = filter_median_average(
+                altitudes, config[&#34;plot&#34;][&#34;filter_width&#34;])
 
-        gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
+        gain, loss, slope_in_percent = elevation_summary(
+            altitudes, total_distance_in_m)
 
         ax.set_title(f&#34;Elevation gain: {int(np.round(gain, 0))} m, &#34;
                      f&#34;loss: {int(np.round(loss, 0))} m, &#34;
                      f&#34;slope {np.round(slope_in_percent, 2)}%&#34;)
-        ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
+        ax.fill_between(
+            distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
         ax.plot(distances_in_km, altitudes)
         ax.set_xlim((0, convert_m_to_km(total_distance_in_m)))
         ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
@@ -215,7 +224,8 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
     &#34;&#34;&#34;
     time_in_min = minutes_from_start(path[&#34;timestamps&#34;])
     velocities = convert_mps_to_kmph(
-        filter_median_average(path[&#34;velocities&#34;], config[&#34;plot&#34;][&#34;filter_width&#34;]))
+        filter_median_average(path[&#34;velocities&#34;],
+                              config[&#34;plot&#34;][&#34;filter_width&#34;]))
     heartrates = filtered_heartrates(path, config[&#34;plot&#34;][&#34;filter_width&#34;])
 
     matplotlib.rcParams[&#34;font.size&#34;] = 10
@@ -347,9 +357,9 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
         center = np.mean(coords, axis=0)
         distance_markers = generate_distance_markers(path)
 
-        # TODO find a way to colorize path according to velocities (update docstring)
-        #valid_velocities = np.isfinite(path[&#34;velocities&#34;])
-        #path[&#34;velocities&#34;][np.logical_not(valid_velocities)] = 0.0
+        # TODO find a way to colorize path according to velocities
+        # valid_velocities = np.isfinite(path[&#34;velocities&#34;])
+        # path[&#34;velocities&#34;][np.logical_not(valid_velocities)] = 0.0
 
         m = folium.Map(location=center)
         folium.Marker(
@@ -402,28 +412,34 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
     filter : bool, optional (default: True)
         Filter altitude data
     &#34;&#34;&#34;
-    distances_in_m, valid_trackpoints = compute_distances_for_valid_trackpoints(path)
+    distances_in_m, valid_trackpoints = \
+        compute_distances_for_valid_trackpoints(path)
     if len(distances_in_m) &gt; 0:
         distances_in_km = convert_m_to_km(distances_in_m)
         total_distance_in_m = np.nanmax(distances_in_m)
 
         altitudes = path[&#34;altitudes&#34;][valid_trackpoints]
-        # TODO exactly 0 seems to be an indicator for an error, a better method would be to detect jumps
-        valid_altitudes = np.logical_and(np.isfinite(altitudes), altitudes != 0.0)
+        # TODO exactly 0 seems to be an indicator for an error, a better
+        # method would be to detect jumps
+        valid_altitudes = np.logical_and(
+            np.isfinite(altitudes), altitudes != 0.0)
         distances_in_km = distances_in_km[valid_altitudes]
         altitudes = altitudes[valid_altitudes]
         if len(altitudes) == 0:
             return
 
         if filter:
-            altitudes = filter_median_average(altitudes, config[&#34;plot&#34;][&#34;filter_width&#34;])
+            altitudes = filter_median_average(
+                altitudes, config[&#34;plot&#34;][&#34;filter_width&#34;])
 
-        gain, loss, slope_in_percent = elevation_summary(altitudes, total_distance_in_m)
+        gain, loss, slope_in_percent = elevation_summary(
+            altitudes, total_distance_in_m)
 
         ax.set_title(f&#34;Elevation gain: {int(np.round(gain, 0))} m, &#34;
                      f&#34;loss: {int(np.round(loss, 0))} m, &#34;
                      f&#34;slope {np.round(slope_in_percent, 2)}%&#34;)
-        ax.fill_between(distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
+        ax.fill_between(
+            distances_in_km, np.zeros_like(altitudes), altitudes, alpha=0.3)
         ax.plot(distances_in_km, altitudes)
         ax.set_xlim((0, convert_m_to_km(total_distance_in_m)))
         ax.set_ylim((min(altitudes), 1.1 * max(altitudes)))
@@ -480,7 +496,8 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
     &#34;&#34;&#34;
     time_in_min = minutes_from_start(path[&#34;timestamps&#34;])
     velocities = convert_mps_to_kmph(
-        filter_median_average(path[&#34;velocities&#34;], config[&#34;plot&#34;][&#34;filter_width&#34;]))
+        filter_median_average(path[&#34;velocities&#34;],
+                              config[&#34;plot&#34;][&#34;filter_width&#34;]))
     heartrates = filtered_heartrates(path, config[&#34;plot&#34;][&#34;filter_width&#34;])
 
     matplotlib.rcParams[&#34;font.size&#34;] = 10
@@ -557,7 +574,8 @@ def plot_speed_heartrate(vel_axis, hr_axis, path):
     if np.any(np.nonzero(velocities)):
         no_outlier = np.logical_not(is_outlier(velocities))
         velocities = convert_mps_to_kmph(velocities[no_outlier])
-        delta_ts = np.gradient(path[&#34;timestamps&#34;])[finite_velocities][no_outlier]
+        delta_ts = np.gradient(
+            path[&#34;timestamps&#34;])[finite_velocities][no_outlier]
 
         ax.hist(velocities, bins=50, weights=delta_ts)
     ax.set_xlabel(&#34;Velocity [km/h]&#34;)

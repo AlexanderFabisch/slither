@@ -34,10 +34,23 @@ from . import domain_model
 
 
 class Summary(object):
+    &#34;&#34;&#34;Summaries activities.&#34;&#34;&#34;
     def __init__(self, database):
         self.database = database
 
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         raise NotImplementedError(&#34;Base class&#34;)
 
     def _summary_entry(self, end, sport, start):
@@ -74,7 +87,20 @@ class Summary(object):
 
 
 class WeekSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a week.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         start = self._start_of_last_activity()
         start = datetime(year=start.year, month=start.month, day=start.day)
         start = start - timedelta(days=start.weekday())
@@ -92,7 +118,20 @@ class WeekSummary(Summary):
 
 
 class MonthSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a month.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
@@ -115,7 +154,20 @@ class MonthSummary(Summary):
 
 
 class YearSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a year.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
@@ -146,13 +198,26 @@ class YearSummary(Summary):
 <span>(</span><span>database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Summaries activities of a month.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class MonthSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a month.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
@@ -177,56 +242,43 @@ class YearSummary(Summary):
 <ul class="hlist">
 <li><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slither.summary.MonthSummary.summarize"><code class="name flex">
-<span>def <span class="ident">summarize</span></span>(<span>self, sport=None)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def summarize(self, sport=None):
-    latest = self._start_of_last_activity()
-    earliest = self._start_of_first_activity()
-
-    year = latest.year
-    month = latest.month + 1
-    end = datetime(year=year, month=month, day=1)
-    summaries = []
-    while True:
-        month -= 1
-        if month == 0:
-            month = 12
-            year -= 1
-        start = datetime(year=year, month=month, day=1)
-        if start &lt; earliest:
-            break
-        summary = self._summary_entry(end, sport, start)
-        summaries.append(summary)
-        end = start
-    return summaries</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slither.summary.Summary.summarize" href="#slither.summary.Summary.summarize">summarize</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="slither.summary.Summary"><code class="flex name class">
 <span>class <span class="ident">Summary</span></span>
 <span>(</span><span>database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Summaries activities.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Summary(object):
+    &#34;&#34;&#34;Summaries activities.&#34;&#34;&#34;
     def __init__(self, database):
         self.database = database
 
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         raise NotImplementedError(&#34;Base class&#34;)
 
     def _summary_entry(self, end, sport, start):
@@ -273,12 +325,34 @@ class YearSummary(Summary):
 <span>def <span class="ident">summarize</span></span>(<span>self, sport=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Create summary.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sport</code></strong> :&ensp;<code>str</code>, optional <code>(default: None)</code></dt>
+<dd>Type of sport.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>summary</code></strong> :&ensp;<code>list</code></dt>
+<dd>Summary of activities.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def summarize(self, sport=None):
+    &#34;&#34;&#34;Create summary.
+
+    Parameters
+    ----------
+    sport : str, optional (default: None)
+        Type of sport.
+
+    Returns
+    -------
+    summary : list
+        Summary of activities.
+    &#34;&#34;&#34;
     raise NotImplementedError(&#34;Base class&#34;)</code></pre>
 </details>
 </dd>
@@ -289,13 +363,26 @@ class YearSummary(Summary):
 <span>(</span><span>database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Summaries activities of a week.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class WeekSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a week.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         start = self._start_of_last_activity()
         start = datetime(year=start.year, month=start.month, day=start.day)
         start = start - timedelta(days=start.weekday())
@@ -315,48 +402,40 @@ class YearSummary(Summary):
 <ul class="hlist">
 <li><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slither.summary.WeekSummary.summarize"><code class="name flex">
-<span>def <span class="ident">summarize</span></span>(<span>self, sport=None)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def summarize(self, sport=None):
-    start = self._start_of_last_activity()
-    start = datetime(year=start.year, month=start.month, day=start.day)
-    start = start - timedelta(days=start.weekday())
-    earliest = self._start_of_first_activity()
-
-    summaries = []
-    while True:
-        end = start + timedelta(days=7)
-        if end &lt; earliest:
-            break
-        summary = self._summary_entry(end, sport, start)
-        summaries.append(summary)
-        start = start - timedelta(days=7)
-    return summaries</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slither.summary.Summary.summarize" href="#slither.summary.Summary.summarize">summarize</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="slither.summary.YearSummary"><code class="flex name class">
 <span>class <span class="ident">YearSummary</span></span>
 <span>(</span><span>database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Summaries activities of a year.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class YearSummary(Summary):
+    &#34;&#34;&#34;Summaries activities of a year.&#34;&#34;&#34;
     def summarize(self, sport=None):
+        &#34;&#34;&#34;Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        &#34;&#34;&#34;
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
@@ -376,35 +455,14 @@ class YearSummary(Summary):
 <ul class="hlist">
 <li><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slither.summary.YearSummary.summarize"><code class="name flex">
-<span>def <span class="ident">summarize</span></span>(<span>self, sport=None)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def summarize(self, sport=None):
-    latest = self._start_of_last_activity()
-    earliest = self._start_of_first_activity()
-
-    i = 0
-    summaries = []
-    while True:
-        start = datetime(year=latest.year - i, month=1, day=1)
-        end = datetime(year=latest.year - i + 1, month=1, day=1)
-        if end &lt; earliest:
-            break
-        summary = self._summary_entry(end, sport, start)
-        summaries.append(summary)
-        i += 1
-    return summaries</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slither.summary.Summary.summarize" href="#slither.summary.Summary.summarize">summarize</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -424,9 +482,6 @@ class YearSummary(Summary):
 <ul>
 <li>
 <h4><code><a title="slither.summary.MonthSummary" href="#slither.summary.MonthSummary">MonthSummary</a></code></h4>
-<ul class="">
-<li><code><a title="slither.summary.MonthSummary.summarize" href="#slither.summary.MonthSummary.summarize">summarize</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="slither.summary.Summary" href="#slither.summary.Summary">Summary</a></code></h4>
@@ -436,15 +491,9 @@ class YearSummary(Summary):
 </li>
 <li>
 <h4><code><a title="slither.summary.WeekSummary" href="#slither.summary.WeekSummary">WeekSummary</a></code></h4>
-<ul class="">
-<li><code><a title="slither.summary.WeekSummary.summarize" href="#slither.summary.WeekSummary.summarize">summarize</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="slither.summary.YearSummary" href="#slither.summary.YearSummary">YearSummary</a></code></h4>
-<ul class="">
-<li><code><a title="slither.summary.YearSummary.summarize" href="#slither.summary.YearSummary.summarize">summarize</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

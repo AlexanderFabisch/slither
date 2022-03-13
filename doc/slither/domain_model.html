@@ -56,6 +56,25 @@ class Activity(Base):
     trackpoints = relationship(&#34;Trackpoint&#34;)
 
     def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+        &#34;&#34;&#34;Set path.
+
+        Parameters
+        ----------
+        timestamps : array-like, shape (n_steps,)
+            Timestamps.
+
+        coords : array-like, shape (n_steps, 2)
+            GPS coordinates.
+
+        altitudes : array-like, shape (n_steps,)
+            Altitudes.
+
+        heartrates : array-like, shape (n_steps,)
+            Heart rates.
+
+        velocities : array-like, shape (n_steps,)
+            Velocities.
+        &#34;&#34;&#34;
         assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
             len(timestamps), len(coords))
         assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (
@@ -72,35 +91,64 @@ class Activity(Base):
                                      velocities)]
 
     def get_filename(self):
+        &#34;&#34;&#34;Get filename.
+
+        Returns
+        -------
+        filename : str
+            Get filename at which this activity should be stored.
+        &#34;&#34;&#34;
         start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
         return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)
 
     def get_path(self):
+        &#34;&#34;&#34;Get path.
+
+        Returns
+        -------
+        path : config or None
+            Path. Contains the entries &#39;timestamps&#39;, &#39;coords&#39;, &#39;altitudes&#39;,
+            &#39;heartrates&#39;, and &#39;velocities&#39;.
+        &#34;&#34;&#34;
         if hasattr(self, &#34;path&#34;):
             return self.path
-        elif self.has_path:
+
+        if self.has_path:
             self.path = {
-                &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
-                                       dtype=np.float),
-                &#34;coords&#34;: np.array([(t.latitude, t.longitude)
-                                    for t in self.trackpoints], dtype=np.float),
-                &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
-                                      dtype=np.float),
-                &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
-                                       dtype=np.float),
-                &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
-                                       dtype=np.float)
+                &#34;timestamps&#34;: np.array(
+                    [t.timestamp for t in self.trackpoints], dtype=np.float),
+                &#34;coords&#34;: np.array(
+                    [(t.latitude, t.longitude) for t in self.trackpoints],
+                    dtype=np.float),
+                &#34;altitudes&#34;: np.array(
+                    [t.altitude for t in self.trackpoints], dtype=np.float),
+                &#34;heartrates&#34;: np.array(
+                    [t.heartrate for t in self.trackpoints], dtype=np.float),
+                &#34;velocities&#34;: np.array(
+                    [t.velocity for t in self.trackpoints], dtype=np.float)
             }
             return self.path
-        else:
-            return None
+
+        return None
 
     def compute_records(self, distance):
+        &#34;&#34;&#34;Compute fastest time for a specific distance.
+
+        Parameters
+        ----------
+        distance : float
+            Distance.
+
+        Returns
+        -------
+        record : Record
+            Fastest time.
+        &#34;&#34;&#34;
         record = self._check_metadata(distance)
         if self.has_path:
-            timestamps = self.get_path()[&#34;timestamps&#34;]
-            velocities = self.get_path()[&#34;velocities&#34;]
-            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+            fp = fastest_part(self.sport, self.get_path()[&#34;timestamps&#34;],
+                              self.get_path()[&#34;velocities&#34;], distance)
+            record = min((record, fp))
         return Record(sport=self.sport, distance=distance, time=record,
                       activity_id=self.id)
 
@@ -150,6 +198,13 @@ class Record(Base):
 
 
 def init_database(session):
+    &#34;&#34;&#34;Create new database structure.
+
+    Parameters
+    ----------
+    session : Session
+        Database session.
+    &#34;&#34;&#34;
     records = [
         Record(sport=sport, distance=distance, time=float(&#34;inf&#34;))
         for sport, distances in config[&#34;records&#34;].items()
@@ -170,12 +225,24 @@ def init_database(session):
 <span>def <span class="ident">init_database</span></span>(<span>session)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Create new database structure.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>session</code></strong> :&ensp;<code>Session</code></dt>
+<dd>Database session.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def init_database(session):
+    &#34;&#34;&#34;Create new database structure.
+
+    Parameters
+    ----------
+    session : Session
+        Database session.
+    &#34;&#34;&#34;
     records = [
         Record(sport=sport, distance=distance, time=float(&#34;inf&#34;))
         for sport, distances in config[&#34;records&#34;].items()
@@ -222,6 +289,25 @@ for example, any mapped columns or relationships.</p></div>
     trackpoints = relationship(&#34;Trackpoint&#34;)
 
     def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+        &#34;&#34;&#34;Set path.
+
+        Parameters
+        ----------
+        timestamps : array-like, shape (n_steps,)
+            Timestamps.
+
+        coords : array-like, shape (n_steps, 2)
+            GPS coordinates.
+
+        altitudes : array-like, shape (n_steps,)
+            Altitudes.
+
+        heartrates : array-like, shape (n_steps,)
+            Heart rates.
+
+        velocities : array-like, shape (n_steps,)
+            Velocities.
+        &#34;&#34;&#34;
         assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
             len(timestamps), len(coords))
         assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (
@@ -238,35 +324,64 @@ for example, any mapped columns or relationships.</p></div>
                                      velocities)]
 
     def get_filename(self):
+        &#34;&#34;&#34;Get filename.
+
+        Returns
+        -------
+        filename : str
+            Get filename at which this activity should be stored.
+        &#34;&#34;&#34;
         start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
         return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)
 
     def get_path(self):
+        &#34;&#34;&#34;Get path.
+
+        Returns
+        -------
+        path : config or None
+            Path. Contains the entries &#39;timestamps&#39;, &#39;coords&#39;, &#39;altitudes&#39;,
+            &#39;heartrates&#39;, and &#39;velocities&#39;.
+        &#34;&#34;&#34;
         if hasattr(self, &#34;path&#34;):
             return self.path
-        elif self.has_path:
+
+        if self.has_path:
             self.path = {
-                &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
-                                       dtype=np.float),
-                &#34;coords&#34;: np.array([(t.latitude, t.longitude)
-                                    for t in self.trackpoints], dtype=np.float),
-                &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
-                                      dtype=np.float),
-                &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
-                                       dtype=np.float),
-                &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
-                                       dtype=np.float)
+                &#34;timestamps&#34;: np.array(
+                    [t.timestamp for t in self.trackpoints], dtype=np.float),
+                &#34;coords&#34;: np.array(
+                    [(t.latitude, t.longitude) for t in self.trackpoints],
+                    dtype=np.float),
+                &#34;altitudes&#34;: np.array(
+                    [t.altitude for t in self.trackpoints], dtype=np.float),
+                &#34;heartrates&#34;: np.array(
+                    [t.heartrate for t in self.trackpoints], dtype=np.float),
+                &#34;velocities&#34;: np.array(
+                    [t.velocity for t in self.trackpoints], dtype=np.float)
             }
             return self.path
-        else:
-            return None
+
+        return None
 
     def compute_records(self, distance):
+        &#34;&#34;&#34;Compute fastest time for a specific distance.
+
+        Parameters
+        ----------
+        distance : float
+            Distance.
+
+        Returns
+        -------
+        record : Record
+            Fastest time.
+        &#34;&#34;&#34;
         record = self._check_metadata(distance)
         if self.has_path:
-            timestamps = self.get_path()[&#34;timestamps&#34;]
-            velocities = self.get_path()[&#34;velocities&#34;]
-            record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+            fp = fastest_part(self.sport, self.get_path()[&#34;timestamps&#34;],
+                              self.get_path()[&#34;velocities&#34;], distance)
+            record = min((record, fp))
         return Record(sport=self.sport, distance=distance, time=record,
                       activity_id=self.id)
 
@@ -544,17 +659,39 @@ for example, any mapped columns or relationships.</p></div>
 <span>def <span class="ident">compute_records</span></span>(<span>self, distance)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Compute fastest time for a specific distance.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>distance</code></strong> :&ensp;<code>float</code></dt>
+<dd>Distance.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>record</code></strong> :&ensp;<code><a title="slither.domain_model.Record" href="#slither.domain_model.Record">Record</a></code></dt>
+<dd>Fastest time.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def compute_records(self, distance):
+    &#34;&#34;&#34;Compute fastest time for a specific distance.
+
+    Parameters
+    ----------
+    distance : float
+        Distance.
+
+    Returns
+    -------
+    record : Record
+        Fastest time.
+    &#34;&#34;&#34;
     record = self._check_metadata(distance)
     if self.has_path:
-        timestamps = self.get_path()[&#34;timestamps&#34;]
-        velocities = self.get_path()[&#34;velocities&#34;]
-        record = min((record, fastest_part(self.sport, timestamps, velocities, distance)))
+        fp = fastest_part(self.sport, self.get_path()[&#34;timestamps&#34;],
+                          self.get_path()[&#34;velocities&#34;], distance)
+        record = min((record, fp))
     return Record(sport=self.sport, distance=distance, time=record,
                   activity_id=self.id)</code></pre>
 </details>
@@ -563,12 +700,24 @@ for example, any mapped columns or relationships.</p></div>
 <span>def <span class="ident">get_filename</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get filename.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Get filename at which this activity should be stored.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_filename(self):
+    &#34;&#34;&#34;Get filename.
+
+    Returns
+    -------
+    filename : str
+        Get filename at which this activity should be stored.
+    &#34;&#34;&#34;
     start_time_str = self.start_time.strftime(&#34;%Y%m%d_%H%M%S&#34;)
     return &#34;%s_%s.tcx&#34; % (self.sport, start_time_str)</code></pre>
 </details>
@@ -577,42 +726,90 @@ for example, any mapped columns or relationships.</p></div>
 <span>def <span class="ident">get_path</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get path.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>config</code> or <code>None</code></dt>
+<dd>Path. Contains the entries 'timestamps', 'coords', 'altitudes',
+'heartrates', and 'velocities'.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_path(self):
+    &#34;&#34;&#34;Get path.
+
+    Returns
+    -------
+    path : config or None
+        Path. Contains the entries &#39;timestamps&#39;, &#39;coords&#39;, &#39;altitudes&#39;,
+        &#39;heartrates&#39;, and &#39;velocities&#39;.
+    &#34;&#34;&#34;
     if hasattr(self, &#34;path&#34;):
         return self.path
-    elif self.has_path:
+
+    if self.has_path:
         self.path = {
-            &#34;timestamps&#34;: np.array([t.timestamp for t in self.trackpoints],
-                                   dtype=np.float),
-            &#34;coords&#34;: np.array([(t.latitude, t.longitude)
-                                for t in self.trackpoints], dtype=np.float),
-            &#34;altitudes&#34;: np.array([t.altitude for t in self.trackpoints],
-                                  dtype=np.float),
-            &#34;heartrates&#34;: np.array([t.heartrate for t in self.trackpoints],
-                                   dtype=np.float),
-            &#34;velocities&#34;: np.array([t.velocity for t in self.trackpoints],
-                                   dtype=np.float)
+            &#34;timestamps&#34;: np.array(
+                [t.timestamp for t in self.trackpoints], dtype=np.float),
+            &#34;coords&#34;: np.array(
+                [(t.latitude, t.longitude) for t in self.trackpoints],
+                dtype=np.float),
+            &#34;altitudes&#34;: np.array(
+                [t.altitude for t in self.trackpoints], dtype=np.float),
+            &#34;heartrates&#34;: np.array(
+                [t.heartrate for t in self.trackpoints], dtype=np.float),
+            &#34;velocities&#34;: np.array(
+                [t.velocity for t in self.trackpoints], dtype=np.float)
         }
         return self.path
-    else:
-        return None</code></pre>
+
+    return None</code></pre>
 </details>
 </dd>
 <dt id="slither.domain_model.Activity.set_path"><code class="name flex">
 <span>def <span class="ident">set_path</span></span>(<span>self, timestamps, coords, altitudes, heartrates, velocities)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Set path.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>array-like, shape (n_steps,)</code></dt>
+<dd>Timestamps.</dd>
+<dt><strong><code>coords</code></strong> :&ensp;<code>array-like, shape (n_steps, 2)</code></dt>
+<dd>GPS coordinates.</dd>
+<dt><strong><code>altitudes</code></strong> :&ensp;<code>array-like, shape (n_steps,)</code></dt>
+<dd>Altitudes.</dd>
+<dt><strong><code>heartrates</code></strong> :&ensp;<code>array-like, shape (n_steps,)</code></dt>
+<dd>Heart rates.</dd>
+<dt><strong><code>velocities</code></strong> :&ensp;<code>array-like, shape (n_steps,)</code></dt>
+<dd>Velocities.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+    &#34;&#34;&#34;Set path.
+
+    Parameters
+    ----------
+    timestamps : array-like, shape (n_steps,)
+        Timestamps.
+
+    coords : array-like, shape (n_steps, 2)
+        GPS coordinates.
+
+    altitudes : array-like, shape (n_steps,)
+        Altitudes.
+
+    heartrates : array-like, shape (n_steps,)
+        Heart rates.
+
+    velocities : array-like, shape (n_steps,)
+        Velocities.
+    &#34;&#34;&#34;
     assert len(timestamps) == len(coords), &#34;%d != %d&#34; % (
         len(timestamps), len(coords))
     assert len(timestamps) == len(altitudes), &#34;%d != %d&#34; % (

@@ -41,8 +41,8 @@ def datetime_from_iso8601(date_str):
     date_str : str
         Example: 2016-12-11T10:00:00.000Z
 
-    Return
-    ------
+    Returns
+    -------
     dt : datetime
         Datetime representation
     &#34;&#34;&#34;
@@ -51,6 +51,18 @@ def datetime_from_iso8601(date_str):
 
 
 def to_utf8(content):
+    &#34;&#34;&#34;Convert string to UTF-8.
+
+    Parameters
+    ----------
+    content : AnyStr
+        String in windows-1252 or utf-8.
+
+    Returns
+    -------
+    utf8 : bytes
+        String in utf-8.
+    &#34;&#34;&#34;
     try:
         content = content.decode(&#34;windows-1252&#34;)
     finally:
@@ -75,9 +87,11 @@ def to_utf8(content):
 <dt><strong><code>date_str</code></strong> :&ensp;<code>str</code></dt>
 <dd>Example: 2016-12-11T10:00:00.000Z</dd>
 </dl>
-<h2 id="return">Return</h2>
-<p>dt : datetime
-Datetime representation</p></div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>dt</code></strong> :&ensp;<code>datetime</code></dt>
+<dd>Datetime representation</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -92,8 +106,8 @@ Datetime representation</p></div>
     date_str : str
         Example: 2016-12-11T10:00:00.000Z
 
-    Return
-    ------
+    Returns
+    -------
     dt : datetime
         Datetime representation
     &#34;&#34;&#34;
@@ -105,12 +119,34 @@ Datetime representation</p></div>
 <span>def <span class="ident">to_utf8</span></span>(<span>content)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Convert string to UTF-8.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code>AnyStr</code></dt>
+<dd>String in windows-1252 or utf-8.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>utf8</code></strong> :&ensp;<code>bytes</code></dt>
+<dd>String in utf-8.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def to_utf8(content):
+    &#34;&#34;&#34;Convert string to UTF-8.
+
+    Parameters
+    ----------
+    content : AnyStr
+        String in windows-1252 or utf-8.
+
+    Returns
+    -------
+    utf8 : bytes
+        String in utf-8.
+    &#34;&#34;&#34;
     try:
         content = content.decode(&#34;windows-1252&#34;)
     finally:

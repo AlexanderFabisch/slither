@@ -58,7 +58,8 @@ def read_gpx(content):
     metadata = _metadata(training)
 
     if metadata[&#34;has_path&#34;]:
-        path, metadata[&#34;distance&#34;], metadata[&#34;time&#34;] = _parse_training(training)
+        path, metadata[&#34;distance&#34;], metadata[&#34;time&#34;] = _parse_training(
+            training)
     else:
         path = None
         metadata[&#34;distance&#34;] = 0.0
@@ -179,7 +180,8 @@ def _parse_altitude(trackpoint):
     metadata = _metadata(training)
 
     if metadata[&#34;has_path&#34;]:
-        path, metadata[&#34;distance&#34;], metadata[&#34;time&#34;] = _parse_training(training)
+        path, metadata[&#34;distance&#34;], metadata[&#34;time&#34;] = _parse_training(
+            training)
     else:
         path = None
         metadata[&#34;distance&#34;] = 0.0

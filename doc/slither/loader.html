@@ -36,10 +36,29 @@ from slither.io.tcx_loader import read_tcx
 
 
 class Loader:
+    &#34;&#34;&#34;Loader factory.
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file that should be loaded.
+    &#34;&#34;&#34;
     def __init__(self, filename):
         self.filename = filename
 
     def get_loader(self, file_content=None):
+        &#34;&#34;&#34;Get loader.
+
+        Parameters
+        ----------
+        file_content : str, optional (default: None)
+            File content.
+
+        Raises
+        ------
+        ValueError
+            Cannot handle file format.
+        &#34;&#34;&#34;
         ending = self.filename.split(&#34;.&#34;)[-1]
         if ending.lower() == &#34;gpx&#34;:
             return GpxLoader(file_content)
@@ -47,16 +66,28 @@ class Loader:
             return TcxLoader(file_content)
         if ending.lower() == &#34;fit&#34;:
             return FitLoader(self.filename)
-        else:
-            raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)
+        raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)
 
 
 class FitLoader:
-    &#34;&#34;&#34;Loads Flexible and Interoperable Data Transfer (FIT) files.&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads Flexible and Interoperable Data Transfer (FIT) files.
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file that should be loaded.
+    &#34;&#34;&#34;
     def __init__(self, filename):
         self.filename = filename
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_fit(self.filename)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -65,11 +96,24 @@ class FitLoader:
 
 
 class GpxLoader:
-    &#34;&#34;&#34;Loads GPS exchange format.&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads GPS exchange format.
+
+    Parameters
+    ----------
+    gpx_content : str
+        Content of the file.
+    &#34;&#34;&#34;
     def __init__(self, gpx_content):
         self.content = gpx_content
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_gpx(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -83,6 +127,11 @@ class PolarJsonLoader:
     You can export your personal data from Polar flow at
 
         https://account.polar.com/#export
+
+    Parameters
+    ----------
+    content : str
+        Content of the file.
     &#34;&#34;&#34;
     def __init__(self, content):
         self.content = content
@@ -90,6 +139,13 @@ class PolarJsonLoader:
         self.metadata = None
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_polar_json(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -98,11 +154,24 @@ class PolarJsonLoader:
 
 
 class TcxLoader:
-    &#34;&#34;&#34;Loads training center XML (TCX).&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads training center XML (TCX).
+
+    Parameters
+    ----------
+    content : str
+        Content of the file.
+    &#34;&#34;&#34;
     def __init__(self, content):
         self.content = content
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_tcx(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -124,17 +193,35 @@ class TcxLoader:
 <span>(</span><span>filename)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loads Flexible and Interoperable Data Transfer (FIT) files.</p></div>
+<div class="desc"><p>Loads Flexible and Interoperable Data Transfer (FIT) files.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the file that should be loaded.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FitLoader:
-    &#34;&#34;&#34;Loads Flexible and Interoperable Data Transfer (FIT) files.&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads Flexible and Interoperable Data Transfer (FIT) files.
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file that should be loaded.
+    &#34;&#34;&#34;
     def __init__(self, filename):
         self.filename = filename
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_fit(self.filename)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -147,12 +234,24 @@ class TcxLoader:
 <span>def <span class="ident">load</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load file content.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activity</code></strong> :&ensp;<code>Activity</code></dt>
+<dd>Loaded activity.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load(self):
+    &#34;&#34;&#34;Load file content.
+
+    Returns
+    -------
+    activity : Activity
+        Loaded activity.
+    &#34;&#34;&#34;
     metadata, path = read_fit(self.filename)
     activity = Activity(**metadata)
     if activity.has_path:
@@ -167,17 +266,35 @@ class TcxLoader:
 <span>(</span><span>gpx_content)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loads GPS exchange format.</p></div>
+<div class="desc"><p>Loads GPS exchange format.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>gpx_content</code></strong> :&ensp;<code>str</code></dt>
+<dd>Content of the file.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class GpxLoader:
-    &#34;&#34;&#34;Loads GPS exchange format.&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads GPS exchange format.
+
+    Parameters
+    ----------
+    gpx_content : str
+        Content of the file.
+    &#34;&#34;&#34;
     def __init__(self, gpx_content):
         self.content = gpx_content
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_gpx(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -190,12 +307,24 @@ class TcxLoader:
 <span>def <span class="ident">load</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load file content.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activity</code></strong> :&ensp;<code>Activity</code></dt>
+<dd>Loaded activity.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load(self):
+    &#34;&#34;&#34;Load file content.
+
+    Returns
+    -------
+    activity : Activity
+        Loaded activity.
+    &#34;&#34;&#34;
     metadata, path = read_gpx(self.content)
     activity = Activity(**metadata)
     if activity.has_path:
@@ -210,16 +339,40 @@ class TcxLoader:
 <span>(</span><span>filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Loader factory.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the file that should be loaded.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Loader:
+    &#34;&#34;&#34;Loader factory.
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file that should be loaded.
+    &#34;&#34;&#34;
     def __init__(self, filename):
         self.filename = filename
 
     def get_loader(self, file_content=None):
+        &#34;&#34;&#34;Get loader.
+
+        Parameters
+        ----------
+        file_content : str, optional (default: None)
+            File content.
+
+        Raises
+        ------
+        ValueError
+            Cannot handle file format.
+        &#34;&#34;&#34;
         ending = self.filename.split(&#34;.&#34;)[-1]
         if ending.lower() == &#34;gpx&#34;:
             return GpxLoader(file_content)
@@ -227,8 +380,7 @@ class TcxLoader:
             return TcxLoader(file_content)
         if ending.lower() == &#34;fit&#34;:
             return FitLoader(self.filename)
-        else:
-            raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)</code></pre>
+        raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -236,12 +388,34 @@ class TcxLoader:
 <span>def <span class="ident">get_loader</span></span>(<span>self, file_content=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get loader.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>file_content</code></strong> :&ensp;<code>str</code>, optional <code>(default: None)</code></dt>
+<dd>File content.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Cannot handle file format.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_loader(self, file_content=None):
+    &#34;&#34;&#34;Get loader.
+
+    Parameters
+    ----------
+    file_content : str, optional (default: None)
+        File content.
+
+    Raises
+    ------
+    ValueError
+        Cannot handle file format.
+    &#34;&#34;&#34;
     ending = self.filename.split(&#34;.&#34;)[-1]
     if ending.lower() == &#34;gpx&#34;:
         return GpxLoader(file_content)
@@ -249,8 +423,7 @@ class TcxLoader:
         return TcxLoader(file_content)
     if ending.lower() == &#34;fit&#34;:
         return FitLoader(self.filename)
-    else:
-        raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)</code></pre>
+    raise ValueError(&#34;Cannot handle file format &#39;%s&#39;&#34; % ending)</code></pre>
 </details>
 </dd>
 </dl>
@@ -263,7 +436,12 @@ class TcxLoader:
 <div class="desc"><p>Loads JSON files from Polar data export.</p>
 <p>You can export your personal data from Polar flow at</p>
 <pre><code>&lt;https://account.polar.com/#export&gt;
-</code></pre></div>
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code>str</code></dt>
+<dd>Content of the file.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -274,6 +452,11 @@ class TcxLoader:
     You can export your personal data from Polar flow at
 
         https://account.polar.com/#export
+
+    Parameters
+    ----------
+    content : str
+        Content of the file.
     &#34;&#34;&#34;
     def __init__(self, content):
         self.content = content
@@ -281,6 +464,13 @@ class TcxLoader:
         self.metadata = None
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_polar_json(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -293,12 +483,24 @@ class TcxLoader:
 <span>def <span class="ident">load</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load file content.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activity</code></strong> :&ensp;<code>Activity</code></dt>
+<dd>Loaded activity.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load(self):
+    &#34;&#34;&#34;Load file content.
+
+    Returns
+    -------
+    activity : Activity
+        Loaded activity.
+    &#34;&#34;&#34;
     metadata, path = read_polar_json(self.content)
     activity = Activity(**metadata)
     if activity.has_path:
@@ -313,17 +515,35 @@ class TcxLoader:
 <span>(</span><span>content)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loads training center XML (TCX).</p></div>
+<div class="desc"><p>Loads training center XML (TCX).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code>str</code></dt>
+<dd>Content of the file.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class TcxLoader:
-    &#34;&#34;&#34;Loads training center XML (TCX).&#34;&#34;&#34;
+    &#34;&#34;&#34;Loads training center XML (TCX).
+
+    Parameters
+    ----------
+    content : str
+        Content of the file.
+    &#34;&#34;&#34;
     def __init__(self, content):
         self.content = content
 
     def load(self):
+        &#34;&#34;&#34;Load file content.
+
+        Returns
+        -------
+        activity : Activity
+            Loaded activity.
+        &#34;&#34;&#34;
         metadata, path = read_tcx(self.content)
         activity = Activity(**metadata)
         if activity.has_path:
@@ -336,12 +556,24 @@ class TcxLoader:
 <span>def <span class="ident">load</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load file content.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activity</code></strong> :&ensp;<code>Activity</code></dt>
+<dd>Loaded activity.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load(self):
+    &#34;&#34;&#34;Load file content.
+
+    Returns
+    -------
+    activity : Activity
+        Loaded activity.
+    &#34;&#34;&#34;
     metadata, path = read_tcx(self.content)
     activity = Activity(**metadata)
     if activity.has_path:

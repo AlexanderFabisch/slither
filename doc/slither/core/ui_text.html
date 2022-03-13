@@ -53,12 +53,11 @@ class DataDisplay:  # TODO localization
     def display_distance(self, distance):
         if distance == 0.0:
             return &#34;-&#34;
-        elif distance % 1000.0 == 0.0:
+        if distance % 1000.0 == 0.0:
             return &#34;%d km&#34; % (distance / 1000.0)
-        elif distance &lt; 2000.0:
+        if distance &lt; 2000.0:
             return &#34;%d m&#34; % np.round(distance, 0)
-        else:
-            return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
+        return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
         if time == 0.0:
@@ -68,21 +67,19 @@ class DataDisplay:  # TODO localization
 
         if time &lt; 60.0:
             return &#34;%.2f s&#34; % time
-        else:
-            hours, minutes, seconds = split_time(time)
-            return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
+
+        hours, minutes, seconds = split_time(time)
+        return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
 
     def display_calories(self, calories):
         if calories is None or calories == 0.0:
             return &#34;-&#34;
-        else:
-            return &#34;%d kCal&#34; % calories
+        return &#34;%d kCal&#34; % calories
 
     def display_heartrate(self, heartrate):
         if heartrate is None or heartrate == 0.0:
             return &#34;-&#34;
-        else:
-            return &#34;%d bpm&#34; % heartrate
+        return &#34;%d bpm&#34; % heartrate
 
 
 d = DataDisplay()</code></pre>
@@ -127,12 +124,11 @@ d = DataDisplay()</code></pre>
     def display_distance(self, distance):
         if distance == 0.0:
             return &#34;-&#34;
-        elif distance % 1000.0 == 0.0:
+        if distance % 1000.0 == 0.0:
             return &#34;%d km&#34; % (distance / 1000.0)
-        elif distance &lt; 2000.0:
+        if distance &lt; 2000.0:
             return &#34;%d m&#34; % np.round(distance, 0)
-        else:
-            return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
+        return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
         if time == 0.0:
@@ -142,21 +138,19 @@ d = DataDisplay()</code></pre>
 
         if time &lt; 60.0:
             return &#34;%.2f s&#34; % time
-        else:
-            hours, minutes, seconds = split_time(time)
-            return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
+
+        hours, minutes, seconds = split_time(time)
+        return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
 
     def display_calories(self, calories):
         if calories is None or calories == 0.0:
             return &#34;-&#34;
-        else:
-            return &#34;%d kCal&#34; % calories
+        return &#34;%d kCal&#34; % calories
 
     def display_heartrate(self, heartrate):
         if heartrate is None or heartrate == 0.0:
             return &#34;-&#34;
-        else:
-            return &#34;%d bpm&#34; % heartrate</code></pre>
+        return &#34;%d bpm&#34; % heartrate</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -172,8 +166,7 @@ d = DataDisplay()</code></pre>
 <pre><code class="python">def display_calories(self, calories):
     if calories is None or calories == 0.0:
         return &#34;-&#34;
-    else:
-        return &#34;%d kCal&#34; % calories</code></pre>
+    return &#34;%d kCal&#34; % calories</code></pre>
 </details>
 </dd>
 <dt id="slither.core.ui_text.DataDisplay.display_date"><code class="name flex">
@@ -214,12 +207,11 @@ d = DataDisplay()</code></pre>
 <pre><code class="python">def display_distance(self, distance):
     if distance == 0.0:
         return &#34;-&#34;
-    elif distance % 1000.0 == 0.0:
+    if distance % 1000.0 == 0.0:
         return &#34;%d km&#34; % (distance / 1000.0)
-    elif distance &lt; 2000.0:
+    if distance &lt; 2000.0:
         return &#34;%d m&#34; % np.round(distance, 0)
-    else:
-        return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)</code></pre>
+    return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)</code></pre>
 </details>
 </dd>
 <dt id="slither.core.ui_text.DataDisplay.display_heartrate"><code class="name flex">
@@ -234,8 +226,7 @@ d = DataDisplay()</code></pre>
 <pre><code class="python">def display_heartrate(self, heartrate):
     if heartrate is None or heartrate == 0.0:
         return &#34;-&#34;
-    else:
-        return &#34;%d bpm&#34; % heartrate</code></pre>
+    return &#34;%d bpm&#34; % heartrate</code></pre>
 </details>
 </dd>
 <dt id="slither.core.ui_text.DataDisplay.display_sport"><code class="name flex">
@@ -273,9 +264,9 @@ d = DataDisplay()</code></pre>
 
     if time &lt; 60.0:
         return &#34;%.2f s&#34; % time
-    else:
-        hours, minutes, seconds = split_time(time)
-        return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)</code></pre>
+
+    hours, minutes, seconds = split_time(time)
+    return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)</code></pre>
 </details>
 </dd>
 </dl>

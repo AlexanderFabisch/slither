@@ -334,14 +334,13 @@ def appropriate_partition(distance):
     &#34;&#34;&#34;
     if distance &lt; 5000:
         return 400
-    elif distance &lt; 20000:
+    if distance &lt; 20000:
         return 1000
-    elif distance &lt; 40000:
+    if distance &lt; 40000:
         return 2000
-    elif distance &lt; 100000:
+    if distance &lt; 100000:
         return 5000
-    else:
-        return 10000
+    return 10000
 
 
 def compute_distances_for_valid_trackpoints(path):
@@ -412,14 +411,13 @@ def compute_distances_for_valid_trackpoints(path):
     &#34;&#34;&#34;
     if distance &lt; 5000:
         return 400
-    elif distance &lt; 20000:
+    if distance &lt; 20000:
         return 1000
-    elif distance &lt; 40000:
+    if distance &lt; 40000:
         return 2000
-    elif distance &lt; 100000:
+    if distance &lt; 100000:
         return 5000
-    else:
-        return 10000</code></pre>
+    return 10000</code></pre>
 </details>
 </dd>
 <dt id="slither.core.analysis.check_coords"><code class="name flex">

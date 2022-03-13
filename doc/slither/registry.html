@@ -54,11 +54,25 @@ class Registry:
             self.registry = {}
 
     def _make_base_path(self):
+        &#34;&#34;&#34;Create base path directory.&#34;&#34;&#34;
         base_path = self._base_path()
         if not os.path.exists(base_path):
             os.makedirs(base_path)
 
     def update(self, content, filename, timestamp=None):
+        &#34;&#34;&#34;Add activity to registry.
+
+        Parameters
+        ----------
+        content : str or None
+            Content of activity file.
+
+        filename : str
+            Name of activity file.
+
+        timestamp : float, optional (default: None)
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         if timestamp is None:
             timestamp = time.time()
@@ -73,6 +87,18 @@ class Registry:
         self._write()
 
     def _filename(self, filename):
+        &#34;&#34;&#34;Full filename.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file without path.
+
+        Returns
+        -------
+        filename : str
+            Full path of activity file.
+        &#34;&#34;&#34;
         base_path = self._base_path()
         while base_path in filename:
             filename = filename.replace(base_path, &#34;&#34;)
@@ -80,22 +106,64 @@ class Registry:
         return filename
 
     def _write(self):
+        &#34;&#34;&#34;Write registry.&#34;&#34;&#34;
         with open(self.registry_filename, &#34;w&#34;) as f:
             json.dump(self.registry, f)
 
     def delete(self, filename, timestamp=None):
+        &#34;&#34;&#34;Delete activity from registry.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        timestamp : float, optional (default: None)
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         self.update(None, filename, timestamp)
 
     def list(self):
+        &#34;&#34;&#34;List activities.
+
+        Returns
+        -------
+        activities : dict
+            List of activities. Maps filenames to timestamps.
+        &#34;&#34;&#34;
         base_path = self._base_path()
         return dict((k.replace(base_path, &#34;&#34;), v)
                     for k, v in self.registry.items())
 
     def timestamp(self, filename):
+        &#34;&#34;&#34;Get timestamp of an ativity file.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        Returns
+        -------
+        timestamp : float
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         return self.registry[filename]
 
     def content(self, filename):
+        &#34;&#34;&#34;Get content of an activity file.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        Returns
+        -------
+        content : str or None
+            Content of activity file.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         if os.path.exists(filename):
             with open(filename) as f:
@@ -104,6 +172,13 @@ class Registry:
             return None
 
     def _base_path(self):
+        &#34;&#34;&#34;Base path.
+
+        Returns
+        -------
+        base_path : str
+            Path at which activity files will be stored.
+        &#34;&#34;&#34;
         return os.path.join(self.temp_dir, &#34;data&#34;) + os.sep</code></pre>
 </details>
 </section>
@@ -151,11 +226,25 @@ class Registry:
             self.registry = {}
 
     def _make_base_path(self):
+        &#34;&#34;&#34;Create base path directory.&#34;&#34;&#34;
         base_path = self._base_path()
         if not os.path.exists(base_path):
             os.makedirs(base_path)
 
     def update(self, content, filename, timestamp=None):
+        &#34;&#34;&#34;Add activity to registry.
+
+        Parameters
+        ----------
+        content : str or None
+            Content of activity file.
+
+        filename : str
+            Name of activity file.
+
+        timestamp : float, optional (default: None)
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         if timestamp is None:
             timestamp = time.time()
@@ -170,6 +259,18 @@ class Registry:
         self._write()
 
     def _filename(self, filename):
+        &#34;&#34;&#34;Full filename.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file without path.
+
+        Returns
+        -------
+        filename : str
+            Full path of activity file.
+        &#34;&#34;&#34;
         base_path = self._base_path()
         while base_path in filename:
             filename = filename.replace(base_path, &#34;&#34;)
@@ -177,22 +278,64 @@ class Registry:
         return filename
 
     def _write(self):
+        &#34;&#34;&#34;Write registry.&#34;&#34;&#34;
         with open(self.registry_filename, &#34;w&#34;) as f:
             json.dump(self.registry, f)
 
     def delete(self, filename, timestamp=None):
+        &#34;&#34;&#34;Delete activity from registry.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        timestamp : float, optional (default: None)
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         self.update(None, filename, timestamp)
 
     def list(self):
+        &#34;&#34;&#34;List activities.
+
+        Returns
+        -------
+        activities : dict
+            List of activities. Maps filenames to timestamps.
+        &#34;&#34;&#34;
         base_path = self._base_path()
         return dict((k.replace(base_path, &#34;&#34;), v)
                     for k, v in self.registry.items())
 
     def timestamp(self, filename):
+        &#34;&#34;&#34;Get timestamp of an ativity file.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        Returns
+        -------
+        timestamp : float
+            Timestamp at which the activity has been stored.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         return self.registry[filename]
 
     def content(self, filename):
+        &#34;&#34;&#34;Get content of an activity file.
+
+        Parameters
+        ----------
+        filename : str
+            Name of activity file.
+
+        Returns
+        -------
+        content : str or None
+            Content of activity file.
+        &#34;&#34;&#34;
         filename = self._filename(filename)
         if os.path.exists(filename):
             with open(filename) as f:
@@ -201,6 +344,13 @@ class Registry:
             return None
 
     def _base_path(self):
+        &#34;&#34;&#34;Base path.
+
+        Returns
+        -------
+        base_path : str
+            Path at which activity files will be stored.
+        &#34;&#34;&#34;
         return os.path.join(self.temp_dir, &#34;data&#34;) + os.sep</code></pre>
 </details>
 <h3>Methods</h3>
@@ -209,12 +359,34 @@ class Registry:
 <span>def <span class="ident">content</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get content of an activity file.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of activity file.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>Content of activity file.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def content(self, filename):
+    &#34;&#34;&#34;Get content of an activity file.
+
+    Parameters
+    ----------
+    filename : str
+        Name of activity file.
+
+    Returns
+    -------
+    content : str or None
+        Content of activity file.
+    &#34;&#34;&#34;
     filename = self._filename(filename)
     if os.path.exists(filename):
         with open(filename) as f:
@@ -227,12 +399,29 @@ class Registry:
 <span>def <span class="ident">delete</span></span>(<span>self, filename, timestamp=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Delete activity from registry.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of activity file.</dd>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>float</code>, optional <code>(default: None)</code></dt>
+<dd>Timestamp at which the activity has been stored.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def delete(self, filename, timestamp=None):
+    &#34;&#34;&#34;Delete activity from registry.
+
+    Parameters
+    ----------
+    filename : str
+        Name of activity file.
+
+    timestamp : float, optional (default: None)
+        Timestamp at which the activity has been stored.
+    &#34;&#34;&#34;
     self.update(None, filename, timestamp)</code></pre>
 </details>
 </dd>
@@ -240,12 +429,24 @@ class Registry:
 <span>def <span class="ident">list</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>List activities.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activities</code></strong> :&ensp;<code>dict</code></dt>
+<dd>List of activities. Maps filenames to timestamps.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def list(self):
+    &#34;&#34;&#34;List activities.
+
+    Returns
+    -------
+    activities : dict
+        List of activities. Maps filenames to timestamps.
+    &#34;&#34;&#34;
     base_path = self._base_path()
     return dict((k.replace(base_path, &#34;&#34;), v)
                 for k, v in self.registry.items())</code></pre>
@@ -255,12 +456,34 @@ class Registry:
 <span>def <span class="ident">timestamp</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get timestamp of an ativity file.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of activity file.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>float</code></dt>
+<dd>Timestamp at which the activity has been stored.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def timestamp(self, filename):
+    &#34;&#34;&#34;Get timestamp of an ativity file.
+
+    Parameters
+    ----------
+    filename : str
+        Name of activity file.
+
+    Returns
+    -------
+    timestamp : float
+        Timestamp at which the activity has been stored.
+    &#34;&#34;&#34;
     filename = self._filename(filename)
     return self.registry[filename]</code></pre>
 </details>
@@ -269,12 +492,34 @@ class Registry:
 <span>def <span class="ident">update</span></span>(<span>self, content, filename, timestamp=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add activity to registry.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>Content of activity file.</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of activity file.</dd>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>float</code>, optional <code>(default: None)</code></dt>
+<dd>Timestamp at which the activity has been stored.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update(self, content, filename, timestamp=None):
+    &#34;&#34;&#34;Add activity to registry.
+
+    Parameters
+    ----------
+    content : str or None
+        Content of activity file.
+
+    filename : str
+        Name of activity file.
+
+    timestamp : float, optional (default: None)
+        Timestamp at which the activity has been stored.
+    &#34;&#34;&#34;
     filename = self._filename(filename)
     if timestamp is None:
         timestamp = time.time()

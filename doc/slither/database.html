@@ -35,6 +35,13 @@ from sqlalchemy.orm import sessionmaker
 
 
 class Database:
+    &#34;&#34;&#34;Database for activity data.
+
+    Parameters
+    ----------
+    db_filename : str
+        Filename of database file.
+    &#34;&#34;&#34;
     def __init__(self, db_filename):
         self.db_filename = db_filename
         self._setup_database()
@@ -52,6 +59,21 @@ class Database:
             domain_model.init_database(self.session)
 
     def list_activities_between(self, start, end):
+        &#34;&#34;&#34;List activities within date range.
+
+        Parameters
+        ----------
+        start : datetime
+            Start time.
+
+        end : datetime
+            End time.
+
+        Returns
+        -------
+        activities : list
+            Activities.
+        &#34;&#34;&#34;
         q = self.session.query(domain_model.Activity)
         return q.filter(sqlalchemy.and_(
             domain_model.Activity.start_time &gt;= start,
@@ -73,12 +95,24 @@ class Database:
 <span>(</span><span>db_filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Database for activity data.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>db_filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename of database file.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Database:
+    &#34;&#34;&#34;Database for activity data.
+
+    Parameters
+    ----------
+    db_filename : str
+        Filename of database file.
+    &#34;&#34;&#34;
     def __init__(self, db_filename):
         self.db_filename = db_filename
         self._setup_database()
@@ -96,6 +130,21 @@ class Database:
             domain_model.init_database(self.session)
 
     def list_activities_between(self, start, end):
+        &#34;&#34;&#34;List activities within date range.
+
+        Parameters
+        ----------
+        start : datetime
+            Start time.
+
+        end : datetime
+            End time.
+
+        Returns
+        -------
+        activities : list
+            Activities.
+        &#34;&#34;&#34;
         q = self.session.query(domain_model.Activity)
         return q.filter(sqlalchemy.and_(
             domain_model.Activity.start_time &gt;= start,
@@ -108,12 +157,39 @@ class Database:
 <span>def <span class="ident">list_activities_between</span></span>(<span>self, start, end)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>List activities within date range.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime</code></dt>
+<dd>Start time.</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime</code></dt>
+<dd>End time.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>activities</code></strong> :&ensp;<code>list</code></dt>
+<dd>Activities.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def list_activities_between(self, start, end):
+    &#34;&#34;&#34;List activities within date range.
+
+    Parameters
+    ----------
+    start : datetime
+        Start time.
+
+    end : datetime
+        End time.
+
+    Returns
+    -------
+    activities : list
+        Activities.
+    &#34;&#34;&#34;
     q = self.session.query(domain_model.Activity)
     return q.filter(sqlalchemy.and_(
         domain_model.Activity.start_time &gt;= start,
