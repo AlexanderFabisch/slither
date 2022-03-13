@@ -16,7 +16,7 @@ if __name__ == "__main__":
           package_data={"slither": ["resources/*"]},
           install_requires=[
               "numpy", "scipy", "matplotlib", "lxml", "beautifulsoup4",
-              "sqlalchemy", "pyproj", "folium", "fitparse"],
+              "sqlalchemy", "pyproj", "folium", "fitparse", "requests"],
           extras_require={
               "all": ["rich"],
               "server": ["Flask", "Flask-HTTPAuth", "Werkzeug", "passlib"],

@@ -22,8 +22,7 @@ class TcxExport:
 def rad2deg(angle):  # handles None correctly
     if angle is None:
         return np.nan
-    else:
-        return np.rad2deg(angle)
+    return np.rad2deg(angle)
 
 
 def datetime_to_str(date):

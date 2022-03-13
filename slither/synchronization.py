@@ -1,11 +1,27 @@
 """Synchronization between data repository and client."""
 import os
-import requests
 import json
+import requests
 from .io.utils import to_utf8
 
 
 class Synchronizer:
+    """Synchronize with remote data repository.
+
+    Parameters
+    ----------
+    service : Service
+        Slither service.
+
+    remote : str
+        URL to remote data repository.
+
+    username : str
+        Username for remote data repository.
+
+    password : str
+        Passwort for remote data repository.
+    """
     def __init__(self, service, remote, username, password):
         self.service = service  # TODO minimize dependency on service
         self.remote = remote
@@ -13,6 +29,7 @@ class Synchronizer:
         self.password = password
 
     def sync_to_server(self):
+        """Synchronize with server."""
         if self.remote is None:
             return
 

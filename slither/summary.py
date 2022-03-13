@@ -5,10 +5,23 @@ from . import domain_model
 
 
 class Summary(object):
+    """Summaries activities."""
     def __init__(self, database):
         self.database = database
 
     def summarize(self, sport=None):
+        """Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        """
         raise NotImplementedError("Base class")
 
     def _summary_entry(self, end, sport, start):
@@ -45,7 +58,20 @@ class Summary(object):
 
 
 class WeekSummary(Summary):
+    """Summaries activities of a week."""
     def summarize(self, sport=None):
+        """Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        """
         start = self._start_of_last_activity()
         start = datetime(year=start.year, month=start.month, day=start.day)
         start = start - timedelta(days=start.weekday())
@@ -63,7 +89,20 @@ class WeekSummary(Summary):
 
 
 class MonthSummary(Summary):
+    """Summaries activities of a month."""
     def summarize(self, sport=None):
+        """Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        """
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 
@@ -86,7 +125,20 @@ class MonthSummary(Summary):
 
 
 class YearSummary(Summary):
+    """Summaries activities of a year."""
     def summarize(self, sport=None):
+        """Create summary.
+
+        Parameters
+        ----------
+        sport : str, optional (default: None)
+            Type of sport.
+
+        Returns
+        -------
+        summary : list
+            Summary of activities.
+        """
         latest = self._start_of_last_activity()
         earliest = self._start_of_first_activity()
 

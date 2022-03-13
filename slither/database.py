@@ -6,6 +6,13 @@ from sqlalchemy.orm import sessionmaker
 
 
 class Database:
+    """Database for activity data.
+
+    Parameters
+    ----------
+    db_filename : str
+        Filename of database file.
+    """
     def __init__(self, db_filename):
         self.db_filename = db_filename
         self._setup_database()
@@ -23,6 +30,21 @@ class Database:
             domain_model.init_database(self.session)
 
     def list_activities_between(self, start, end):
+        """List activities within date range.
+
+        Parameters
+        ----------
+        start : datetime
+            Start time.
+
+        end : datetime
+            End time.
+
+        Returns
+        -------
+        activities : list
+            Activities.
+        """
         q = self.session.query(domain_model.Activity)
         return q.filter(sqlalchemy.and_(
             domain_model.Activity.start_time >= start,

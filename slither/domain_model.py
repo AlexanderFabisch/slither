@@ -27,6 +27,25 @@ class Activity(Base):
     trackpoints = relationship("Trackpoint")
 
     def set_path(self, timestamps, coords, altitudes, heartrates, velocities):
+        """Set path.
+
+        Parameters
+        ----------
+        timestamps : array-like, shape (n_steps,)
+            Timestamps.
+
+        coords : array-like, shape (n_steps, 2)
+            GPS coordinates.
+
+        altitudes : array-like, shape (n_steps,)
+            Altitudes.
+
+        heartrates : array-like, shape (n_steps,)
+            Heart rates.
+
+        velocities : array-like, shape (n_steps,)
+            Velocities.
+        """
         assert len(timestamps) == len(coords), "%d != %d" % (
             len(timestamps), len(coords))
         assert len(timestamps) == len(altitudes), "%d != %d" % (
@@ -43,13 +62,29 @@ class Activity(Base):
                                      velocities)]
 
     def get_filename(self):
+        """Get filename.
+
+        Returns
+        -------
+        filename : str
+            Get filename at which this activity should be stored.
+        """
         start_time_str = self.start_time.strftime("%Y%m%d_%H%M%S")
         return "%s_%s.tcx" % (self.sport, start_time_str)
 
     def get_path(self):
+        """Get path.
+
+        Returns
+        -------
+        path : config or None
+            Path. Contains the entries 'timestamps', 'coords', 'altitudes',
+            'heartrates', and 'velocities'.
+        """
         if hasattr(self, "path"):
             return self.path
-        elif self.has_path:
+
+        if self.has_path:
             self.path = {
                 "timestamps": np.array(
                     [t.timestamp for t in self.trackpoints], dtype=np.float),
@@ -64,10 +99,22 @@ class Activity(Base):
                     [t.velocity for t in self.trackpoints], dtype=np.float)
             }
             return self.path
-        else:
-            return None
+
+        return None
 
     def compute_records(self, distance):
+        """Compute fastest time for a specific distance.
+
+        Parameters
+        ----------
+        distance : float
+            Distance.
+
+        Returns
+        -------
+        record : Record
+            Fastest time.
+        """
         record = self._check_metadata(distance)
         if self.has_path:
             fp = fastest_part(self.sport, self.get_path()["timestamps"],
@@ -122,6 +169,13 @@ class Record(Base):
 
 
 def init_database(session):
+    """Create new database structure.
+
+    Parameters
+    ----------
+    session : Session
+        Database session.
+    """
     records = [
         Record(sport=sport, distance=distance, time=float("inf"))
         for sport, distances in config["records"].items()

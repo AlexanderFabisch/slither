@@ -7,6 +7,7 @@ sqlalchemy
 pyproj
 folium
 fitparse
+requests
 
 Flask
 Flask-HTTPAuth
