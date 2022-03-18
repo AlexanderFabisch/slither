@@ -1,6 +1,7 @@
 import numpy as np
 from slither.core.analysis import (
-    check_coords, interpolate_nan, filtered_heartrates, appropriate_partition)
+    check_coords, interpolate_nan, filtered_heartrates, appropriate_partition,
+    elevation_summary)
 from numpy.testing import assert_almost_equal
 from nose.tools import assert_equal
 
@@ -29,3 +30,17 @@ def test_appropriate_partition():
     assert_equal(appropriate_partition(30000), 2000)
     assert_equal(appropriate_partition(50000), 5000)
     assert_equal(appropriate_partition(200000), 10000)
+
+
+def test_elevation_summary():
+    gain, loss, slope_in_percent = elevation_summary(
+        altitudes=[0.0, 1.0], total_distance_in_m=1.0)
+    assert_equal(gain, 1.0)
+    assert_equal(loss, 0.0)
+    assert_equal(slope_in_percent, 100.0)
+
+    gain, loss, slope_in_percent = elevation_summary(
+        altitudes=[1.0, 0.0], total_distance_in_m=1.0)
+    assert_equal(gain, 0.0)
+    assert_equal(loss, 1.0)
+    assert_equal(slope_in_percent, 0.0)
