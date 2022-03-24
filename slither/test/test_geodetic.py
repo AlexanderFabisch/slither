@@ -1,6 +1,8 @@
 import numpy as np
-from slither.core.geodetic import haversine_dist, dist_on_earth
-from nose.tools import assert_less
+from slither.core.geodetic import (
+    haversine_dist, dist_on_earth, compute_velocities)
+from nose.tools import assert_less, assert_almost_equal
+from numpy.testing import assert_array_almost_equal
 
 
 def test_compare_haversine_pyproj():
@@ -11,3 +13,12 @@ def test_compare_haversine_pyproj():
     difference = abs(hdistance - distance)
     relative_difference = difference / distance
     assert_less(relative_difference, 0.003)
+
+
+def test_compute_velocities_equal_timestamps():
+    timestamps = np.array([0, 1, 1])
+    coords = np.deg2rad([
+        [53.0759, 8.80731], [53.076, 8.80731], [53.0761, 8.80731]])
+    velocities, total_distance = compute_velocities(timestamps, coords)
+    assert_array_almost_equal(velocities, [0.0, 11.12876992, 11.12876992])
+    assert_almost_equal(total_distance, 11.128769923727916)
