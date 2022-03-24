@@ -51,10 +51,7 @@ class PyprojDist:
         defined.
     """
     def __init__(self, config):
-        if "geodetic" in config and "ellipsoid" in config["geodetic"]:
-            ellps = config["geodetic"]["ellipsoid"]
-        else:
-            ellps = "WGS84"
+        ellps = config.get("geodetic", {}).get("ellipsoid", "WGS84")
         self.geod = pyproj.Geod(ellps=ellps)
 
     def __call__(self, lat1, long1, lat2, long2):
