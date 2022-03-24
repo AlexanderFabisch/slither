@@ -92,7 +92,7 @@ def is_outlier(points, thresh=3.5):
         A boolean array that indicates whether the corresponding sample is an
         outlier
 
-    References:
+    References
     ----------
     http://stackoverflow.com/a/22357811/915743
 

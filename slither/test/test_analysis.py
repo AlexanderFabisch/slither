@@ -1,28 +1,28 @@
 import numpy as np
 from slither.core.analysis import (
     check_coords, interpolate_nan, filtered_heartrates, appropriate_partition,
-    elevation_summary, get_paces)
+    elevation_summary, get_paces, is_outlier)
 from slither.loader import FitLoader
-from numpy.testing import assert_almost_equal
-from nose.tools import assert_equal
+from numpy.testing import assert_array_equal
+from nose.tools import assert_equal, assert_almost_equal
 
 
 def test_check_coords():
     coords = np.array([[0, 1], [np.nan, 2], [2, 3]])
     checked_coords = check_coords(coords)
-    assert_almost_equal(checked_coords, np.array([[0, 1], [2, 3]]))
+    assert_array_equal(checked_coords, np.array([[0, 1], [2, 3]]))
 
 
 def test_interpolate_nan():
     a = np.array([0, 1, np.nan, 3, 4, 5])
     b = interpolate_nan(a)
-    assert_almost_equal(b, [0, 1, 2, 3, 4, 5])
+    assert_array_equal(b, [0, 1, 2, 3, 4, 5])
 
 
 def test_filtered_heartrates():
     path = {"heartrates": np.array([100, 101, 100, 101, 104])}
     hrs = filtered_heartrates(path, 3)
-    assert_almost_equal(hrs, [100, 100, 101, 101, 101])
+    assert_array_equal(hrs, [100, 100, 101, 101, 101])
 
 
 def test_appropriate_partition():
@@ -31,6 +31,18 @@ def test_appropriate_partition():
     assert_equal(appropriate_partition(30000), 2000)
     assert_equal(appropriate_partition(50000), 5000)
     assert_equal(appropriate_partition(200000), 10000)
+
+
+def test_is_outlier_1d():
+    points = [0, 1, 2, 30, 4, 5, 6]
+    mask = is_outlier(points)
+    assert_array_equal(mask, [False, False, False, True, False, False, False])
+
+
+def test_is_outlier_2d():
+    points = [[0, 0], [1, 1], [2, 2], [3, 30], [4, 4], [5, 5], [6, 6]]
+    mask = is_outlier(points)
+    assert_array_equal(mask, [False, False, False, True, False, False, False])
 
 
 def test_elevation_summary():
