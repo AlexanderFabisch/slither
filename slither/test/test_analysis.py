@@ -66,3 +66,9 @@ def test_get_paces():
     assert_equal(paces[4][1], 361)
     assert_equal(paces[5][1], 384)
     assert_equal(paces[6][1], 391)
+
+
+def test_get_paces_empty_path():
+    path = {"timestamps": np.array([]), "velocities": np.array([])}
+    paces = get_paces(path, "running")
+    assert_equal(len(paces), 0)
