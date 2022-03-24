@@ -37,12 +37,48 @@ class DataDisplay:  # TODO localization
         pass  # TODO read some configuration
 
     def display_date(self, dt):
+        &#34;&#34;&#34;Print date.
+
+        Parameters
+        ----------
+        dt : datetime
+            Date and time.
+
+        Returns
+        -------
+        date_text : str
+            String representation of date: &#39;MM/DD/YYYY&#39;.
+        &#34;&#34;&#34;
         return dt.strftime(&#34;%x&#34;)
 
     def display_datetime(self, dt):
+        &#34;&#34;&#34;Print data and time.
+
+        Parameters
+        ----------
+        dt : datetime
+            Date and time.
+
+        Returns
+        -------
+        date_text : str
+            String representation of date and time: &#39;YYYY/MM/DD HH:MM day&#39;.
+        &#34;&#34;&#34;
         return dt.strftime(&#34;%Y/%m/%d %H:%M %a&#34;)
 
     def display_sport(self, sport):
+        &#34;&#34;&#34;Display name of sport.
+
+        Parameters
+        ----------
+        sport : str
+            Internally used identifer of sports type.
+
+        Returns
+        -------
+        sport_text : str
+            UI text.
+        &#34;&#34;&#34;
         # TODO real localization
         return {&#34;swimming&#34;: &#34;Swimming&#34;,
                 &#34;running&#34;: &#34;Running&#34;,
@@ -51,6 +87,18 @@ class DataDisplay:  # TODO localization
                 &#34;other&#34;: &#34;Other&#34;}.get(sport, sport)
 
     def display_distance(self, distance):
+        &#34;&#34;&#34;Display distance.
+
+        Parameters
+        ----------
+        distance : float
+            Distance in meters.
+
+        Returns
+        -------
+        distance_text : str
+            UI text.
+        &#34;&#34;&#34;
         if distance == 0.0:
             return &#34;-&#34;
         if distance % 1000.0 == 0.0:
@@ -60,6 +108,18 @@ class DataDisplay:  # TODO localization
         return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
+        &#34;&#34;&#34;Display time.
+
+        Parameters
+        ----------
+        time : float
+            Time in seconds.
+
+        Returns
+        -------
+        time_text : str
+            UI text.
+        &#34;&#34;&#34;
         if time == 0.0:
             return &#34;-&#34;
         if time is None or not np.isfinite(time):
@@ -72,11 +132,35 @@ class DataDisplay:  # TODO localization
         return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
 
     def display_calories(self, calories):
+        &#34;&#34;&#34;Display calories.
+
+        Parameters
+        ----------
+        calories : float
+            Calories in kCal.
+
+        Returns
+        -------
+        calories_text : str
+            UI text.
+        &#34;&#34;&#34;
         if calories is None or calories == 0.0:
             return &#34;-&#34;
         return &#34;%d kCal&#34; % calories
 
     def display_heartrate(self, heartrate):
+        &#34;&#34;&#34;Display heartrate.
+
+        Parameters
+        ----------
+        heartrate : str
+            Heartrate in bpm.
+
+        Returns
+        -------
+        heartrate_text : str
+            UI text.
+        &#34;&#34;&#34;
         if heartrate is None or heartrate == 0.0:
             return &#34;-&#34;
         return &#34;%d bpm&#34; % heartrate
@@ -108,12 +192,48 @@ d = DataDisplay()</code></pre>
         pass  # TODO read some configuration
 
     def display_date(self, dt):
+        &#34;&#34;&#34;Print date.
+
+        Parameters
+        ----------
+        dt : datetime
+            Date and time.
+
+        Returns
+        -------
+        date_text : str
+            String representation of date: &#39;MM/DD/YYYY&#39;.
+        &#34;&#34;&#34;
         return dt.strftime(&#34;%x&#34;)
 
     def display_datetime(self, dt):
+        &#34;&#34;&#34;Print data and time.
+
+        Parameters
+        ----------
+        dt : datetime
+            Date and time.
+
+        Returns
+        -------
+        date_text : str
+            String representation of date and time: &#39;YYYY/MM/DD HH:MM day&#39;.
+        &#34;&#34;&#34;
         return dt.strftime(&#34;%Y/%m/%d %H:%M %a&#34;)
 
     def display_sport(self, sport):
+        &#34;&#34;&#34;Display name of sport.
+
+        Parameters
+        ----------
+        sport : str
+            Internally used identifer of sports type.
+
+        Returns
+        -------
+        sport_text : str
+            UI text.
+        &#34;&#34;&#34;
         # TODO real localization
         return {&#34;swimming&#34;: &#34;Swimming&#34;,
                 &#34;running&#34;: &#34;Running&#34;,
@@ -122,6 +242,18 @@ d = DataDisplay()</code></pre>
                 &#34;other&#34;: &#34;Other&#34;}.get(sport, sport)
 
     def display_distance(self, distance):
+        &#34;&#34;&#34;Display distance.
+
+        Parameters
+        ----------
+        distance : float
+            Distance in meters.
+
+        Returns
+        -------
+        distance_text : str
+            UI text.
+        &#34;&#34;&#34;
         if distance == 0.0:
             return &#34;-&#34;
         if distance % 1000.0 == 0.0:
@@ -131,6 +263,18 @@ d = DataDisplay()</code></pre>
         return &#34;%.2f km&#34; % np.round(distance / 1000.0, 2)
 
     def display_time(self, time):
+        &#34;&#34;&#34;Display time.
+
+        Parameters
+        ----------
+        time : float
+            Time in seconds.
+
+        Returns
+        -------
+        time_text : str
+            UI text.
+        &#34;&#34;&#34;
         if time == 0.0:
             return &#34;-&#34;
         if time is None or not np.isfinite(time):
@@ -143,11 +287,35 @@ d = DataDisplay()</code></pre>
         return &#34;%02d:%02d:%02d h&#34; % (hours, minutes, seconds)
 
     def display_calories(self, calories):
+        &#34;&#34;&#34;Display calories.
+
+        Parameters
+        ----------
+        calories : float
+            Calories in kCal.
+
+        Returns
+        -------
+        calories_text : str
+            UI text.
+        &#34;&#34;&#34;
         if calories is None or calories == 0.0:
             return &#34;-&#34;
         return &#34;%d kCal&#34; % calories
 
     def display_heartrate(self, heartrate):
+        &#34;&#34;&#34;Display heartrate.
+
+        Parameters
+        ----------
+        heartrate : str
+            Heartrate in bpm.
+
+        Returns
+        -------
+        heartrate_text : str
+            UI text.
+        &#34;&#34;&#34;
         if heartrate is None or heartrate == 0.0:
             return &#34;-&#34;
         return &#34;%d bpm&#34; % heartrate</code></pre>
@@ -158,12 +326,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_calories</span></span>(<span>self, calories)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display calories.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>calories</code></strong> :&ensp;<code>float</code></dt>
+<dd>Calories in kCal.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>calories_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>UI text.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_calories(self, calories):
+    &#34;&#34;&#34;Display calories.
+
+    Parameters
+    ----------
+    calories : float
+        Calories in kCal.
+
+    Returns
+    -------
+    calories_text : str
+        UI text.
+    &#34;&#34;&#34;
     if calories is None or calories == 0.0:
         return &#34;-&#34;
     return &#34;%d kCal&#34; % calories</code></pre>
@@ -173,12 +363,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_date</span></span>(<span>self, dt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Print date.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dt</code></strong> :&ensp;<code>datetime</code></dt>
+<dd>Date and time.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>date_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>String representation of date: 'MM/DD/YYYY'.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_date(self, dt):
+    &#34;&#34;&#34;Print date.
+
+    Parameters
+    ----------
+    dt : datetime
+        Date and time.
+
+    Returns
+    -------
+    date_text : str
+        String representation of date: &#39;MM/DD/YYYY&#39;.
+    &#34;&#34;&#34;
     return dt.strftime(&#34;%x&#34;)</code></pre>
 </details>
 </dd>
@@ -186,12 +398,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_datetime</span></span>(<span>self, dt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Print data and time.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dt</code></strong> :&ensp;<code>datetime</code></dt>
+<dd>Date and time.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>date_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>String representation of date and time: 'YYYY/MM/DD HH:MM day'.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_datetime(self, dt):
+    &#34;&#34;&#34;Print data and time.
+
+    Parameters
+    ----------
+    dt : datetime
+        Date and time.
+
+    Returns
+    -------
+    date_text : str
+        String representation of date and time: &#39;YYYY/MM/DD HH:MM day&#39;.
+    &#34;&#34;&#34;
     return dt.strftime(&#34;%Y/%m/%d %H:%M %a&#34;)</code></pre>
 </details>
 </dd>
@@ -199,12 +433,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_distance</span></span>(<span>self, distance)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display distance.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>distance</code></strong> :&ensp;<code>float</code></dt>
+<dd>Distance in meters.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>distance_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>UI text.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_distance(self, distance):
+    &#34;&#34;&#34;Display distance.
+
+    Parameters
+    ----------
+    distance : float
+        Distance in meters.
+
+    Returns
+    -------
+    distance_text : str
+        UI text.
+    &#34;&#34;&#34;
     if distance == 0.0:
         return &#34;-&#34;
     if distance % 1000.0 == 0.0:
@@ -218,12 +474,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_heartrate</span></span>(<span>self, heartrate)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display heartrate.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>heartrate</code></strong> :&ensp;<code>str</code></dt>
+<dd>Heartrate in bpm.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>heartrate_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>UI text.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_heartrate(self, heartrate):
+    &#34;&#34;&#34;Display heartrate.
+
+    Parameters
+    ----------
+    heartrate : str
+        Heartrate in bpm.
+
+    Returns
+    -------
+    heartrate_text : str
+        UI text.
+    &#34;&#34;&#34;
     if heartrate is None or heartrate == 0.0:
         return &#34;-&#34;
     return &#34;%d bpm&#34; % heartrate</code></pre>
@@ -233,12 +511,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_sport</span></span>(<span>self, sport)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display name of sport.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sport</code></strong> :&ensp;<code>str</code></dt>
+<dd>Internally used identifer of sports type.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>sport_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>UI text.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_sport(self, sport):
+    &#34;&#34;&#34;Display name of sport.
+
+    Parameters
+    ----------
+    sport : str
+        Internally used identifer of sports type.
+
+    Returns
+    -------
+    sport_text : str
+        UI text.
+    &#34;&#34;&#34;
     # TODO real localization
     return {&#34;swimming&#34;: &#34;Swimming&#34;,
             &#34;running&#34;: &#34;Running&#34;,
@@ -251,12 +551,34 @@ d = DataDisplay()</code></pre>
 <span>def <span class="ident">display_time</span></span>(<span>self, time)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display time.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>time</code></strong> :&ensp;<code>float</code></dt>
+<dd>Time in seconds.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>time_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>UI text.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_time(self, time):
+    &#34;&#34;&#34;Display time.
+
+    Parameters
+    ----------
+    time : float
+        Time in seconds.
+
+    Returns
+    -------
+    time_text : str
+        UI text.
+    &#34;&#34;&#34;
     if time == 0.0:
         return &#34;-&#34;
     if time is None or not np.isfinite(time):

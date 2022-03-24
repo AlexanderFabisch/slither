@@ -80,10 +80,7 @@ class PyprojDist:
         defined.
     &#34;&#34;&#34;
     def __init__(self, config):
-        if &#34;geodetic&#34; in config and &#34;ellipsoid&#34; in config[&#34;geodetic&#34;]:
-            ellps = config[&#34;geodetic&#34;][&#34;ellipsoid&#34;]
-        else:
-            ellps = &#34;WGS84&#34;
+        ellps = config.get(&#34;geodetic&#34;, {}).get(&#34;ellipsoid&#34;, &#34;WGS84&#34;)
         self.geod = pyproj.Geod(ellps=ellps)
 
     def __call__(self, lat1, long1, lat2, long2):
@@ -322,10 +319,7 @@ defined.</dd>
         defined.
     &#34;&#34;&#34;
     def __init__(self, config):
-        if &#34;geodetic&#34; in config and &#34;ellipsoid&#34; in config[&#34;geodetic&#34;]:
-            ellps = config[&#34;geodetic&#34;][&#34;ellipsoid&#34;]
-        else:
-            ellps = &#34;WGS84&#34;
+        ellps = config.get(&#34;geodetic&#34;, {}).get(&#34;ellipsoid&#34;, &#34;WGS84&#34;)
         self.geod = pyproj.Geod(ellps=ellps)
 
     def __call__(self, lat1, long1, lat2, long2):
