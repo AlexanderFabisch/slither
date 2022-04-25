@@ -18,7 +18,8 @@ if __name__ == "__main__":
               "numpy", "scipy", "matplotlib", "lxml", "beautifulsoup4",
               "sqlalchemy", "pyproj", "folium", "fitparse", "requests"],
           extras_require={
-              "all": ["rich"],
+              "all": ["rich", "pandas", "seaborn", "utm", "pytransform3d",
+                      "open3d", "bokeh"],
               "server": ["Flask", "Flask-HTTPAuth", "Werkzeug", "passlib"],
               "test": ["nose", "coverage"],
               "doc": ["pdoc3"]

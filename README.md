@@ -14,8 +14,10 @@ data with Python code.
 ## Install
 
     # install PyQt4 or PyQt5 + QtSvg + QtWebkit
-    # e.g. (Ubuntu 16.04, Python 2.7):
+    # Ubuntu 16.04, Python 2.7:
     sudo apt-get install python-pyqt5 python-pyqt5.qtsvg python-pyqt5.qtwebkit
+    # Ubungu 20.04, Python 3:
+    sudo apt install python3-pyqt5 python3-pyqt5.qtsvg python3-pyqt5.qtwebkit
     # install slither from main directory:
     python setup.py install
     # or with pip:
@@ -158,3 +160,13 @@ to handle GPS and workout data. The following features are available:
 You can build the API documentation with `pdoc slither --html --skip-errors`
 (requires [pdoc3](https://pdoc3.github.io/pdoc/)) or read it
 [here](https://alexanderfabisch.github.io/slither/doc/slither/).
+
+## Unit Tests
+
+You can run the unit tests with
+
+    python -m nose slither
+
+after installing the dependencies with
+
+    pip install -e .[test]
